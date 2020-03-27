@@ -21,51 +21,51 @@ func (d *DiscountedDateServiceServer) CreateDiscountedDate(ctx context.Context,
 
 		if request.DiscountedDate.Title == "" {
 			return nil, status.Error(codes.InvalidArgument, 
-				"The title field is requestuired and must be set to a non-empty value")
+				"The title field is required and must be set to a non-empty value")
 		}
 
 		if request.DiscountedDate.Description == "" {
 			return nil, status.Error(codes.InvalidArgument, 
-				"The description field is requestuired and must be set to a non-empty value")
+				"The description field is required and must be set to a non-empty value")
 		}
 
 		if float32(request.DiscountedDate.DiscountPct) == 0 {
 			return nil, status.Error(codes.InvalidArgument, 
-				"The discount_pct field is requestuired and must be set to a non-zero value")
+				"The discount_pct field is required and must be set to a non-zero value")
 		}
 
 		if request.DiscountedDate.Date == nil {
 			return nil, status.Error(codes.InvalidArgument,
-				"The date field is requestuired along with the year, month and day fields")
+				"The date field is required along with the year, month and day fields")
 		}
 
 		if request.DiscountedDate.Date.Year == nil {
 			return nil, status.Error(codes.InvalidArgument,
-				"The year field of the date field is requestuired and must be set to a value in the range from 0 to 9999")
+				"The year field of the date field is required and must be set to a value in the range from 0 to 9999")
 		} else {
 			if request.DiscountedDate.Date.Year.Value < 0 || request.DiscountedDate.Date.Year.Value > 9999 {
 				return nil, status.Error(codes.InvalidArgument,
-					"The year field of the date field is requestuired and must be set to a value in the range from 0 to 9999")
+					"The year field of the date field is required and must be set to a value in the range from 0 to 9999")
 			}
 		}
 
 		if request.DiscountedDate.Date.Month == nil {
 			return nil, status.Error(codes.InvalidArgument,
-				"The month field of the date field is requestuired and must be set to a value in the range from 0 to 12")
+				"The month field of the date field is required and must be set to a value in the range from 0 to 12")
 		} else {
 			if request.DiscountedDate.Date.Month.Value < 0 || request.DiscountedDate.Date.Month.Value > 12 {
 				return nil, status.Error(codes.InvalidArgument,
-					"The month field of the date field is requestuired and must be set to a value in the range from 0 to 12")
+					"The month field of the date field is required and must be set to a value in the range from 0 to 12")
 			}
 		}
 
 		if request.DiscountedDate.Date.Day == nil {
 			return nil, status.Error(codes.InvalidArgument,
-				"The day field of the date field is requestuired and must be set to a value in the range from 0 to 31")
+				"The day field of the date field is required and must be set to a value in the range from 0 to 31")
 		} else {
 			if request.DiscountedDate.Date.Day.Value < 0 || request.DiscountedDate.Date.Day.Value > 31 {
 				return nil, status.Error(codes.InvalidArgument,
-					"The day field of the date field is requestuired and must be set to a value in the range from 0 to 31")
+					"The day field of the date field is required and must be set to a value in the range from 0 to 31")
 			}
 		}
 
