@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package entities;
+
+option go_package = "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities";
+
+import "google/protobuf/wrappers.proto";
+
+message DiscountedDate {
+    string id = 1;
+
+    string title = 2;
+
+    string description = 3;
+
+    float discount_pct = 4;
+
+    Date date = 5;
+}
+
+message Date {
+    // The Int32Value wrapper instead of int32 is necessary because the documentation of Protocol Buffers describes
+    // that if a scalar message field is set to its default, the value will not be serialized on the wire.
+    // Following this concept, if the year, month and/or day field was zero they were not displayed
+    // in the response body when acessing the API endpoint exposed via grpc-gateway to retrieve 
+    // discountedDate(s).
+
+    // Year of date that must be configured from 1 to 9999.
+    google.protobuf.Int32Value year = 1;
+
+    // Month of year that must be configured from 1 to 12.
+    google.protobuf.Int32Value month = 2;
+
+    // Day of month that must be configured from 1 to 31.
+    google.protobuf.Int32Value day = 3;
+}

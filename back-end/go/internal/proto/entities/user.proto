@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package entities;
+
+option go_package = "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities";
+
+import "google/type/date.proto";
+
+message User {
+    string id = 1;
+
+    string first_name = 2;
+
+    string last_name = 3;
+
+    google.type.Date date_of_birth = 4;
+}
