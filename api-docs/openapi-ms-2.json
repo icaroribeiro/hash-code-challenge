@@ -38,7 +38,7 @@
         "tags": [
           "user"
         ],
-        "summary": "API Endpoint designed to retrieve the list of all users.",
+        "summary": "API Endpoint designed to get the list of all users.",
         "operationId": "GetAllUsers",
         "responses": {
           "200": {
@@ -113,7 +113,7 @@
         "tags": [
           "user"
         ],
-        "summary": "API Endpoint designed to register a new user.",
+        "summary": "API Endpoint designed to create a new user.",
         "operationId": "CreateUser",
         "parameters": [
           {
@@ -232,7 +232,7 @@
         "tags": [
           "user"
         ],
-        "summary": "API Endpoint designed to retrieve a specific user by its Id.",
+        "summary": "API Endpoint designed to get a specific user by its Id.",
         "operationId": "GetUser",
         "parameters": [
           {
@@ -542,7 +542,7 @@
         "tags": [
           "product"
         ],
-        "summary": "API Endpoint designed to retrieve the list of all products.",
+        "summary": "API Endpoint designed to get the list of all products.",
         "operationId": "GetAllProducts",
         "parameters": [
           {
@@ -628,7 +628,7 @@
         "tags": [
           "product"
         ],
-        "summary": "API Endpoint designed to register a new product.",
+        "summary": "API Endpoint designed to create a new product.",
         "operationId": "CreateProduct",
         "parameters": [
           {
@@ -715,7 +715,7 @@
         "tags": [
           "product"
         ],
-        "summary": "API Endpoint desgined to retrieve a specific product by its Id.",
+        "summary": "API Endpoint desgined to get a specific product by its Id.",
         "operationId": "GetProduct",
         "parameters": [
           {
@@ -976,7 +976,7 @@
         "tags": [
           "promotion"
         ],
-        "summary": "API Endpoint designed to retrieve the list of all promotions.",
+        "summary": "API Endpoint designed to get the list of all promotions.",
         "operationId": "GetAllPromotions",
         "responses": {
           "200": {
@@ -1047,7 +1047,7 @@
         "tags": [
           "promotion"
         ],
-        "summary": "API Endpoint designed to register a new promotion.",
+        "summary": "API Endpoint designed to create a new promotion.",
         "operationId": "CreatePromotion",
         "parameters": [
           {
@@ -1168,7 +1168,7 @@
         "tags": [
           "promotion"
         ],
-        "summary": "API Endpoint designed to retrieve a specific promotion by its Id.",
+        "summary": "API Endpoint designed to get a specific promotion by its Id.",
         "operationId": "GetPromotion",
         "parameters": [
           {
@@ -1462,7 +1462,7 @@
         "tags": [
           "discounted date"
         ],
-        "summary": "API Endpoint designed to retrieve the list of all discounted dates.",
+        "summary": "API Endpoint designed to get the list of all discounted dates.",
         "operationId": "GetAllDiscountedDates",
         "responses": {
           "200": {
@@ -1542,7 +1542,7 @@
         "tags": [
           "discounted date"
         ],
-        "summary": "API Endpoint designed to register a new discounted date.",
+        "summary": "API Endpoint designed to create a new discounted date.",
         "operationId": "CreateDiscountedDate",
         "parameters": [
           {
@@ -1671,7 +1671,7 @@
         "tags": [
           "discounted date"
         ],
-        "summary": "API Endpoint designed to retrieve a specific discounted date by its Id.",
+        "summary": "API Endpoint designed to get a specific discounted date by its Id.",
         "operationId": "GetDiscountedDate",
         "parameters": [
           {
