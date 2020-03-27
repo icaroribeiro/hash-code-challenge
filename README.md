@@ -1,2 +1,2289 @@
-# hash-code-challenge
-Hash Code Challenge
+# Hash Pagamentos Code Challenge
+
+## 1 - Introduction
+
+The purpose of this file is to present information about the work developed to solve the code challenge prepared by the company **Hash Pagamentos** that can be founded in the following link: 
+
+*Website*: https://github.com/hashlab/hiring/blob/master/challenges/en-us/backend-challenge.md
+
+To briefly summarise, the project consists in the implementation of an **extended** solution for the management of users, products, promotions and discounted dates, in addition to the evaluation of discounts applied to products based on users and discounted dates settings.
+
+The solution refers to the development of two **back-end** applications using the programming languages **NodeJS** for the development of the **microservice 1** and **Go** for the development of the **microservice 2** which communicate via **RPC** (*Remote Procedure Call*), in addition to a shared **Mongo** database.
+
+The **microservice 1** is responsible for evaluating discounts applied to products, while the **microservice 2** is responsible for managing users, products, promotions and discounted dates.
+
+In addition to meeting the original requirements of the technical challenge, as indicated previously the further features of the **microservice 2** were developed in order to **facilitate** the handling of the project and, thus, the evaluation of discounts when obtaining one or more products.
+
+Throughout this documentation, different aspects of the project will be highlighted, such as, the setting of environment variables of **Mongo** database and the procedures adopted to execute the project by means of **Docker** containers.
+
+Finally, the last section named **Project Dynamics** illustrates a brief report of how the solution works in practice.
+
+## 2 - API Documentation
+
+The documentation of the API implemented in **Go** programming language that refers to the **microservice 2** is developed following the specification of the **OpenAPI 3.0**.
+
+Inside the directory **api-docs** there is a script file named **swagger-json-to-html.py**. When running the script using the **openapi-ms-2.json** file, it is generated a HTML page named **index.html** within the current directory that illustrates details about the API.
+
+## 3 - Project Organization
+
+The developed solution is organized according to the structure of directories and files summarized below:
+
+### 3.1 - Back-end
+
+The following directories contain the APIs implementation using **NodeJS** and **Go** programming language, respectively.
+
+#### 3.1.1 - NodeJS
+
+The **microservice 1** is responsible for the evaluation of discounts applied to one or more products.
+
+**nodejs/cmd/server**: it contains the configuration and implementation of the gRPC server.
+
+**nodejs/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of gRPC requests, as well as the elaboration of responses.
+
+**nodejs/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **JavaScript** testing framework called **jest**.
+
+**nodejs/internal/models**: it contains the definition of the data entities used by both the API and the database.
+
+**nodejs/internal/mongodb**: it contains the implementation directed to the database configuration along with the "*read*" operation from **CRUD** operations.
+
+**nodejs/internal/proto/entities**: it contains the specification of the **protocol buffers** entities.
+
+**nodejs/internal/proto/services**: it contains the specification of the **protocol buffers** services.
+
+**nodejs/internal/services/promotion**: it contains the implementation of the logic of evaluating promotions.
+
+**nodejs/internal/services/promotion/discounted-date**: it contains the implementation of the logic of evaluating discounted dates.
+
+**nodejs/internal/tests**: it contains the configuration of the test cases using the **JavaScript** testing framework called **jest**.
+
+**nodejs/internal/utils**: it contains supporting functions, such as, to generate and format dates, as well as to evaluate the equivalence of JSON objects used in the tests.
+
+**nodejs/.env**: it contains the variables for the configuration of the **development** environment.
+
+**nodejs/internal/tests/.env**: it contains variables related to some variables of the **nodejs/.env** file, but aimed at configuring the **test** environment.
+
+The **nodejs/.env** file contains the environment variables referring to the connection to **Mongo** database, as well as the exposure of the access address for gRPC communication, indicated below:
+
+```
+DB_USERNAME=user
+DB_PASSWORD=password
+DB_HOST=db
+DB_PORT=27017
+DB_NAME=mydb
+```
+
+```
+GRPC_SERVER_HOST=0.0.0.0
+GRPC_SERVER_PORT=50051
+```
+
+#### 3.1.2 - Go
+
+The **microservice 2** is responsible for the management of users, products, promotions and discounted dates.
+
+**go/cmd/server**: it contains the configuration and implementation of the gRPC server, as well as the exposure of a HTTP server to accept HTTP requests to API *endpoints* and send them to the corresponding server services.
+
+**go/internal/grpc/entities**: it contains the outputs related to **protocol buffers** entities resulting from the execution of **proto-gen.sh** script.
+
+**go/internal/grpc/services**: it contains the outputs related to **protocol buffers** services resulting from the execution of **proto-gen.sh** script.
+
+**go/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of HTTP requests to the API *endpoints*, as well as the elaboration of responses.
+
+**go/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **Go** language test package.
+
+**go/internal/grpc/services/server**: it contains an abstraction of the server that allows to "attach" some resources to make them available during requests to the API calls. Here, it's used to store a structure that holds attributes to manage the database and the access addresses to operate with the **microservice 1** via gRPC.
+
+**go/internal/middleware**: it contains intermediate validations of parameters transmitted via requests to API *endpoints*.
+
+**go/internal/models**: it contains the definition of the data entities used by both the API and the database.
+
+**go/internal/mongodb**: it contains the implementation directed to the database configuration along with **CRUD** operations (*create*, *read*, *update* and *delete*).
+
+**go/internal/mongodb_test**: it contains the tests of the implementation of **CRUD** operations using the **Go** language test package.
+
+**go/internal/proto/entities**: it contains the specification of the **protocol buffers** entities.
+
+**go/internal/proto/services**: it contains the specification of the **protocol buffers** services.
+
+**go/internal/utils**: it contains supporting functions, such as, generating random data used in the tests.
+
+**go/internal/yaml/services**: it contains the specification of the API routes generated through a *reverse proxy* using **grpc-gateway** that acts as a *proxy* between a REST client and the gRPC server, publishing the API *endpoints* based on **proto** files. The result of this procedure is similar to the generation of routes following the process of "annotated" proto files.
+
+**go/scripts**: it contains the **proto-gen.sh** file used to generate the outputs from the **proto** files related to the entities and services necessary when configurating the gRPC server.
+
+**go/.env**: it contains the variables for the configuration of the **development** environment.
+
+**go/.test.env**: it contains variables related to some variables of the **go/.env** file, but aimed at configuring the **test** environment.
+
+The **go/.env** file contains the environment variables referring to the connection to **Mongo** database, as well as the exposure of the access address for gRPC and HTTP communication, as indicated below:
+
+```
+DB_USERNAME=user
+DB_PASSWORD=password
+DB_HOST=db
+DB_PORT=27017
+DB_NAME=mydb
+```
+
+```
+GRPC_SERVER_HOST=0.0.0.0
+GRPC_SERVER_PORT=50052
+```
+
+```
+HTTP_SERVER_HOST=0.0.0.0
+HTTP_SERVER_PORT=8082
+```
+
+In addition, so that the **microservice 2** can communicate with the **microservice 1** to obtain one or more products with the possibility of discounts, the access address of the **microservice 1** must be also defined in the file.
+
+```
+GRPC_SERVER_HOST_MS_1=0.0.0.0
+GRPC_SERVER_PORT_MS_1=50051
+```
+
+In order to not compromise the integrity of the database used by the project in terms of data from the execution of the test cases, two Mongo databases will be used.
+
+In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" execution is the **development** database and the one used for the storage of data of the test cases is the **test** database named **mydb** and **mytestdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **TEST_DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
+
+Finally, it is necessary to pay special attention to the database environment variables defined in the four previous files.
+
+**Nevertheless, if the solution is intended to be run with Docker containers and the environment variables are used as they are already configured in all the .env files, I believe that it is not necessary any other previous changes before executing the project**.
+
+### 3.2 - Mongo
+
+The **mongodb/scripts/1-create_collections.js** file contains instructions for creating the **users**, **products**, **promotions** and **discountedDates** collections, detailed below:
+
+#### 3.2.1 - Collections
+
+**User**
+
+Each document in the **users** collection contains the data of a user.
+
+This way, the **_id** field refers to the user's unique identifier and the **first_name**, **last_name** and **date_of_birth** (**year**, **month** and **day**) fields refer to the first name, last name and date of user's birth (year, month and day), respectively.
+
+| Fields        | Data type |
+|:--------------|:----------|
+| _id           | Object ID |
+| first_name    | String    |
+| last_name     | String    |
+| date_of_birth | Field     |
+
+The date_of_birth field is configured as follows:
+
+```
+*JSON format*
+
+"date_of_birth": {
+        "year": <Integer between 1-9999>,
+        "month": <Integer between 1-12>,
+        "day": <Integer between 1-31>
+    }
+```
+
+**Products**
+
+Each document in the **products** collection contains data of a product.
+
+This way, the **_id** field refers to the product's unique identifier and the **price_in_cents**, **title** and **description** fields refer to the price in cents, title and description, respectively.
+
+| Fields         | Data type |
+|:---------------|:----------|
+| _id            | Object ID |
+| price_in_cents | Integer   |
+| title          | String    |
+| description    | String    |
+
+In addition to the previous fields, there is another field named **discount** that refers to the discount related to the product, displayed only when a discount is applicable. In this case, the pct and value_in_cents fields refer to the percentage and the value of the discount in cents, respectively.
+
+| Fields         | Data type |
+|:---------------|:----------|
+| pct            | Float     |
+| value_in_cents | Integer   |
+
+**Promotion**
+
+Each document in the **promotions** collection contains the data of a promotion.
+
+This way, the **_id** field refers to the promotion's unique identifier and the **code**, **title**, **description**, **max_discount_pct** and **products** fields refer to the code, title, description, maximum discount percentage and the list of all products' ids assigned to the related promotion, respectively.
+
+| Fields           | Data type |
+|:-----------------|:----------|
+| _id              | Object ID |
+| code             | String    |
+| title            | String    |
+| description      | String    |
+| max_discount_pct | Float     |
+| products         | Arrays    |
+
+The list of all products' ids is configured as follows:
+
+```
+*JSON format*
+
+"products": [
+        <Product's id>
+    ]
+```
+
+**Discounted Date**
+
+Each document of the **discountedDates** collection contains the data of a discounted date.
+
+This way, the **_id** field refers to the discounted date's unique identifier and **title**, **description**, **discount_pct** and **date** (**year**, **month** and **day**) fields refer to the title, description, percentage of discount, and date in which the discount will be applicable to one or more products, respectively.
+
+| Fields       | Data type |
+|:-------------|:----------|
+| _id          | Object ID |
+| title        | String    |
+| description  | String    |
+| discount_pct | Float     |
+| date         | Field     |
+
+The date field is configured as follows:
+
+```
+"date": {
+        "year": <Integer between 0-9999>,
+        "month": <Integer between 0-12>,
+        "day": <Integer between 0-31>
+    }
+```
+
+#### 3.2.2 - Configurations of Docker database containers
+
+To execute the solution through **Docker** containers, it is necessary to relate the environment variables of the **mongodb/.env** and **mongodb/.test.env** files with the corresponding environment variables directed to the developemnt and test databases defined in both **back-end** applications settings.
+
+To do so, the environment variables of the **mongodb/.env** and **mongodb/.test.env** files must be associated with the environment variables of the **nodejs/.env** and **go/.env**; and **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
+
+Additionally, it is necessary to indicate that the environment variable **DB_HOST** of the **nodejs/.env** and **go/.env** files and **TEST_DB_HOST** of the **nodejs/internal/tests/.env** and **go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
+
+The **docker-compose.yml** file contains the following database services:
+
+```
+services:
+  ...
+
+  db:
+    container_name: db
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    env_file:
+      - ./mongodb/.env
+    ...
+
+  testdb:
+    container_name: testdb
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    env_file:
+      - ./mongodb/.test.env
+    ...
+```
+
+**Development database**
+
+The **mongodb/.env** file contains the following database environment variables:
+
+```
+MONGO_INITDB_ROOT_USERNAME=user
+MONGO_INITDB_ROOT_PASSWORD=password
+MONGO_INITDB_DATABASE=mydb
+```
+
+The **nodejs/.env** file contains the following database environment variables:
+
+```
+DB_USERNAME=user
+DB_PASSWORD=password
+DB_HOST=db
+DB_PORT=27017
+DB_NAME=mydb
+```
+
+The **go/.env** file contains the following database environment variables:
+
+```
+DB_USERNAME=user
+DB_PASSWORD=password
+DB_HOST=db
+DB_PORT=27017
+DB_NAME=mydb
+```
+
+**Test database**
+
+The **mongodb/.test.env** file contains the following database environment variables:
+
+```
+MONGO_INITDB_ROOT_USERNAME=user
+MONGO_INITDB_ROOT_PASSWORD=password
+MONGO_INITDB_DATABASE=mytestdb
+```
+
+The **nodejs/internal/tests/.env** file contains the following database environment variables:
+
+```
+TEST_DB_USERNAME=user
+TEST_DB_PASSWORD=password
+TEST_DB_HOST=testdb
+TEST_DB_PORT=27017
+TEST_DB_NAME=mytestdb
+```
+
+The **go/.test.env** file contains the following database environment variables:
+
+```
+TEST_DB_USERNAME=user
+TEST_DB_PASSWORD=password
+TEST_DB_HOST=testdb
+TEST_DB_PORT=27017
+TEST_DB_NAME=mytestdb
+```
+
+**Important note**
+
+After the project has been successfully executed, it is possible to check the records of the development and test databases resulting from the operations carried out.
+
+To do this, we must **always** inform the username and password that were previously defined by the database environment variables prior to accessing information, as indicated by the commands below:
+
+```
+$ docker exec -it <Docker container's id of the corresponding database> /bin/bash
+```
+
+```
+$ mongo
+```
+
+```
+$ use admin
+```
+
+Then, we enter the username and password defined for the corresponding database service:
+
+db.auth(username, password)
+
+```
+$ db.auth("user", "password")
+```
+
+```
+$ show dbs;
+```
+
+If the Docker container's **id** previously informed corresponds to the service named **db**, the data is initially accessed from the development database by the command:
+
+```
+$ use mydb;
+```
+
+On the other hand, If the Docker container's **id** previously informed corresponds to the service named **testdb**, the data is initially accessed from the test database by the command:
+
+```
+$ use mytestdb;
+```
+
+## 4 - How to execute the project?
+
+**Before** executing the project, it is first necessary to configure the IP address (*host*) configured by Docker so that the **microservice 2** can communicate with the **microservice 1**.
+
+The *host* corresponds to the value informed when executing the command at a command prompt with access to instructions directed to **Docker**:
+
+```
+$ docker-machine ip
+```
+
+After that, navigate to the project's root directory where the **docker-compose.yml** file is, and assign the *host* to the **GRPC_SERVER_HOST_MS_1** variable in the **back-end_2** service:
+
+```
+  ...
+  back-end_2:
+    container_name: back-end_2
+    ...
+    environment:
+      - GRPC_SERVER_HOST_MS_1=<IP address configured by Docker>
+    ...
+```
+
+Still at a command prompt with access to instructions directed to **Docker** where the **docker-compose.yml** file is, run the command:
+
+```
+$ docker-compose up -d
+```
+
+If there are no errors, the API *endpoints* will be accessed using the address composed by the *host* configured by Docker and the port **8082** (P.S., the **microservice 2** will communicate with the **microservice 1** through the *port* **50051**). For example:
+
+```
+http://{host}:8082
+```
+
+In continuity, suppose the *host* is: 192.168.99.100.
+
+As a result, the API *endpoints* will be accessed through a front-end client or test tool like Postman using the address as follows:
+
+```
+http://192.168.99.100:8082
+```
+
+In addition, it is also worth emphasizing that the entire configuration related to **Docker** was evaluated in this documentation based on the **DockerToolbox** tool for Windows.
+
+## 5 - How to use the API *endpoints*?
+
+The API *endpoints* related to the **microservice 2** are accessed via HTTP communication on port **8082**, and the responses to requests can be viewed through a **front-end** client or test tool, for example **Postman**.
+
+In what follows, there is a guide that includes API requests for creating, obtaining, editing and deleting information from the database.
+
+(P.S., before checking the incoming examples, consider that no data is recorded prior to this explanation).
+
+### Management of Users
+
+#### Creation of a User
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/user
+```
+
+```
+*JSON format*
+
+Body: {
+    "first_name" : "User1",
+    "last_name" : "User1",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 1,
+        "day": 2
+    }
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the user is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e54be952c06e1046199cbf8",
+    "first_name": "User1",
+    "last_name": "User1",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 1,
+        "day": 2
+    }
+}
+```
+
+#### Obtainment of a User by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/users/5e54be952c06e1046199cbf8
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the user is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e54be952c06e1046199cbf8",
+    "first_name": "User1",
+    "last_name": "User1",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 1,
+        "day": 2
+    }
+}
+```
+
+#### Listing of Users
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/users
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the list of all users is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "users": [
+        {
+            "id": "5e54be952c06e1046199cbf8",
+            "first_name": "User1",
+            "last_name": "User1",
+            "date_of_birth": {
+                "year": 1990,
+                "month": 1,
+                "day": 2
+            }
+        }
+    ]
+}
+```
+
+#### Updating of a User by its id
+
+Request:
+
+```
+Method: HTTP PUT
+```
+
+```
+URL: http://{host}:8082/users/5e54be952c06e1046199cbf8
+```
+
+```
+*JSON format*
+
+Body: {
+    "first_name": "User1",
+    "last_name": "User1",
+    "date_of_birth": {
+        "year": 2010,
+        "month": 2,
+        "day": 3
+    }
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the user is successfully updated.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e54be952c06e1046199cbf8",
+    "first_name": "User1",
+    "last_name": "User1",
+    "date_of_birth": {
+        "year": 2010,
+        "month": 2,
+        "day": 3
+    }
+}
+```
+
+#### Deletion of a User by its id
+
+Request:
+
+```
+Method: HTTP DELETE
+```
+
+```
+URL: http://{host}:8082/users/5e54be952c06e1046199cbf8
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the user is successfully deleted.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e54be952c06e1046199cbf8",
+    "first_name": "User1",
+    "last_name": "User1",
+    "date_of_birth": {
+        "year": 2010,
+        "month": 2,
+        "day": 3
+    }
+}
+```
+
+### Management of Products
+
+#### Creation of a Product
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/product
+```
+
+```
+*JSON format*
+
+Body: {
+    "price_in_cents": 100,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink"
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the product is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 100,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink"
+}
+```
+
+#### Obtainment of a Product by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/products/5e5584244007b9649b6837c7
+```
+
+```
+Header: X-USER-ID <User's id> (Optional)
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the product is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 100,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink"
+}
+```
+
+Or even, when there is a discount:
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": <New Price in cents, Integer>,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink",
+    "discount": {
+        "pct": <Percentage, Float>,
+        "value_in_cents": <Value in cents, Integer>
+    }
+}
+```
+
+**Important note**
+
+As indicated above, whenever a request to obtain one product is performed and there is a discount that **is greater than zero**, the response body of the related product is modified.
+
+Firstly, the *price_in_cents* field must be adjusted since a reduction of value is applicable. Secondly, a new field named **discount** is elaborated along with values for the **pct** and **value_in_cents** fields that will be also displayed.
+
+For example, if the original value of a product is 100 and the discount is 5, the new *price_in_cents* field is 95.
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 95,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink",
+    "discount": {
+        "pct": 5,
+        "value_in_cents": 5
+    }
+}
+```
+
+#### Listing of Products
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/products
+```
+
+```
+Header: X-USER-ID <User's id> (Optional)
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the list of all products is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "products": [
+        {
+            "id": "5e5584244007b9649b6837c7",
+            "price_in_cents": 100,
+            "title": "Blue Pen",
+            "description": "A pen with blue ink"
+        }
+    ]
+}
+```
+
+Or even, when there is a discount:
+
+```
+*JSON format*
+
+Body: {
+    "products": [
+        {
+            "id": "5e5584244007b9649b6837c7",
+            "price_in_cents": 100,
+            "title": "Blue Pen",
+            "description": "A pen with blue ink",
+            "discount": {
+                "pct": <Percentage, Float>,
+                "value_in_cents": <Value in cents, Integer>
+            }
+        }
+    ]
+}
+```
+
+(P.S., as indicated above, the same approach related to the changes in the request body of a product when there is a discount that **is greater than zero** is performed while listing all products).
+
+#### Updating of a Product by its id
+
+Request:
+
+```
+Method: HTTP PUT
+```
+
+```
+URL: http://{host}:8082/products/5e5584244007b9649b6837c7
+```
+
+```
+*JSON format*
+
+Body: {
+    "price_in_cents": 200,
+    "title": "Red Pen",
+    "description": "A pen with red ink"
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the product is successfully updated.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 200,
+    "title": "Red Pen",
+    "description": "A pen with red ink"
+}
+```
+
+#### Deletion of a Product by its id
+
+Request:
+
+```
+Method: HTTP DELETE
+```
+
+```
+URL: http://{host}:8082/products/5e5584244007b9649b6837c7
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the product is successfully deleted.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 200,
+    "title": "Red Pen",
+    "description": "A pen with red ink"
+}
+```
+
+### Management of Promotions
+
+#### Creation of a Promotion
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/promotion
+```
+
+```
+*JSON format*
+
+Body: {
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10
+}
+```
+
+Or even, if there is one or more products to be associated with the promotion:
+
+```
+*JSON format*
+
+Body: {
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10
+    "products": [
+        <Product's id, String>
+    ]
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the promotion is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10
+}
+```
+
+Or even, if there is one or more products to be associated with the promotion:
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10,
+    "products": [
+        <Product's id, String>
+    ]
+}
+```
+
+**Important note**
+
+The inclusion of promotional products is a procedure that can be performed when creating, or even updating, a promotion.
+
+With this idea in mind, a promotion is only valid for products that are associated with it. That is, if there is a discount related to a particular promotion, it is **only** applicable to products that are associated with it. Because of that, all other products that are not related to the promotion will not have any reduction of values.
+
+In addition, each promotion must have a unique value for the **code** field. In this context, to set up the promotion of discounted dates, its code field **must** be filled out with **DISCOUNTEDDATES**.
+
+#### Obtainment of a Promotion by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/promotions/5e6383a641261e8e7b49d62b
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the promotion is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10
+}
+```
+
+Or even, if there is one or more products to be associated with the promotion:
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10,
+    "products": [
+        <Product's id, String>
+    ]
+}
+```
+
+#### Listing of Promotions
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/promotions
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the list of all promotions is successfully obtained.
+```
+
+```
+Body: {
+    "promotions": [
+        {
+            "id": "5e6383a641261e8e7b49d62b",
+            "code": "DISCOUNTEDDATES",
+            "title": "Discounted Dates",
+            "description": "The promotion of discounted dates",
+            "max_discount_pct": 10
+        }
+    ]
+}
+```
+
+Or even, if there is one or more products to be associated with the promotion:
+
+```
+Body: {
+    "promotions": [
+        {
+            "id": "5e6383a641261e8e7b49d62b",
+            "code": "DISCOUNTEDDATES",
+            "title": "Discounted Dates",
+            "description": "The promotion of discounted dates",
+            "max_discount_pct": 10,
+            "products": [
+                <Product's id, String>
+            ]
+        }
+    ]
+}
+```
+
+#### Updating of a Promotion by its id
+
+Request:
+
+```
+Method: HTTP PUT
+```
+
+```
+URL: http://{host}:8082/promotions/5e6383a641261e8e7b49d62b
+```
+
+```
+*JSON format*
+
+Body: {
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 25
+}
+```
+
+Or even, if there is one or more products to be associated with the promotion:
+
+```
+*JSON format*
+
+Body: {
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 25
+    "products": [
+        <Product's id, String>
+    ]
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the promotion is successfully updated.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 25
+}
+```
+
+Or even, if there is one or more products to be associated with the promotion:
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 25
+    "products": [
+        <Product's id, String>
+    ]
+}
+```
+
+#### Deletion of a Promotion by its id
+
+Request:
+
+```
+Method: HTTP DELETE
+```
+
+```
+URL: http://{host}:8082/promotions/5e6383a641261e8e7b49d62b
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the promotion is successfully deleted.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 25
+}
+```
+
+Or even, if there is one or more products to be associated with the promotion:
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 25
+    "products": [
+        <Product's id, String>
+    ]
+}
+```
+
+### Management of Discounted Dates
+
+#### Creation of a Discounted Date
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/discountedDate
+```
+
+```
+*JSON format*
+
+Body: {
+	"title": "Black Friday 2020",
+	"description": "The discount of Black Friday 2020",
+	"discount_pct": 10,
+	"date": {
+		"year": 2020,
+		"month": 11,
+		"day": 27
+	}
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the discounted date is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d61c",
+    "title": "Black Friday 2020",
+    "description": "The discount of Black Friday 2020",
+    "discount_pct": 10,
+    "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 27
+    }
+}
+```
+
+**Important note**
+
+A discounted date must be configured with a unique combination of values for the **year**, **month** and **day** fields.
+
+Additionally, to create the discount date related to user's birthday, the **date** field **must** be configured with the value **0** for the **year**, **month** and **day** fields:
+
+```
+*JSON format*
+
+Body: {
+	"title": "User's Birthday",
+	"description": "The discount of user's birthday",
+	"discount_pct": 5,
+	"date": {
+		"year": 0,
+		"month": 0,
+		"day": 0
+	}
+}
+```
+
+#### Obtainment of a Discounted Date by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/discountedDates/5e6383a641261e8e7b49d61c
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the discounted date is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d61c",
+    "title": "Black Friday 2020",
+    "description": "The discount of Black Friday 2020",
+    "discount_pct": 10,
+    "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 27
+    }
+}
+```
+
+#### Listing of Discounted Dates
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/discountedDates
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the list of all discounted dates is successfully obtained.
+```
+
+```
+Body: {
+    "discountedDates": [
+        {
+            "id": "5e6383a641261e8e7b49d61c",
+            "title": "Black Friday 2020",
+            "description": "The discount of Black Friday 2020",
+            "discount_pct": 10,
+            "date": {
+                "year": 2020,
+                "month": 11,
+                "day": 27
+            }
+        }
+    ]
+}
+```
+
+#### Updating of a Discounted Date by its id
+
+Request:
+
+```
+Method: HTTP PUT
+```
+
+```
+URL: http://{host}:8082/discountedDates/5e6383a641261e8e7b49d61c
+```
+
+```
+*JSON format*
+
+Body: {
+	"title": "Black Friday 2020",
+	"description": "The discount of Black Friday 2020",
+	"discount_pct": 35,
+	"date": {
+		"year": 2020,
+		"month": 11,
+		"day": 27
+	}
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the discounted date is successfully updated.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d61c",
+    "title": "Black Friday 2020",
+    "description": "The discount of Black Friday 2020",
+    "discount_pct": 35,
+    "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 27
+    }
+}
+```
+
+#### Deletion of a Discounted Date by its id
+
+Request:
+
+```
+Method: HTTP DELETE
+```
+
+```
+URL: http://{host}:8082/discountedDates/5e6383a641261e8e7b49d61c
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the discounted date is successfully deleted.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d61c",
+    "title": "Black Friday 2020",
+    "description": "The discount of Black Friday 2020",
+    "discount_pct": 35,
+    "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 27
+    }
+}
+```
+
+## 6 - Tests
+
+In order to test the solution a few **test sets** were developed.
+
+### 6.1 Microservice 1
+
+(P.S., these tests only involve removing the record related to the promotion of discounted date from the test database if it already exists ).
+
+### 6.1.1 Services
+
+These tests are related to the implementation of services in order to obtain one or more products with the possibility of discounts.
+
+To do so, navigate to the **back-end/nodejs/internal/grpc/services/impl_test** directory.
+
+So, if you prefer to evaluate all tests at once, run the command:
+
+```
+$ npm run test
+```
+
+However, it is also possible to run each test separately using commands:
+
+**Tests of the implementation of services directed to Products**
+
+```
+npm test -- -t "TestGetAllProducts.WithoutAnyDiscountOfDates"
+```
+
+```
+npm test -- -t "TestGetAllProducts.WithOnlyTheDiscountOfUser\'sBirthday"
+```
+
+```
+npm test -- -t "TestGetAllProducts.WithOnlyTheDiscountOfOtherDiscountedDate"
+```
+
+```
+npm test -- -t "TestGetAllProducts.WithTheMaximumDiscountOfDates"
+```
+
+```
+npm test -- -t "TestGetProduct.WithoutAnyDiscountOfDates"
+```
+
+```
+npm test -- -t "TestGetProduct.WithOnlyTheDiscountOfUser\'sBirthday"
+```
+
+```
+npm test -- -t "TestGetProduct.WithOnlyTheDiscountOfOtherDiscountedDate"
+```
+
+```
+npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
+```
+
+### 6.2 Microservice 2
+
+(P.S., these tests involve creating, editing and removing records from the test database).
+
+### 6.2.1 Services
+
+These tests are related to the implementation of services to create, obtain, edit and remove users, products, promotions and discounted dates.
+
+To do so, navigate to the **back-end/go/internal/grpc/services/impl_test** directory.
+
+So, if you prefer to evaluate all tests at once, run the following command:
+
+```
+$ go test -v
+```
+
+However, it is also possible to run each test separately using commands, as shown below:
+
+**Tests of the implementation of services directed to Users**
+
+```
+$ go test -v -run=TestCreateUser
+```
+
+```
+$ go test -v -run=TestGetAllUsers
+```
+
+```
+$ go test -v -run=TestGetUser
+```
+
+```
+$ go test -v -run=TestUpdateUser
+```
+
+```
+$ go test -v -run=TestDeleteUser
+```
+
+**Tests of the implementation of services directed to Products**
+
+```
+$ go test -v -run=TestCreateProduct
+```
+
+```
+$ go test -v -run=TestGetAllProducts
+```
+
+```
+$ go test -v -run=TestGetProduct
+```
+
+```
+$ go test -v -run=TestUpdateProduct
+```
+
+```
+$ go test -v -run=TestDeleteProduct
+```
+
+
+**Tests of the implementation of services directed to Promotions**
+
+```
+$ go test -v -run=TestCreatePromotion
+```
+
+```
+$ go test -v -run=TestGetAllPromotions
+```
+
+```
+$ go test -v -run=TestGetPromotion
+```
+
+```
+$ go test -v -run=TestUpdatePromotion
+```
+
+```
+$ go test -v -run=TestDeletePromotion
+```
+
+**Tests of the implementation of services directed to Discounted Dates**
+
+```
+$ go test -v -run=TestCreateDiscountedDate
+```
+
+```
+$ go test -v -run=TestGetAllDiscountedDates
+```
+
+```
+$ go test -v -run=TestGetDiscountedDate
+```
+
+```
+$ go test -v -run=TestUpdateDiscountedDate
+```
+
+```
+$ go test -v -run=TestDeleteDiscountedDate
+```
+
+### 6.2.2 Database
+
+The tests that were developed are related to **CRUD** operations (*create*, *read*, *update* and *delete*) in the test database.
+
+To do so, navigate to the **back-end/go/internal/mongodb_test** directory.
+
+So, if you prefer to evaluate all tests at once, run the command:
+
+```
+$ go test -v
+```
+
+However, it is also possible to run each test separately using commands:
+
+**Tests of the CRUD operations directed to Users**
+
+```
+$ go test -v -run=TestCreateUser
+```
+
+```
+$ go test -v -run=TestGetAllUsers
+```
+
+```
+$ go test -v -run=TestGetUser
+```
+
+```
+$ go test -v -run=TestUpdateUser
+```
+
+```
+$ go test -v -run=TestDeleteUser
+```
+
+**Tests of the CRUD operations directed to Products**
+
+```
+$ go test -v -run=TestCreateProduct
+```
+
+```
+$ go test -v -run=TestGetAllProducts
+```
+
+```
+$ go test -v -run=TestGetProduct
+```
+
+```
+$ go test -v -run=TestUpdateProduct
+```
+
+```
+$ go test -v -run=TestDeleteProduct
+```
+
+**Tests of the CRUD operations directed to Promotions**
+
+```
+$ go test -v -run=TestCreatePromotion
+```
+
+```
+$ go test -v -run=TestGetAllPromotions
+```
+
+```
+$ go test -v -run=TestGetPromotion
+```
+
+```
+$ go test -v -run=TestUpdatePromotion
+```
+
+```
+$ go test -v -run=TestDeletePromotion
+```
+
+**Tests of the CRUD operations directed to Discounted Dates**
+
+```
+$ go test -v -run=TestCreateDiscountedDate
+```
+
+```
+$ go test -v -run=TestGetAllDiscountedDates
+```
+
+```
+$ go test -v -run=TestGetDiscountedDate
+```
+
+```
+$ go test -v -run=TestUpdateDiscountedDate
+```
+
+```
+$ go test -v -run=TestDeleteDiscountedDate
+```
+
+## 7 - Project Dynamics
+
+Below is a brief account of how the solution works in practice.
+
+### Data Record
+
+First, it is necessary to illustrate the data to be registered before getting one or more products with the possibility of discounts.
+
+(P.S., consider that no data is recorded prior to this explanation).
+
+#### Creation of Users
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/user
+```
+
+```
+*JSON format*
+
+Body: {
+    "first_name" : "User1",
+    "last_name" : "User1",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 1,
+        "day": 2
+    }
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the user is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5583684007b9649b6837c5",
+    "first_name": "User1",
+    "last_name": "User1",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 1,
+        "day": 2
+    }
+}
+```
+
+Database:
+
+```
+> db.users.find({"_id": ObjectId("5e5583684007b9649b6837c5")}).pretty();
+{
+    "_id" : ObjectId("5e5583684007b9649b6837c5"),
+    "first_name" : "User1",
+    "last_name" : "User1",
+    "date_of_birth" : {
+        "year" : 1990,
+        "month" : 1,
+        "day" : 2
+    }
+}
+```
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/user
+```
+
+```
+*JSON format*
+
+Body: {
+    "first_name": "User2",
+    "last_name": "User2",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 11,
+        "day": 27
+    }
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the user is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5583e84007b9649b6837c6",
+    "first_name": "User2",
+    "last_name": "User2",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 11,
+        "day": 27
+    }
+}
+```
+
+Database:
+
+```
+> db.users.find({"_id": ObjectId("5e5583e84007b9649b6837c6")}).pretty();
+{
+    "_id" : ObjectId("5e5583e84007b9649b6837c6"),
+    "first_name" : "User2",
+    "last_name" : "User2",
+    "date_of_birth" : {
+        "year" : 1990,
+        "month" : 11,
+        "day" : 27
+    }
+}
+```
+
+#### Creation of a Product
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/product
+```
+
+```
+*JSON format*
+
+Body: {
+    "price_in_cents": 100,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink"
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the product is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 100,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink"
+}
+```
+
+Database:
+
+```
+> db.products.find({"_id": ObjectId("5e5584244007b9649b6837c7")}).pretty();
+{
+    "_id" : ObjectId("5e5584244007b9649b6837c7"),
+    "price_in_cents" : 100,
+    "title" : "Blue Pen",
+    "description" : "A pen with blue ink"
+}
+```
+
+#### Creation of the Promotion of Discouted Dates
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/promotion
+```
+
+```
+*JSON format*
+
+Body: {
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10,
+    "products": [
+        "5e5584244007b9649b6837c7"
+    ]
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the promotion is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5599374007b9649b6837ca",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10,
+    "products": [
+        "5e5584244007b9649b6837c7"
+    ]
+}
+```
+
+Database:
+
+```
+> db.promotions.find({"_id": ObjectId("5e5599374007b9649b6837ca")}).pretty();
+{
+    "_id" : ObjectId("5e5599374007b9649b6837ca"),
+    "code" : "DISCOUNTEDDATES",
+    "title" : "Discounted Dates",
+    "description" : "The promotion of discounted dates",
+    "max_discount_pct" : 10,
+    "products" : [
+        "5e5584244007b9649b6837c7"
+    ]
+}
+```
+
+**Important note**
+
+As explained before, each promotion must have a unique value for the **code** field and in the case of the promotion of discounted dates, it must be configured with **DISCOUNTEDDATES**. Otherwise, the **microservice 1** will not evaluate any discount based on the criteria of the discounted dates.
+
+Additionally, the discount is only applicable to the products associated with the corresponding promotion defined in the list of promotional products.
+
+#### Creation of Discouted Dates
+
+Request:
+
+```
+Method: HTTP POST
+```
+
+```
+URL: http://{host}:8082/discountedDate
+```
+
+```
+*JSON format*
+
+Body: {
+	"title": "Black Friday 2020",
+	"description": "The discount of Black Friday 2020",
+	"discount_pct": 10,
+	"date": {
+		"year": 2020,
+		"month": 11,
+		"day": 27
+	}
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the discounted date is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e55984c4007b9649b6837c9",
+    "title": "Black Friday 2020",
+    "description": "The discount of Black Friday 2020",
+    "discount_pct": 10,
+    "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 27
+    }
+}
+```
+
+Database:
+
+```
+> db.discountedDates.find({"_id": ObjectId("5e55984c4007b9649b6837c9")}).pretty();
+{
+    "_id" : ObjectId("5e55984c4007b9649b6837c9"),
+    "title" : "Black Friday 2020",
+    "description" : "The discount of Black Friday 2020",
+    "discount_pct" : 10,
+    "date" : {
+        "year" : 2020,
+        "month" : 11,
+        "day" : 27
+    }
+}
+```
+
+```
+*JSON format*
+
+Body: {
+	"title": "User's Birthday",
+	"description": "The discount of user's birthday",
+	"discount_pct": 5,
+	"date": {
+		"year": 0,
+		"month": 0,
+		"day": 0
+	}
+}
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the discounted date is successfully created.
+```
+
+```
+*JSON format*
+
+Body: {
+    "id": "5e5596d04007b9649b6837c8",
+    "title": "User's Birthday",
+    "description": "The discount of user's birthday",
+    "discount_pct": 5,
+    "date": {
+        "year": 0,
+        "month": 0,
+        "day": 0
+    }
+}
+```
+
+Database:
+
+```
+> db.discountedDates.find({"_id": ObjectId("5e5596d04007b9649b6837c8")}).pretty();
+{
+    "_id" : ObjectId("5e5596d04007b9649b6837c8"),
+    "title" : "User's Birthday",
+    "description" : "The discount of user's birthday",
+    "discount_pct" : 5,
+    "date" : {
+        "year" : 0,
+        "month" : 0,
+        "day" : 0
+    }
+}
+```
+
+#### Listing of Products
+
+The listing of products, or even the obtainment of a product, with discounts provided by the promotion of discounted dates are dependent on the factors:
+
+1. First, a promotion **must** be properly configured with the value **DISCOUNTEDDATES** for the code field, a maximum discount percentage and a list of promotional products.
+
+2. Secondly, the discounted dates **must** be accordingly configured with the discount amount and the date in which the discount is applicable based on the year, month and day.
+
+3. Finally, in all requests to the API *endpoints* that obtain one or more products, the discount will be evaluated **always** based on the data of the current date. Additionally, if it is informed the **X-USER-ID** in the *header* of the corresponding request and it contains the *id* of a given user, the discount will also be analyzed based on the data of the corresponding user.
+
+As previou explained, the discount is **always** limited by the value of the **max_discount_pct** field of the related promotion. This way, if the calculated discount for the promotion of the discounted dates exceeds the maximum discount percentage, it will be adjusted to meet this criteria.
+
+Database:
+
+```
+> db.promotions.find({"_id": ObjectId("5e5599374007b9649b6837ca")}).pretty();
+{
+    "_id" : ObjectId("5e5599374007b9649b6837ca"),
+    "code" : "DISCOUNTEDDATES",
+    "title" : "Discounted Dates",
+    "description" : "The promotion of discounted dates",
+    "max_discount_pct" : 10,
+    "products" : [
+        "5e5584244007b9649b6837c7"
+    ]
+}
+```
+
+**In what follows, there a simple explanation of a few possible scenarios without and with the possibility of discounts when obtaining one or more products**.
+
+### 7.2.1 Products without any Discount of Dates
+
+Despite the configurations made previously, the listing of products without discount may occur due to some circumstances, such as the three described below:
+
+1. The **back-end** application related to **microservice 1** is not active.
+
+2. The **back-end** application related to **microservice 1** is active, but the **X-USER-ID** is not informed in the *Header* of the request to obtain one or more products. In this case, there will be no evaluation of the discount of user's birthday and, therefore, the discount is only evaluated considering other special dates.
+
+As an example, suppose that the current date is **1-1-2020** and it is not a discounted date (The previously recorded discount dates are **0-0-0** and **27-11-2020**).
+
+3. The **back-end** application related to **microservice 1** is active and the **X-USER-ID** is informed in the *Header* of the request to obtain a or more products. Because of this, consider two situations:
+
+     3.1. If the **X-USER-ID** does not contain an **id** of a user registered in the database, then the second circumstance described above will be evaluated.
+
+     3.2. On the other hand, if the **X-USER-ID** contains an **id** of a registered user, for example the **id** of the user named **User1**, the discount of user's birthday will be evaluated. As an example, suppose that the current date is **1-1-2020** and has no relation to the date of user's birth (The date of User1's birth is **2-1-1990**). As before, the second circumstance described above will be analyzed.
+
+### 7.2.2 Products with the Discount of User's Birthday
+
+The listing of products with the possibility of discount of user's birthday may occur whenever the **back-end** application related to **microservice 1** is active and the request is performed in a date that is related to some date of user's birth registered.
+
+As an example, suppose that the current date is **2-1-2020** and, thus, it is related to the date of User1's birth which is **2-1-1990**. Because of that, if the **id** of the **User1** is assigned to **X-USER-ID** in the *Header* of the request, the discount of user's birthday is **5** because it is the discount percentage of the discounted date **0-0-0**.
+
+Database:
+
+```
+> db.products.find({"_id": ObjectId("5e5584244007b9649b6837c7")}).pretty();
+{
+    "_id" : ObjectId("5e5584244007b9649b6837c7"),
+    "price_in_cents" : 100,
+    "title" : "Blue Pen",
+    "description" : "A pen with blue ink"
+}
+```
+
+```
+> db.discountedDates.find({"_id": ObjectId("5e5596d04007b9649b6837c8")}).pretty();
+{
+    "_id" : ObjectId("5e5596d04007b9649b6837c8"),
+    "title" : "User's Birthday",
+    "description" : "The discount of user's birthday",
+    "discount_pct" : 5,
+    "date" : {
+        "year" : 0,
+        "month" : 0,
+        "day" : 0
+    }
+}
+```
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/products
+```
+
+```
+Header: X-USER-ID 5e5583684007b9649b6837c5
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the list of all products is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "products": [
+        {
+            "id": "5e5584244007b9649b6837c7",
+            "price_in_cents": 95,
+            "title": "Blue Pen",
+            "description": "A pen with blue ink",
+            "discount": {
+                "pct": 5,
+                "value_in_cents": 5
+            }
+        }
+    ]
+}
+```
+
+### 7.2.3 Products with only the Discount of Other Discounted Dates
+
+The listing of products with the possibility of discount of other special dates may occur whenever the **back-end** application related to **microservice 1** is active and the request is performed without the **X-USER-ID**.
+
+Following this idea, even if the request is performed in a date related to some date of a user's birth, the discount of user's birthday is not evaluated since no **X-USER-ID** is not informed.
+
+As an example, suppose that the current date is **27-11-2020** and it is related to the discounted date of *Black Friday 2020*. Therefore, the discount of special date is **10** because it is the discount percentage of the discounted date **27-11-2020**.
+
+Database:
+
+```
+> db.discountedDates.find({"_id": ObjectId("5e55984c4007b9649b6837c9")}).pretty();
+{
+    "_id" : ObjectId("5e55984c4007b9649b6837c9"),
+    "title" : "Black Friday 2020",
+    "description" : "The discount of Black Friday 2020",
+    "discount_pct" : 10,
+    "date" : {
+        "year" : 2020,
+        "month" : 11,
+        "day" : 27
+    }
+}
+```
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/products
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the list of all products is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "products": [
+        {
+            "id": "5e5584244007b9649b6837c7",
+            "price_in_cents": 90,
+            "title": "Blue Pen",
+            "description": "A pen with blue ink",
+            "discount": {
+                "pct": 10,
+                "value_in_cents": 10
+            }
+        }
+    ]
+}
+```
+
+### 7.2.4 Products with Maximum Discount of the Discounted Dates
+
+The listing of products with the **maximum discount** of the promotion of discounted dates may occur whenever the **back-end** application related to **microservice 1** is active and the request is performed in a date that, at tha same time, is related to a user's birth, as well as other special date (that is, a date which is different from **0-0-0**).
+
+As an example, suppose that the current date is **27-11-2020**. This date is related to the User2's birth which is **27-11-1990**, as well as is related to the discounted date of *Black Friday 2020* which is **27-11-2020**.
+
+This way, if the **id** of the **User2** is assigned to **X-USER-ID** in the *Header* of the request, the discount will be the sum of the amounts defined for both the discounted dates of user's birthday (**0-0-0**) as well as of *Black Friday 2020* (**27-11-2020**), which is **15**.
+
+Nevertheless, the maximum discount that can be applied is limited by the **max_discount_pct** field of the promotion of discounted dates which is **10**.
+
+Database:
+
+```
+> db.promotions.find({"_id": ObjectId("5e5599374007b9649b6837ca")}).pretty();
+{
+    "_id" : ObjectId("5e5599374007b9649b6837ca"),
+    "code" : "DISCOUNTEDDATES",
+    "title" : "Discounted Dates",
+    "description" : "The promotion of discounted dates",
+    "max_discount_pct" : 10,
+    "products" : [
+        "5e5584244007b9649b6837c7"
+    ]
+}
+```
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/products
+```
+
+```
+Header: X-USER-ID 5e5583e84007b9649b6837c6
+```
+
+Response:
+
+```
+Status code: 200 OK - In case the list of all products is successfully obtained.
+```
+
+```
+*JSON format*
+
+Body: {
+    "products": [
+        {
+            "id": "5e5584244007b9649b6837c7",
+            "price_in_cents": 90,
+            "title": "Blue Pen",
+            "description": "A pen with blue ink",
+            "discount": {
+                "pct": 10,
+                "value_in_cents": 10
+            }
+        }
+    ]
+}
+```
