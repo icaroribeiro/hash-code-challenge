@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package entities;
+
+import "google/protobuf/wrappers.proto";
+
+message Product {
+    string id = 1;
+
+    int32 price_in_cents = 2;
+
+    string title = 3;
+
+    string description = 4;
+
+    Discount discount = 5;
+}
+
+message Discount {
+    float pct = 1;
+
+    // The Int32Value wrapper instead of int32 is necessary because the documentation of Protocol Buffers describes
+    // that if a scalar message field is set to its default, the value will not be serialized on the wire.
+    // Following this concept, if the value_in_cents was zero it was not displayed in the response body
+    // when acessing the API endpoint exposed via grpc-gateway to retrieve product(s).
+
+    google.protobuf.Int32Value value_in_cents = 2;
+}
