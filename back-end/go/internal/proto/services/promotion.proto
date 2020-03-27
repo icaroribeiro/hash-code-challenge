@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package services;
+
+option go_package = "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services";
+
+import "google/protobuf/empty.proto";
+
+import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/promotion.proto";
+import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/product.proto";
+
+message GetAllPromotionsResponse {
+    repeated entities.Promotion promotions = 1;
+}
+
+message CreatePromotionRequest {
+    entities.Promotion promotion = 1;
+}
+
+message GetPromotionRequest {
+    string id = 1;
+}
+
+message UpdatePromotionRequest {
+    string id = 1;
+
+    entities.Promotion promotion = 2;
+}
+
+message DeletePromotionRequest {
+    string id = 1;
+}
+
+message IncludeProductToPromotionRequest {
+    string id = 1;
+
+    entities.Product product = 2;
+}
+
+message ExcludeProductFromPromotionRequest {
+    string id = 1;
+
+    string productId = 2;
+}
+
+service PromotionService {
+    // Get (read) the list of all promotions.
+    rpc GetAllPromotions(google.protobuf.Empty) returns (GetAllPromotionsResponse);
+
+    // Create a new promotion.
+    rpc CreatePromotion(CreatePromotionRequest) returns (entities.Promotion);
+
+    // Get (read) a specific promotion by its id.
+    rpc GetPromotion(GetPromotionRequest) returns (entities.Promotion);
+
+    // Update a specific promotion by its id.
+    rpc UpdatePromotion(UpdatePromotionRequest) returns (entities.Promotion);
+
+    // Delete a specific promotion by its id.
+    rpc DeletePromotion(DeletePromotionRequest) returns (entities.Promotion);
+}

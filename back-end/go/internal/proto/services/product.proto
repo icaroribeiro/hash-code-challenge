@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package services;
+
+option go_package = "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services";
+
+import "google/protobuf/empty.proto";
+
+import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/product.proto";
+
+message GetAllProductsResponse {
+    repeated entities.Product products = 1;
+}
+
+message CreateProductRequest {
+    entities.Product product = 1;
+}
+
+message GetProductRequest {
+    string id = 1;
+}
+
+message UpdateProductRequest {
+    string id = 1;
+
+    entities.Product product = 2;
+}
+
+message DeleteProductRequest {
+    string id = 1;
+}
+
+service ProductService {
+    // Get (read) the list of all products.
+    rpc GetAllProducts(google.protobuf.Empty) returns (GetAllProductsResponse);
+
+    // Create a new product.
+    rpc CreateProduct(CreateProductRequest) returns (entities.Product);
+
+    // Get (read) a specific product by its id.
+    rpc GetProduct(GetProductRequest) returns (entities.Product);
+
+    // Update a specific product by its id.
+    rpc UpdateProduct(UpdateProductRequest) returns (entities.Product);
+
+    // Delete a specific product by its id.
+    rpc DeleteProduct(DeleteProductRequest) returns (entities.Product);
+}

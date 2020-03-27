@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package services;
+
+option go_package = "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services";
+
+import "google/protobuf/empty.proto";
+
+import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/discounted-date.proto";
+
+message GetAllDiscountedDatesResponse {
+    repeated entities.DiscountedDate discountedDates = 1;
+}
+
+message CreateDiscountedDateRequest {
+    entities.DiscountedDate discountedDate = 1;
+}
+
+message GetDiscountedDateRequest {
+    string id = 1;
+}
+
+message UpdateDiscountedDateRequest {
+    string id = 1;
+
+    entities.DiscountedDate discountedDate = 2;
+}
+
+message DeleteDiscountedDateRequest {
+    string id = 1;
+}
+
+service DiscountedDateService {
+    // Get (read) the list of all discounted dates.
+    rpc GetAllDiscountedDates(google.protobuf.Empty) returns (GetAllDiscountedDatesResponse);
+
+    // Create a new discounted date.
+    rpc CreateDiscountedDate(CreateDiscountedDateRequest) returns (entities.DiscountedDate);
+
+    // Get (read) a specific discounted date by its id.
+    rpc GetDiscountedDate(GetDiscountedDateRequest) returns (entities.DiscountedDate);
+
+    // Update a specific discounted date by its id.
+    rpc UpdateDiscountedDate(UpdateDiscountedDateRequest) returns (entities.DiscountedDate);
+
+    // Delete a specific discounted date by its id.
+    rpc DeleteDiscountedDate(DeleteDiscountedDateRequest) returns (entities.DiscountedDate);
+}
