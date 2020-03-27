@@ -1,4 +1,4 @@
-# Hash Pagamentos Code Challenge
+# Hash Code Challenge
 
 ## 1 - Introduction
 
