@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+  back-end_1:
+    container_name: back-end_1
+    build:
+      context: ./back-end/nodejs
+      dockerfile: Dockerfile
+    env_file:
+      - ./back-end/nodejs/.env
+    restart: on-failure
+    ports:
+      - "50051:50051"
+    expose:
+      - "50051"
+    depends_on:
+      - db
+      - testdb
+
+  back-end_2:
+    container_name: back-end_2
+    build:
+      context: ./back-end/go
+      dockerfile: Dockerfile
+    env_file:
+      - ./back-end/go/.env
+    environment:
+      - GRPC_SERVER_HOST_MS_1=192.168.99.100
+    restart: on-failure
+    ports:
+      - "8082:8082"
+      - "50052:50052"
+    expose:
+      - "8082"
+      - "50052"
+    depends_on:
+      - db
+      - testdb
+
+  db:
+    container_name: db
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    env_file:
+      - ./mongodb/.env
+    restart: on-failure
+    ports:
+      - "27018:27017"
+    expose:
+      - "27018"
+    volumes:
+      - db-data:/data/db
+
+  testdb:
+    container_name: testdb
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    env_file:
+      - ./mongodb/.test.env
+    restart: on-failure
+    ports:
+      - "27019:27017"
+    expose:
+      - "27019"
+    volumes:
+      - testdb-data:/data/db
+
+volumes:
+  db-data:
+  testdb-data:
