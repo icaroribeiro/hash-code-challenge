@@ -1,0 +1,30 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "An implementation of microservices using NodeJS programming language, GRPC and MongoDB database that allow to return a list of products with personalized discount based on user settings.",
+  "main": "index.js",
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./internal/tests/setup.js"
+    ],
+    "testEnvironment": "node"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "Ícaro Ribeiro",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.3",
+    "dotenv": "^8.2.0",
+    "grpc": "^1.24.2",
+    "mongoose": "^5.7.9",
+    "npm": "^6.13.7",
+    "require-all": "^3.0.0",
+    "save": "^2.4.0"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  }
+}
