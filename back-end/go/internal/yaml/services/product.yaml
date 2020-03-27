@@ -1,0 +1,22 @@
+type: google.api.Service
+
+config_version: 3
+
+http:
+  rules:
+  - selector: services.ProductService.GetAllProducts
+    get: "/products"
+
+  - selector: services.ProductService.CreateProduct
+    post: "/product"
+    body: "product"
+
+  - selector: services.ProductService.GetProduct
+    get: "/products/{id}"
+
+  - selector: services.ProductService.UpdateProduct
+    put: "/products/{id}"
+    body: "product"
+
+  - selector: services.ProductService.DeleteProduct
+    delete: "/products/{id}"

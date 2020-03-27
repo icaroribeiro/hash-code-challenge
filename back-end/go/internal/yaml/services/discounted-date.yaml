@@ -1,0 +1,22 @@
+type: google.api.Service
+
+config_version: 3
+
+http:
+  rules:
+  - selector: services.DiscountedDateService.GetAllDiscountedDates
+    get: "/discountedDates"
+
+  - selector: services.DiscountedDateService.CreateDiscountedDate
+    post: "/discountedDate"
+    body: "discountedDate"
+
+  - selector: services.DiscountedDateService.GetDiscountedDate
+    get: "/discountedDates/{id}"
+
+  - selector: services.DiscountedDateService.UpdateDiscountedDate
+    put: "/discountedDates/{id}"
+    body: "discountedDate"
+
+  - selector: services.DiscountedDateService.DeleteDiscountedDate
+    delete: "/discountedDates/{id}"

@@ -1,0 +1,22 @@
+type: google.api.Service
+
+config_version: 3
+
+http:
+  rules:
+  - selector: services.UserService.GetAllUsers
+    get: "/users"
+
+  - selector: services.UserService.CreateUser
+    post: "/user"
+    body: "user"
+
+  - selector: services.UserService.GetUser
+    get: "/users/{id}"
+
+  - selector: services.UserService.UpdateUser
+    put: "/users/{id}"
+    body: "user"
+
+  - selector: services.UserService.DeleteUser
+    delete: "/users/{id}"

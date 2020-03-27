@@ -1,0 +1,22 @@
+type: google.api.Service
+
+config_version: 3
+
+http:
+  rules:
+  - selector: services.PromotionService.GetAllPromotions
+    get: "/promotions"
+
+  - selector: services.PromotionService.CreatePromotion
+    post: "/promotion"
+    body: "promotion"
+
+  - selector: services.PromotionService.GetPromotion
+    get: "/promotions/{id}"
+
+  - selector: services.PromotionService.UpdatePromotion
+    put: "/promotions/{id}"
+    body: "promotion"
+
+  - selector: services.PromotionService.DeletePromotion
+    delete: "/promotions/{id}"
