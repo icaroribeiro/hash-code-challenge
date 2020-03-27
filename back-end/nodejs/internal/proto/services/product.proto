@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package services;
+
+import "google/protobuf/empty.proto";
+
+import "../entities/product.proto";
+
+message GetAllProductsResponse {
+    repeated entities.Product products = 1;
+}
+
+message GetProductRequest {
+    string id = 1;
+}
+
+service ProductService {
+    // Get (read) the list of all products.
+    rpc GetAllProducts(google.protobuf.Empty) returns (GetAllProductsResponse);
+
+    // Get (read) a specific product by its id.
+    rpc GetProduct(GetProductRequest) returns (entities.Product);
+}
