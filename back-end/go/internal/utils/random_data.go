@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// It seeds the generator once in the program.
+// It seeds the random data generator once in the program.
 func InitializeRandomization() {
 	rand.Seed(time.Now().UnixNano())
 }
