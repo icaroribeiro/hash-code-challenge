@@ -9,8 +9,8 @@ import (
 )
 
 func (d *Datastore) CreateProduct(product models.Product) (models.Product, error) {
-	var err error
 	var result *mongo.InsertOneResult
+	var err error
 	var id primitive.ObjectID
 	var isOK bool
 

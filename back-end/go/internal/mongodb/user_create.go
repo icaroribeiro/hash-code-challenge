@@ -9,8 +9,8 @@ import (
 )
 
 func (d *Datastore) CreateUser(user models.User) (models.User, error) {
-	var err error
 	var result *mongo.InsertOneResult
+	var err error
 	var id primitive.ObjectID
 	var isOK bool
 
