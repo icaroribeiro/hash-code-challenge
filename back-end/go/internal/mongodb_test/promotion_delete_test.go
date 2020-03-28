@@ -30,6 +30,8 @@ func TestDeletePromotion(t *testing.T) {
 
 	body = utils.RemoveEscapeSequences(body, "\t", "\n")
 
+	t.Logf("Product: %s", body)
+
 	product, err = datastore.CreateProduct(product)
 
 	if err != nil {

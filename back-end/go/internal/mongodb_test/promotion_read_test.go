@@ -33,6 +33,8 @@ func TestGetAllPromotions(t *testing.T) {
 
 	body = utils.RemoveEscapeSequences(body, "\t", "\n")
 
+	t.Logf("Product: %s", body)
+
 	product, err = datastore.CreateProduct(product)
 
 	if err != nil {
@@ -116,6 +118,8 @@ func TestGetPromotion(t *testing.T) {
 	}`, product.PriceInCents, product.Title, product.Description)
 
 	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+
+	t.Logf("Product: %s", body)
 
 	product, err = datastore.CreateProduct(product)
 
