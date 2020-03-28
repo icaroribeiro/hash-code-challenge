@@ -21,7 +21,7 @@ import (
 func init() {
 	var err error
 
-	// Load values from .env into the system.
+	// Load the variables from .env file into the system.
 	err = godotenv.Load("./.env")
 
 	if err != nil {
