@@ -54,7 +54,7 @@ func (d *Datastore) CreatePromotion(promotion models.Promotion) (models.Promotio
 	if isOK {
 		promotion.ID = id
 	} else {
-		return promotion, fmt.Errorf("it wasn't possible to obtain the id of generated document")
+		return promotion, fmt.Errorf("it wasn't possible to get the id of generated document")
 	}
 
 	return promotion, nil

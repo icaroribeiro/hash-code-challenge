@@ -29,7 +29,7 @@ func (d *Datastore) CreateProduct(product models.Product) (models.Product, error
 	if isOK {
 		product.ID = id
 	} else {
-		return product, fmt.Errorf("it wasn't possible to obtain the id of generated document")
+		return product, fmt.Errorf("it wasn't possible to get the id of generated document")
 	}
 
 	return product, nil

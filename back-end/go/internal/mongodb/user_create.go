@@ -29,7 +29,7 @@ func (d *Datastore) CreateUser(user models.User) (models.User, error) {
 	if isOK {
 		user.ID = id
 	} else {
-		return user, fmt.Errorf("it wasn't possible to obtain the id of generated document")
+		return user, fmt.Errorf("it wasn't possible to get the id of generated document")
 	}
 
 	return user, nil

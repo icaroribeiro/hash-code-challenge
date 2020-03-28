@@ -58,7 +58,7 @@ func (d *Datastore) CreateDiscountedDate(discountedDate models.DiscountedDate) (
 	if isOK {
 		discountedDate.ID = id
 	} else {
-		return discountedDate, fmt.Errorf("it wasn't possible to obtain the id of generated document")
+		return discountedDate, fmt.Errorf("it wasn't possible to get the id of generated document")
 	}
 
 	return discountedDate, nil
