@@ -40,7 +40,7 @@ func init() {
 	}
 }
 
-// This function serves basically as a wrapper around testMain function allowing to defer functions.
+// It serves basically as a wrapper around testMain function allowing to defer functions.
 // At the end, it finally passes the returned exit code to os.Exit().
 func TestMain(m *testing.M) {
 	var exitVal int
@@ -57,8 +57,8 @@ func TestMain(m *testing.M) {
 	os.Exit(exitVal)
 }
 
-// This function configures the settings before running the tests. It returns an integer denoting an exit code
-// to be used in TestMain so that if the exit code is 0 it denotes success while all other codes denote failure.
+// It configures the settings before running the tests. It returns an integer denoting an exit code
+// to be used in TestMain. In case if the exit code is 0 it denotes success while all other codes denote failure.
 func testMain(m *testing.M) int {
 	var dbUsername string
 	var dbPassword string
