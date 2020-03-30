@@ -7,7 +7,7 @@ exports.GetDiscountPct = async function(xUserId) {
     var currDate = Utils.GetCurrentDate();    
     var discountPct = 0;
 
-    // First, check if exists other special date that is different from user's birthday.
+    // First, check if exists other discounted date that is different from user's birthday.
     await DiscountedDate.findOne({
             "date.year": currDate.year,
             "date.month": currDate.month,
@@ -25,7 +25,7 @@ exports.GetDiscountPct = async function(xUserId) {
             throw err;
         });
 
-    // Second, analyze if there is any discount for user's birthday.
+    // Second, analyze if there is any discount related to the user's birth.
     if (xUserId !== "") {
         var dateOfBirth = null;
 
@@ -47,8 +47,8 @@ exports.GetDiscountPct = async function(xUserId) {
             delete currDate.year;
             delete dateOfBirth.year;
 
-            // If the dates are equivalent, it means that today is the user's birth.
-            // Therefore, seach for the discount date configured for that.
+            // If the dates are equivalent, it means that today is the user's birthday.
+            // Therefore, seach for the discount configured for the related discounted date.
             if (Utils.IsEquivalent(currDate, dateOfBirth)) {
                 await DiscountedDate.findOne({
                         "date.year": 0,
