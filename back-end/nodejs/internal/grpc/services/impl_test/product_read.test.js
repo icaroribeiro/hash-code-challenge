@@ -117,7 +117,7 @@ describe("TestGetAllProducts", () => {
                     products.push(elem);
                 });
 
-                console.log("Updated promotion:", JSON.stringify({
+                console.log("Update promotion:", JSON.stringify({
                     id: doc._id,
                     code: doc.code,
                     title: doc.title,
@@ -653,7 +653,7 @@ describe("TestGetProduct", () => {
                     products.push(elem);
                 });
 
-                console.log("Updated promotion:", JSON.stringify({
+                console.log("Update promotion:", JSON.stringify({
                     id: doc._id,
                     code: doc.code,
                     title: doc.title,
