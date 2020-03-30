@@ -1,4 +1,4 @@
 #
-# Don't track content of these files/folders.
+# Don't track the content of these files/folders.
 #
 back-end/nodejs/node_modules

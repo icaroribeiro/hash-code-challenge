@@ -40,7 +40,7 @@ func init() {
 	}
 }
 
-// It serves basically as a wrapper around testMain function allowing to defer functions.
+// It serves as a wrapper around testMain function that allows to defer other functions.
 // At the end, it finally passes the returned exit code to os.Exit().
 func TestMain(m *testing.M) {
 	var exitVal int
