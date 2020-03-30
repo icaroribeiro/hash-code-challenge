@@ -3,19 +3,19 @@ const Promotion = require('../../models/promotion.js');
 var DiscountedDates = require('./discounted-dates/index.js');
 
 exports.EvaluatePromotions = async function(data, xUserId = "") {
-    // A map which holds key-value pairs of the product's id and its related discount percentage
+    // A map which holds key-value pairs composed by the product's id and its related discount percentage
     // according to the settings of the promotions in which each product is included.
     var productsMap = new Map();
 
     await ExamineDiscountedDates(productsMap, xUserId);
 
-    // In case data contains a single product.
+    // In case it is analyzed a single product.
     if (data.products === undefined) {
         if (productsMap.has(`${data.id}`)) {
             IncludeDiscountField(data, productsMap.get(`${data.id}`));
         }
     } else {
-        // In case data contains a list of one or more products.
+        // In case it is analyzed a list of one or more products.
         data.products.forEach((product) => {
             if (productsMap.has(`${product.id}`)) {
                 IncludeDiscountField(product, productsMap.get(`${product.id}`));
