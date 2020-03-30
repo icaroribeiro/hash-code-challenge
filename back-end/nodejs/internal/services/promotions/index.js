@@ -12,13 +12,13 @@ exports.EvaluatePromotions = async function(data, xUserId = "") {
     // In case it is analyzed a single product.
     if (data.products === undefined) {
         if (productsMap.has(`${data.id}`)) {
-            IncludeDiscountField(data, productsMap.get(`${data.id}`));
+            AddDiscountFieldToProduct(data, productsMap.get(`${data.id}`));
         }
     } else {
         // In case it is analyzed a list of one or more products.
         data.products.forEach((product) => {
             if (productsMap.has(`${product.id}`)) {
-                IncludeDiscountField(product, productsMap.get(`${product.id}`));
+                AddDiscountFieldToProduct(product, productsMap.get(`${product.id}`));
             }
         });
     }
@@ -84,7 +84,7 @@ function OrganizeProductDiscounts(productsMap, data, discountPct) {
     }
 }
 
-function IncludeDiscountField(product, discountPct) {
+function AddDiscountFieldToProduct(product, discountPct) {
     var priceInCents = 0
     var valueInCents = 0;
 
