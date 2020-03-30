@@ -6,9 +6,9 @@ var ProductDBService = {};
 
 var fileMap = require('require-all')({
     dirname : __dirname + "/../../../mongodb/",
-    filter  : function (fileName) {
-        if (fileName.includes('product')) {
-            return fileName;
+    filter  : function (filename) {
+        if (filename.includes('product')) {
+            return filename;
         }
     }
 });
