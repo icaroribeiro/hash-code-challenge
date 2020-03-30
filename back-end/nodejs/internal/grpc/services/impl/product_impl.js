@@ -2,12 +2,12 @@ var ProductService = {};
 
 var fileMap = require('require-all')({
     dirname : __dirname,
-    filter  : function (fileName) {
-        if (fileName.includes('product')) {
-            if (fileName.includes('impl')) {
+    filter  : function (filename) {
+        if (filename.includes('product')) {
+            if (filename.includes('impl')) {
                 return;
             }
-            return fileName;
+            return filename;
         }
     }
 });
