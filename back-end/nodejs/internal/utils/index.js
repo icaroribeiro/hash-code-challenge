@@ -1,3 +1,4 @@
+// It obtain the current date.
 exports.GetCurrentDate = function () {
     var date = new Date();
     var year = date.getFullYear();
@@ -12,6 +13,7 @@ exports.GetCurrentDate = function () {
     return currDate;
 }
 
+// It checks the equivalence of two objects. 
 exports.IsEquivalent = function (a, b) {
     // Create arrays of property names.
     var aProps = Object.getOwnPropertyNames(a);
