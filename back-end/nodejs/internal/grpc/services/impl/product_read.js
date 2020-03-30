@@ -1,8 +1,8 @@
-var Promotion = require('../../../services/promotions/index.js');
+var ProductDBService = {};
 
 var mongoose = require('mongoose');
 
-var ProductDBService = {};
+var Promotion = require('../../../services/promotions/index.js');
 
 var fileMap = require('require-all')({
     dirname : __dirname + "/../../../mongodb/",
