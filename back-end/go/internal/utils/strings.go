@@ -5,11 +5,11 @@ import (
 )
 
 // It removes escape sequences from a string.
-func RemoveEscapeSequences(s string, sequences ...string) string {
-	var i int
+func RemoveEscapeSequencesFromString(s string, sequences ...string) string {
+	var sequence string
 
-	for i = range sequences {
-		s = strings.Replace(s, sequences[i], "", -1)
+	for _, sequence = range sequences {
+		s = strings.Replace(s, sequence, "", -1)
 	}
 
 	return s
