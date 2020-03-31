@@ -57,8 +57,8 @@ func (d *Datastore) UpdateDiscountedDate(id string, discountedDate models.Discou
 		bson.M{
 			"$set": bson.M{
 				"description":  discountedDate.Description,
-				"date":         discountedDate.Date,
 				"discount_pct": discountedDate.DiscountPct,
+				"date":         discountedDate.Date,
 			},
 		},
 	)
