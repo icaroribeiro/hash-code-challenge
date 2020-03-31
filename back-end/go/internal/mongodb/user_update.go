@@ -14,7 +14,7 @@ func (d *Datastore) UpdateUser(id string, user models.User) (int64, int64, error
 	var err error
 	var result *mongo.UpdateResult
 
-	// Parsing a string id to MongoDB ObjectID.
+	// It creates an ObjectID from a hex string.
 	objectID, err = primitive.ObjectIDFromHex(id)
 
 	if err != nil {

@@ -53,7 +53,7 @@ func (d *Datastore) GetPromotion(id string) (models.Promotion, error) {
 	var promotion models.Promotion
 	var result *mongo.SingleResult
 
-	// Parsing a string id to MongoDB ObjectID.
+	// It creates an ObjectID from a hex string.
 	objectID, err = primitive.ObjectIDFromHex(id)
 
 	if err != nil {

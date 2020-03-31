@@ -16,7 +16,7 @@ func (d *Datastore) UpdateDiscountedDate(id string, discountedDate models.Discou
 	var discountedDateAux models.DiscountedDate	
 	var updateResult *mongo.UpdateResult
 
-	// Parsing a string id to MongoDB ObjectID.
+	// It creates an ObjectID from a hex string.
 	objectID, err = primitive.ObjectIDFromHex(id)
 
 	if err != nil {

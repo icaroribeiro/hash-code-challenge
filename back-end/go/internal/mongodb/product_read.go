@@ -53,7 +53,7 @@ func (d *Datastore) GetProduct(id string) (models.Product, error) {
 	var product models.Product
 	var result *mongo.SingleResult
 
-	// Parsing a string id to MongoDB ObjectID.
+	// It creates an ObjectID from a hex string.
 	objectID, err = primitive.ObjectIDFromHex(id)
 
 	if err != nil {

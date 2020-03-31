@@ -16,7 +16,7 @@ func (d *Datastore) UpdatePromotion(id string, promotion models.Promotion) (int6
 	var promotionAux models.Promotion
 	var updateResult *mongo.UpdateResult
 
-	// Parsing a string id to MongoDB ObjectID.
+	// It creates an ObjectID from a hex string.
 	objectID, err = primitive.ObjectIDFromHex(id)
 
 	if err != nil {

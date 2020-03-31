@@ -14,7 +14,7 @@ func (d *Datastore) UpdateProduct(id string, product models.Product) (int64, int
 	var err error
 	var result *mongo.UpdateResult
 
-	// Parsing a string id to MongoDB ObjectID.
+	// It creates an ObjectID from a hex string.
 	objectID, err = primitive.ObjectIDFromHex(id)
 
 	if err != nil {

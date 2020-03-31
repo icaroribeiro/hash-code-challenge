@@ -53,7 +53,7 @@ func (d *Datastore) GetDiscountedDate(id string) (models.DiscountedDate, error) 
 	var discountedDate models.DiscountedDate
 	var result *mongo.SingleResult
 
-	// Parsing a string id to MongoDB ObjectID.
+	// It creates an ObjectID from a hex string.
 	objectID, err = primitive.ObjectIDFromHex(id)
 
 	if err != nil {
