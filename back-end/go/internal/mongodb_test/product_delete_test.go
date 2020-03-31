@@ -49,6 +49,11 @@ func TestDeleteProduct(t *testing.T) {
 		t.Fatalf("Failed to delete the product with the id %s: %s", product.ID.Hex(), err.Error())
 	}
 
+	if nDeletedDocs == 0 {
+		t.Errorf("Test failed, the product with the id %s wasn't found", product.ID.Hex())
+		return
+	}
+
 	if nDeletedDocs != 1 {
 		t.Errorf("Test failed, the expected number of products deleted: %d, got: %d", 1, nDeletedDocs)
 		return

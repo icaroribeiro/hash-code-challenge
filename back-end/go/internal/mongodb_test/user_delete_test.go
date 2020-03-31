@@ -61,6 +61,11 @@ func TestDeleteUser(t *testing.T) {
 		t.Fatalf("Failed to delete the user with the id %s: %s", user.ID.Hex(), err.Error())
 	}
 
+	if nDeletedDocs == 0 {
+		t.Errorf("Test failed, the user with the id %s wasn't found", user.ID.Hex())
+		return
+	}
+
 	if nDeletedDocs != 1 {
 		t.Errorf("Test failed, the expected number of users deleted: %d, got: %d", 1, nDeletedDocs)
 		return

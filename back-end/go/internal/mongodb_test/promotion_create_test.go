@@ -13,9 +13,9 @@ func TestCreatePromotion(t *testing.T) {
 	var product models.Product
 	var body string
 	var err error
+	var bodyBytes []byte
 	var promotion models.Promotion
 	var promotionAux models.Promotion
-	var bodyBytes []byte
 	var bodyBytesAux []byte
 
 	product = models.Product{

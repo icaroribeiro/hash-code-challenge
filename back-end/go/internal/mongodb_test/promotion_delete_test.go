@@ -12,8 +12,8 @@ func TestDeletePromotion(t *testing.T) {
 	var product models.Product
 	var body string
 	var err error
-	var promotion models.Promotion
 	var bodyBytes []byte
+	var promotion models.Promotion
 	var nDeletedDocs int64
 
 	product = models.Product{
@@ -80,6 +80,11 @@ func TestDeletePromotion(t *testing.T) {
 
 	if err != nil {
 		t.Fatalf("Failed to delete the promotion with the id %s: %s", promotion.ID.Hex(), err.Error())
+	}
+
+	if nDeletedDocs == 0 {
+		t.Errorf("Test failed, the promotion with the id %s wasn't found", promotion.ID.Hex())
+		return
 	}
 
 	if nDeletedDocs != 1 {

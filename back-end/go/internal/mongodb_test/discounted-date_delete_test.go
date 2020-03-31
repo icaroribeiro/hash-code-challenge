@@ -64,6 +64,11 @@ func TestDeleteDiscountedDate(t *testing.T) {
 		t.Fatalf("Failed to delete the discounted date with the id %s: %s", discountedDate.ID.Hex(), err.Error())
 	}
 
+	if nDeletedDocs == 0 {
+		t.Errorf("Test failed, the discounted date with the id %s wasn't found", discountedDate.ID.Hex())
+		return
+	}
+
 	if nDeletedDocs != 1 {
 		t.Errorf("Test failed, the expected number of discounted dates deleted: %d, got: %d", 1, nDeletedDocs)
 		return
