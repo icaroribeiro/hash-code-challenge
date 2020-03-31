@@ -128,6 +128,7 @@ func TestUpdatePromotion(t *testing.T) {
 		t.Fatalf("Failed to obtain the JSON encoding of the promotion %+v: %s", promotionEntity, err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !proto.Equal(&promotionEntity, response) {
 		bodyBytesAux, err = json.Marshal(response)
 

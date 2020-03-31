@@ -107,6 +107,7 @@ func TestGetAllDiscountedDates(t *testing.T) {
 	isFound = false
 
 	for _, discountedDateEntityAux = range response.DiscountedDates {
+		// Evaluate the equality of the simulated data with those returned from the associated functionality.
 		if proto.Equal(&discountedDateEntity, discountedDateEntityAux) {
 			isFound = true
 			break
@@ -211,6 +212,7 @@ func TestGetDiscountedDate(t *testing.T) {
 		t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDateEntity, err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !proto.Equal(&discountedDateEntity, response) {
 		bodyBytesAux, err = json.Marshal(response)
 

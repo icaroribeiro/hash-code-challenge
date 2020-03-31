@@ -94,6 +94,7 @@ func TestDeleteUser(t *testing.T) {
 		t.Fatalf("Failed to obtain the JSON encoding of the user %+v: %s", userEntity, err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !proto.Equal(&userEntity, response) {
 		bodyBytesAux, err = json.Marshal(response)
 

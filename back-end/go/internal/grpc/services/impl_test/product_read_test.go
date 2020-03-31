@@ -80,6 +80,7 @@ func TestGetAllProducts(t *testing.T) {
 	isFound = false
 
 	for _, productEntityAux = range response.Products {
+		// Evaluate the equality of the simulated data with those returned from the associated functionality.
 		if proto.Equal(&productEntity, productEntityAux) {
 			isFound = true
 			break
@@ -159,6 +160,7 @@ func TestGetProduct(t *testing.T) {
 		t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", productEntity, err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !proto.Equal(&productEntity, response) {
 		bodyBytesAux, err = json.Marshal(response)
 
