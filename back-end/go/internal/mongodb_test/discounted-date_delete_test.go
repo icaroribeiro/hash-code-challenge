@@ -47,7 +47,7 @@ func TestDeleteDiscountedDate(t *testing.T) {
 	discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
 
 	if err != nil {
-		t.Fatalf("Failed to register a new discounted date with %s: %s", body, err.Error())
+		t.Fatalf("Failed to create a new discounted date with %s: %s", body, err.Error())
 	}
 
 	bodyBytes, err = json.Marshal(discountedDate)
