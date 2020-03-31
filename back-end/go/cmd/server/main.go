@@ -100,7 +100,7 @@ func main() {
 	}
 
 	// Initialize the database.
-	datastore, err = mongodb.InitializeDB(dbConfig)
+	datastore, err = mongodb.InitializeDatabase(dbConfig)
 
 	if err != nil {
 		log.Fatal("Failed to configure the database: ", err.Error())

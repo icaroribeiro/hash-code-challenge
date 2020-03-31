@@ -24,7 +24,7 @@ type Datastore struct {
 	Context context.Context
 }
 
-func InitializeDB(dbConfig DBConfig) (Datastore, error) {
+func InitializeDatabase(dbConfig DBConfig) (Datastore, error) {
 	var authCredential options.Credential
 	var connString string
 	var err error
