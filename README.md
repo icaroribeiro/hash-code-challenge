@@ -38,9 +38,9 @@ The **microservice 1** is responsible for the evaluation of discounts applied to
 
 **nodejs/cmd/server**: it contains the configuration and implementation of the gRPC server.
 
-**nodejs/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of gRPC requests, as well as the elaboration of responses.
+**nodejs/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of gRPC requests, as well as the elaboration of its responses.
 
-**nodejs/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **JavaScript** testing framework called **jest**.
+**nodejs/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **JavaScript** testing framework named **jest**.
 
 **nodejs/internal/models**: it contains the definition of the data entities used by both the API and the database.
 
@@ -54,7 +54,7 @@ The **microservice 1** is responsible for the evaluation of discounts applied to
 
 **nodejs/internal/services/promotion/discounted-date**: it contains the implementation of the examination of discounted dates.
 
-**nodejs/internal/tests**: it contains the configuration of the test cases using the **JavaScript** testing framework called **jest**.
+**nodejs/internal/tests**: it contains the configuration of the test cases using the **JavaScript** testing framework named **jest**.
 
 **nodejs/internal/utils**: it contains supporting functions, such as, to generate and format dates, as well as to evaluate the equivalence of JSON objects used in the tests.
 
@@ -81,19 +81,19 @@ GRPC_SERVER_PORT=50051
 
 The **microservice 2** is responsible for the management of users, products, promotions and discounted dates.
 
-**go/cmd/server**: it contains the configuration and implementation of the gRPC server, as well as the exposure of a HTTP server to accept HTTP requests to API *endpoints* and send them to the corresponding server services.
+**go/cmd/server**: it contains the configuration and implementation of the gRPC server, as well as the exposure of a HTTP server to accept API requests and send them to the corresponding server services.
 
 **go/internal/grpc/entities**: it contains the outputs related to **protocol buffers** entities resulting from the execution of **proto-gen.sh** script.
 
 **go/internal/grpc/services**: it contains the outputs related to **protocol buffers** services resulting from the execution of **proto-gen.sh** script.
 
-**go/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of HTTP requests to the API *endpoints*, as well as the elaboration of responses.
+**go/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of API requests, as well as the elaboration of its responses.
 
 **go/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **Go** language test package.
 
-**go/internal/grpc/services/server**: it contains an abstraction of the server that allows to "attach" some resources to make them available during requests to the API calls. Here, it's used to store a structure that holds attributes to manage the database and the access addresses to operate with the **microservice 1** via gRPC.
+**go/internal/grpc/services/server**: it contains an abstraction of the server that allows to "attach" some resources to make them available during the API requests. Here, it's used to store a structure that holds attributes to manage the database and the access addresses to operate with the **microservice 1** via gRPC.
 
-**go/internal/middleware**: it contains intermediate validations of parameters transmitted via requests to API *endpoints*.
+**go/internal/middlewares**: it contains intermediate validations of parameters transmitted via API requests.
 
 **go/internal/models**: it contains the definition of the data entities used by both the API and the database.
 
