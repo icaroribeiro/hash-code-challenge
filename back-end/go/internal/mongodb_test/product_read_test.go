@@ -55,6 +55,7 @@ func TestGetAllProducts(t *testing.T) {
 	isFound = false
 
 	for _, productAux = range products {
+		// Evaluate the equality of the simulated data with those returned from the associated functionality.
 		if cmp.Equal(product, productAux) {
 			isFound = true
 			break
@@ -111,6 +112,7 @@ func TestGetProduct(t *testing.T) {
 		t.Fatalf("Failed to get the product with the id %s: %s", product.ID.Hex(), err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !(cmp.Equal(product, productAux)) {
 		bodyBytesAux, err = json.Marshal(productAux)
 

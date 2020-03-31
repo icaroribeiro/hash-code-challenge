@@ -82,6 +82,7 @@ func TestGetAllPromotions(t *testing.T) {
 	isFound = false
 
 	for _, promotionAux = range promotions {
+		// Evaluate the equality of the simulated data with those returned from the associated functionality.
 		if cmp.Equal(promotion, promotionAux) {
 			isFound = true
 			break
@@ -165,6 +166,7 @@ func TestGetPromotion(t *testing.T) {
 		t.Fatalf("Failed to get the promotion with the id %s: %s", promotion.ID.Hex(), err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !(cmp.Equal(promotion, promotionAux)) {
 		bodyBytesAux, err = json.Marshal(promotionAux)
 

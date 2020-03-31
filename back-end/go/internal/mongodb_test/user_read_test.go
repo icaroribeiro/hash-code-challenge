@@ -67,6 +67,7 @@ func TestGetAllUsers(t *testing.T) {
 	isFound = false
 
 	for _, userAux = range users {
+		// Evaluate the equality of the simulated data with those returned from the associated functionality.
 		if cmp.Equal(user, userAux) {
 			isFound = true
 			break
@@ -134,6 +135,7 @@ func TestGetUser(t *testing.T) {
 		t.Fatalf("Failed to get the user with the id %s: %s", user.ID.Hex(), err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !(cmp.Equal(user, userAux)) {
 		bodyBytesAux, err = json.Marshal(userAux)
 

@@ -62,6 +62,7 @@ func TestCreateDiscountedDate(t *testing.T) {
 		t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDate, err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !cmp.Equal(discountedDate, discountedDateAux) {
 		bodyBytesAux, err = json.Marshal(discountedDateAux)
 

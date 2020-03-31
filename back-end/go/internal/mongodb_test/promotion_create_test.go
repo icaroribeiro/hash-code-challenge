@@ -74,6 +74,7 @@ func TestCreatePromotion(t *testing.T) {
 		t.Fatalf("Failed to obtain the JSON encoding of the promotion %+v: %s", promotion, err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !cmp.Equal(promotion, promotionAux) {
 		bodyBytesAux, err = json.Marshal(promotionAux)
 

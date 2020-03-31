@@ -6,21 +6,21 @@ The purpose of this file is to present information about the work developed to s
 
 *Website*: https://github.com/hashlab/hiring/blob/master/challenges/en-us/backend-challenge.md
 
-To briefly summarise, the project consists in the implementation of an **extended** solution for the management of users, products, promotions and discounted dates, in addition to the evaluation of discounts applied to products based on users and discounted dates settings.
+To briefly summarise, the project consists in the implementation of a solution for the management of users, products, promotions and discounted dates, in addition to the evaluation of discounts applied to products based on users and discounted dates settings.
 
-The solution refers to the development of two **back-end** applications using the programming languages **NodeJS** for the development of the **microservice 1** and **Go** for the development of the **microservice 2** which communicate via **RPC** (*Remote Procedure Call*), in addition to a shared **Mongo** database.
+The solution refers to the development of two back-end applications using the programming languages **NodeJS** for the development of the **microservice 1** and **Go** for the development of the **microservice 2** which communicate together via **RPC** (*Remote Procedure Call*), in addition to a shared **Mongo** database.
 
 The **microservice 1** is responsible for evaluating discounts applied to products, while the **microservice 2** is responsible for managing users, products, promotions and discounted dates.
 
-In addition to meeting the original requirements of the technical challenge, as indicated previously the further features of the **microservice 2** were developed in order to **facilitate** the handling of the project and, thus, the evaluation of discounts when obtaining one or more products.
+In addition to meeting the original requirements of the technical challenge, as indicated above the additional functionalities of the **microservice 2** were developed as an **extended approach** in order to **facilitate** the handling of the project and, thus, the evaluation of discounts when obtaining one or more products.
 
-Throughout this documentation, different aspects of the project will be highlighted, such as, the setting of environment variables of **Mongo** database and the procedures adopted to execute the project by means of **Docker** containers.
+Throughout this documentation, a few aspects of the project will be highlighted, such as, the configuration of environment variables of **Mongo** database and the procedures adopted to run the project with **Docker** containers.
 
 Finally, the last section named **Project Dynamics** illustrates a brief report of how the solution works in practice.
 
 ## 2 - API Documentation
 
-The documentation of the API implemented in **Go** programming language that refers to the **microservice 2** is developed following the specification of the **OpenAPI 3.0**.
+The documentation of the API implemented in **Go** programming language that refers to the **microservice 2** was developed following the specification of the **OpenAPI 3.0**.
 
 Inside the directory **api-docs** there is a script file named **swagger-json-to-html.py**. When running the script using the **openapi-ms-2.json** file, it is generated a HTML page named **index.html** within the current directory that illustrates details about the API.
 
@@ -50,9 +50,9 @@ The **microservice 1** is responsible for the evaluation of discounts applied to
 
 **nodejs/internal/proto/services**: it contains the specification of the **protocol buffers** services.
 
-**nodejs/internal/services/promotion**: it contains the implementation of the logic of evaluating promotions.
+**nodejs/internal/services/promotion**: it contains the implementation of the evaluation of promotions.
 
-**nodejs/internal/services/promotion/discounted-date**: it contains the implementation of the logic of evaluating discounted dates.
+**nodejs/internal/services/promotion/discounted-date**: it contains the implementation of the examination of discounted dates.
 
 **nodejs/internal/tests**: it contains the configuration of the test cases using the **JavaScript** testing framework called **jest**.
 
@@ -60,7 +60,7 @@ The **microservice 1** is responsible for the evaluation of discounts applied to
 
 **nodejs/.env**: it contains the variables for the configuration of the **development** environment.
 
-**nodejs/internal/tests/.env**: it contains variables related to some variables of the **nodejs/.env** file, but aimed at configuring the **test** environment.
+**nodejs/internal/tests/.env**: it contains variables for the configuration of the **test** environment.
 
 The **nodejs/.env** file contains the environment variables referring to the connection to **Mongo** database, as well as the exposure of the access address for gRPC communication, indicated below:
 
@@ -69,7 +69,7 @@ DB_USERNAME=user
 DB_PASSWORD=password
 DB_HOST=db
 DB_PORT=27017
-DB_NAME=mydb
+DB_NAME=db
 ```
 
 ```
@@ -113,7 +113,7 @@ The **microservice 2** is responsible for the management of users, products, pro
 
 **go/.env**: it contains the variables for the configuration of the **development** environment.
 
-**go/.test.env**: it contains variables related to some variables of the **go/.env** file, but aimed at configuring the **test** environment.
+**go/.test.env**: it contains the variables for the configuration of the **test** environment.
 
 The **go/.env** file contains the environment variables referring to the connection to **Mongo** database, as well as the exposure of the access address for gRPC and HTTP communication, as indicated below:
 
@@ -122,7 +122,7 @@ DB_USERNAME=user
 DB_PASSWORD=password
 DB_HOST=db
 DB_PORT=27017
-DB_NAME=mydb
+DB_NAME=db
 ```
 
 ```
@@ -144,11 +144,11 @@ GRPC_SERVER_PORT_MS_1=50051
 
 In order to not compromise the integrity of the database used by the project in terms of data from the execution of the test cases, two Mongo databases will be used.
 
-In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" execution is the **development** database and the one used for the storage of data of the test cases is the **test** database named **mydb** and **mytestdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **TEST_DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
+In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" execution is the **development** database and the one used for the storage of data of the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **TEST_DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
 
 Finally, it is necessary to pay special attention to the database environment variables defined in the four previous files.
 
-**Nevertheless, if the solution is intended to be run with Docker containers and the environment variables are used as they are already configured in all the .env files, I believe that it is not necessary any other previous changes before executing the project**.
+**Nevertheless, if the solution is intended to be run with Docker containers and the environment variables are used as they are already configured in all the .env files, I believe that it will not be necessary any other previous changes before executing the project**.
 
 ### 3.2 - Mongo
 
@@ -156,11 +156,11 @@ The **mongodb/scripts/1-create_collections.js** file contains instructions for c
 
 #### 3.2.1 - Collections
 
-**User**
+**Users**
 
-Each document in the **users** collection contains the data of a user.
+In the **users** collection each document contains the data of a user.
 
-This way, the **_id** field refers to the user's unique identifier and the **first_name**, **last_name** and **date_of_birth** (**year**, **month** and **day**) fields refer to the first name, last name and date of user's birth (year, month and day), respectively.
+This way, the **_id** field refers to the unique identifier of the user and the **first_name**, **last_name** and **date_of_birth** (**year**, **month** and **day**) fields refer to the first name, last name and date of user's birth (year, month and day), respectively.
 
 | Fields        | Data type |
 |:--------------|:----------|
@@ -183,9 +183,9 @@ The date_of_birth field is configured as follows:
 
 **Products**
 
-Each document in the **products** collection contains data of a product.
+In the **products** collection each document contains data of a product.
 
-This way, the **_id** field refers to the product's unique identifier and the **price_in_cents**, **title** and **description** fields refer to the price in cents, title and description, respectively.
+This way, the **_id** field refers to the unique identifier of the product and the **price_in_cents**, **title** and **description** fields refer to the price in cents, title and description, respectively.
 
 | Fields         | Data type |
 |:---------------|:----------|
@@ -201,11 +201,11 @@ In addition to the previous fields, there is another field named **discount** th
 | pct            | Float     |
 | value_in_cents | Integer   |
 
-**Promotion**
+**Promotions**
 
-Each document in the **promotions** collection contains the data of a promotion.
+In the **promotions** collection each document contains the data of a promotion.
 
-This way, the **_id** field refers to the promotion's unique identifier and the **code**, **title**, **description**, **max_discount_pct** and **products** fields refer to the code, title, description, maximum discount percentage and the list of all products' ids assigned to the related promotion, respectively.
+This way, the **_id** field refers to the unique identifier of the promotion and the **code**, **title**, **description**, **max_discount_pct** and **products** fields refer to the code, title, description, maximum discount percentage and a list of ids of all its products, respectively.
 
 | Fields           | Data type |
 |:-----------------|:----------|
@@ -214,9 +214,9 @@ This way, the **_id** field refers to the promotion's unique identifier and the 
 | title            | String    |
 | description      | String    |
 | max_discount_pct | Float     |
-| products         | Arrays    |
+| products         | Array     |
 
-The list of all products' ids is configured as follows:
+The list of all ids of its products is configured as follows:
 
 ```
 *JSON format*
@@ -226,11 +226,11 @@ The list of all products' ids is configured as follows:
     ]
 ```
 
-**Discounted Date**
+**Discounted Dates**
 
-Each document of the **discountedDates** collection contains the data of a discounted date.
+In the **discountedDates** collection each document contains the data of a discounted date.
 
-This way, the **_id** field refers to the discounted date's unique identifier and **title**, **description**, **discount_pct** and **date** (**year**, **month** and **day**) fields refer to the title, description, percentage of discount, and date in which the discount will be applicable to one or more products, respectively.
+This way, the **_id** field refers to the unique identifier of the discounted date and **title**, **description**, **discount_pct** and **date** (**year**, **month** and **day**) fields refer to the title, description, percentage of discount, and date in which the discount will be applicable to one or more products, respectively.
 
 | Fields       | Data type |
 |:-------------|:----------|
@@ -252,7 +252,7 @@ The date field is configured as follows:
 
 #### 3.2.2 - Configurations of Docker database containers
 
-To execute the solution through **Docker** containers, it is necessary to relate the environment variables of the **mongodb/.env** and **mongodb/.test.env** files with the corresponding environment variables directed to the developemnt and test databases defined in both **back-end** applications settings.
+To execute the solution through **Docker** containers, it is necessary to relate the environment variables of the **mongodb/.env** and **mongodb/.test.env** files with the corresponding environment variables directed to the development and test databases defined in both **back-end** applications settings.
 
 To do so, the environment variables of the **mongodb/.env** and **mongodb/.test.env** files must be associated with the environment variables of the **nodejs/.env** and **go/.env**; and **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
 
@@ -290,7 +290,7 @@ The **mongodb/.env** file contains the following database environment variables:
 ```
 MONGO_INITDB_ROOT_USERNAME=user
 MONGO_INITDB_ROOT_PASSWORD=password
-MONGO_INITDB_DATABASE=mydb
+MONGO_INITDB_DATABASE=db
 ```
 
 The **nodejs/.env** file contains the following database environment variables:
@@ -300,7 +300,7 @@ DB_USERNAME=user
 DB_PASSWORD=password
 DB_HOST=db
 DB_PORT=27017
-DB_NAME=mydb
+DB_NAME=db
 ```
 
 The **go/.env** file contains the following database environment variables:
@@ -310,7 +310,7 @@ DB_USERNAME=user
 DB_PASSWORD=password
 DB_HOST=db
 DB_PORT=27017
-DB_NAME=mydb
+DB_NAME=db
 ```
 
 **Test database**
@@ -320,7 +320,7 @@ The **mongodb/.test.env** file contains the following database environment varia
 ```
 MONGO_INITDB_ROOT_USERNAME=user
 MONGO_INITDB_ROOT_PASSWORD=password
-MONGO_INITDB_DATABASE=mytestdb
+MONGO_INITDB_DATABASE=testdb
 ```
 
 The **nodejs/internal/tests/.env** file contains the following database environment variables:
@@ -330,7 +330,7 @@ TEST_DB_USERNAME=user
 TEST_DB_PASSWORD=password
 TEST_DB_HOST=testdb
 TEST_DB_PORT=27017
-TEST_DB_NAME=mytestdb
+TEST_DB_NAME=testdb
 ```
 
 The **go/.test.env** file contains the following database environment variables:
@@ -340,14 +340,12 @@ TEST_DB_USERNAME=user
 TEST_DB_PASSWORD=password
 TEST_DB_HOST=testdb
 TEST_DB_PORT=27017
-TEST_DB_NAME=mytestdb
+TEST_DB_NAME=testdb
 ```
 
 **Important note**
 
-After the project has been successfully executed, it is possible to check the records of the development and test databases resulting from the operations carried out.
-
-To do this, we must **always** inform the username and password that were previously defined by the database environment variables prior to accessing information, as indicated by the commands below:
+After the project has been successfully executed, it is possible to check the data of the development and test databases resulting from the operations carried out.
 
 ```
 $ docker exec -it <Docker container's id of the corresponding database> /bin/bash
@@ -357,32 +355,34 @@ $ docker exec -it <Docker container's id of the corresponding database> /bin/bas
 $ mongo
 ```
 
+To do this, we must **always** inform the username and password that were previously defined by the database environment variables prior to accessing information, as indicated by the commands below:
+
 ```
 $ use admin
 ```
 
-Then, we enter the username and password defined for the corresponding database service:
-
-db.auth(username, password)
-
 ```
-$ db.auth("user", "password")
+$ db.auth(<Username>, <Password>)
 ```
 
 ```
 $ show dbs;
 ```
 
-If the Docker container's **id** previously informed corresponds to the service named **db**, the data is initially accessed from the development database by the command:
-
 ```
-$ use mydb;
+$ use <Database name>;
 ```
 
-On the other hand, If the Docker container's **id** previously informed corresponds to the service named **testdb**, the data is initially accessed from the test database by the command:
+In case the envinronment variables are kept as they were delivered, if the **id** of the Docker container corresponds to the service named **db**, the data is initially accessed from the development database by the command:
 
 ```
-$ use mytestdb;
+$ use db;
+```
+
+On the other hand, if the **id** of the Docker container corresponds to the service named **testdb**, the data is initially accessed from the test database by the command:
+
+```
+$ use testdb;
 ```
 
 ## 4 - How to execute the project?
@@ -419,9 +419,7 @@ If there are no errors, the API *endpoints* will be accessed using the address c
 http://{host}:8082
 ```
 
-In continuity, suppose the *host* is: 192.168.99.100.
-
-As a result, the API *endpoints* will be accessed through a front-end client or test tool like Postman using the address as follows:
+In continuity, suppose the *host* is: 192.168.99.100. As a result, the API requests can be performed through a front-end client or test tool like Postman using the address as follows:
 
 ```
 http://192.168.99.100:8082
@@ -433,7 +431,7 @@ In addition, it is also worth emphasizing that the entire configuration related 
 
 The API *endpoints* related to the **microservice 2** are accessed via HTTP communication on port **8082**, and the responses to requests can be viewed through a **front-end** client or test tool, for example **Postman**.
 
-In what follows, there is a guide that includes API requests for creating, obtaining, editing and deleting information from the database.
+In what follows, there is a guide that includes API requests for creating, obtaining, editing and deleting data from the database.
 
 (P.S., before checking the incoming examples, consider that no data is recorded prior to this explanation).
 
@@ -1418,7 +1416,7 @@ In order to test the solution a few **test sets** were developed.
 
 These tests are related to the implementation of services in order to obtain one or more products with the possibility of discounts.
 
-To do so, navigate to the **back-end/nodejs/internal/grpc/services/impl_test** directory.
+To execute them, navigate to the **back-end/nodejs/internal/grpc/services/impl_test** directory.
 
 So, if you prefer to evaluate all tests at once, run the command:
 
@@ -1466,114 +1464,11 @@ npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
 
 (P.S., these tests involve creating, editing and removing records from the test database).
 
-### 6.2.1 Services
-
-These tests are related to the implementation of services to create, obtain, edit and remove users, products, promotions and discounted dates.
-
-To do so, navigate to the **back-end/go/internal/grpc/services/impl_test** directory.
-
-So, if you prefer to evaluate all tests at once, run the following command:
-
-```
-$ go test -v
-```
-
-However, it is also possible to run each test separately using commands, as shown below:
-
-**Tests of the implementation of services directed to Users**
-
-```
-$ go test -v -run=TestCreateUser
-```
-
-```
-$ go test -v -run=TestGetAllUsers
-```
-
-```
-$ go test -v -run=TestGetUser
-```
-
-```
-$ go test -v -run=TestUpdateUser
-```
-
-```
-$ go test -v -run=TestDeleteUser
-```
-
-**Tests of the implementation of services directed to Products**
-
-```
-$ go test -v -run=TestCreateProduct
-```
-
-```
-$ go test -v -run=TestGetAllProducts
-```
-
-```
-$ go test -v -run=TestGetProduct
-```
-
-```
-$ go test -v -run=TestUpdateProduct
-```
-
-```
-$ go test -v -run=TestDeleteProduct
-```
-
-
-**Tests of the implementation of services directed to Promotions**
-
-```
-$ go test -v -run=TestCreatePromotion
-```
-
-```
-$ go test -v -run=TestGetAllPromotions
-```
-
-```
-$ go test -v -run=TestGetPromotion
-```
-
-```
-$ go test -v -run=TestUpdatePromotion
-```
-
-```
-$ go test -v -run=TestDeletePromotion
-```
-
-**Tests of the implementation of services directed to Discounted Dates**
-
-```
-$ go test -v -run=TestCreateDiscountedDate
-```
-
-```
-$ go test -v -run=TestGetAllDiscountedDates
-```
-
-```
-$ go test -v -run=TestGetDiscountedDate
-```
-
-```
-$ go test -v -run=TestUpdateDiscountedDate
-```
-
-```
-$ go test -v -run=TestDeleteDiscountedDate
-```
-
-### 6.2.2 Database
+### 6.2.1 Database
 
 The tests that were developed are related to **CRUD** operations (*create*, *read*, *update* and *delete*) in the test database.
 
-To do so, navigate to the **back-end/go/internal/mongodb_test** directory.
+To execute them, navigate to the **back-end/go/internal/mongodb_test** directory.
 
 So, if you prefer to evaluate all tests at once, run the command:
 
@@ -1650,6 +1545,109 @@ $ go test -v -run=TestDeletePromotion
 ```
 
 **Tests of the CRUD operations directed to Discounted Dates**
+
+```
+$ go test -v -run=TestCreateDiscountedDate
+```
+
+```
+$ go test -v -run=TestGetAllDiscountedDates
+```
+
+```
+$ go test -v -run=TestGetDiscountedDate
+```
+
+```
+$ go test -v -run=TestUpdateDiscountedDate
+```
+
+```
+$ go test -v -run=TestDeleteDiscountedDate
+```
+
+### 6.2.2 Services
+
+These tests are related to the implementation of services to create, obtain, edit and remove users, products, promotions and discounted dates.
+
+In this regard, navigate to the **back-end/go/internal/grpc/services/impl_test** directory.
+
+So, if you prefer to evaluate all tests at once, run the following command:
+
+```
+$ go test -v
+```
+
+Nevertheless, it is also possible to run each test separately using commands, as shown below:
+
+**Tests of the implementation of services directed to Users**
+
+```
+$ go test -v -run=TestCreateUser
+```
+
+```
+$ go test -v -run=TestGetAllUsers
+```
+
+```
+$ go test -v -run=TestGetUser
+```
+
+```
+$ go test -v -run=TestUpdateUser
+```
+
+```
+$ go test -v -run=TestDeleteUser
+```
+
+**Tests of the implementation of services directed to Products**
+
+```
+$ go test -v -run=TestCreateProduct
+```
+
+```
+$ go test -v -run=TestGetAllProducts
+```
+
+```
+$ go test -v -run=TestGetProduct
+```
+
+```
+$ go test -v -run=TestUpdateProduct
+```
+
+```
+$ go test -v -run=TestDeleteProduct
+```
+
+
+**Tests of the implementation of services directed to Promotions**
+
+```
+$ go test -v -run=TestCreatePromotion
+```
+
+```
+$ go test -v -run=TestGetAllPromotions
+```
+
+```
+$ go test -v -run=TestGetPromotion
+```
+
+```
+$ go test -v -run=TestUpdatePromotion
+```
+
+```
+$ go test -v -run=TestDeletePromotion
+```
+
+**Tests of the implementation of services directed to Discounted Dates**
 
 ```
 $ go test -v -run=TestCreateDiscountedDate

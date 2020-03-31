@@ -47,6 +47,7 @@ func TestCreateProduct(t *testing.T) {
 		t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !cmp.Equal(product, productAux) {
 		bodyBytesAux, err = json.Marshal(productAux)
 

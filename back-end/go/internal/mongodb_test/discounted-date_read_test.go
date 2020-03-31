@@ -70,6 +70,7 @@ func TestGetAllDiscountedDates(t *testing.T) {
 	isFound = false
 
 	for _, discountedDateAux = range discountedDates {
+		// Evaluate the equality of the simulated data with those returned from the associated functionality.
 		if cmp.Equal(discountedDate, discountedDateAux) {
 			isFound = true
 			break
@@ -140,6 +141,7 @@ func TestGetDiscountedDate(t *testing.T) {
 		t.Fatalf("Failed to get the discounted date with the id %s: %s", discountedDate.ID.Hex(), err.Error())
 	}
 
+	// Evaluate the equality of the simulated data with those returned from the associated functionality.
 	if !(cmp.Equal(discountedDate, discountedDateAux)) {
 		bodyBytesAux, err = json.Marshal(discountedDateAux)
 
