@@ -51,7 +51,7 @@ func TestUpdatePromotion(t *testing.T) {
 		"code":"%s",
 		"title":"%s",
 		"description":"%s",
-		"max_discount_pct":%f
+		"max_discount_pct":%f,
 		"products":["%s"]
 	}`, promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct, promotion.Products[0])
 
@@ -84,7 +84,7 @@ func TestUpdatePromotion(t *testing.T) {
 		"code":"%s",
 		"title":"%s",
 		"description":"%s",
-		"max_discount_pct":%f
+		"max_discount_pct":%f,
 		"products":["%s"]
 	}`, promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct, promotion.Products[0])
 
