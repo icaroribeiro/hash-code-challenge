@@ -38,7 +38,7 @@ The **microservice 1** is responsible for the evaluation of discounts applied to
 
 **nodejs/cmd/server**: it contains the configuration and implementation of the gRPC server.
 
-**nodejs/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of gRPC requests, as well as the elaboration of its responses.
+**nodejs/internal/grpc/services/impl**: it contains the implementation of the services related to the handling of gRPC requests, as well as the elaboration of gRPC responses.
 
 **nodejs/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **JavaScript** testing framework named **jest**.
 
@@ -56,7 +56,7 @@ The **microservice 1** is responsible for the evaluation of discounts applied to
 
 **nodejs/internal/tests**: it contains the configuration of the test cases using the **JavaScript** testing framework named **jest**.
 
-**nodejs/internal/utils**: it contains supporting functions, such as, to generate and format dates, as well as to evaluate the equivalence of JSON objects used in the tests.
+**nodejs/internal/utils**: it contains supporting functions, such as, to generate and format dates, as well as to evaluate the equivalence of JSON objects used during the tests.
 
 **nodejs/.env**: it contains the variables for the configuration of the **development** environment.
 
@@ -91,7 +91,7 @@ The **microservice 2** is responsible for the management of users, products, pro
 
 **go/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **Go** language test package.
 
-**go/internal/grpc/services/server**: it contains an abstraction of the server that allows to "attach" some resources to make them available during the API requests. Here, it's used to store a structure that holds attributes to manage the database and the access addresses to operate with the **microservice 1** via gRPC.
+**go/internal/grpc/services/server**: it contains an abstraction of the server that allows to "attach" some resources to make them available during the API requests. Here, it's used to store a structure that holds attributes to manage the data.
 
 **go/internal/middlewares**: it contains intermediate validations of parameters transmitted via API requests.
 
@@ -105,11 +105,11 @@ The **microservice 2** is responsible for the management of users, products, pro
 
 **go/internal/proto/services**: it contains the specification of the **protocol buffers** services.
 
-**go/internal/utils**: it contains supporting functions, such as, generating random data used in the tests.
+**go/internal/utils**: it contains supporting functions, such as, to generate random data used during the tests.
 
-**go/internal/yaml/services**: it contains the specification of the API routes generated through a *reverse proxy* using **grpc-gateway** that acts as a *proxy* between a REST client and the gRPC server, publishing the API *endpoints* based on **proto** files. The result of this procedure is similar to the generation of routes following the process of "annotated" proto files.
+**go/internal/yaml/services**: it contains the specification of the API routes generated through a *reverse proxy* using **grpc-gateway** that acts as a *proxy* between a REST client and the gRPC server, publishing the API *endpoints* based on **proto** files. The result of this procedure is similar to the generation of API routes following the process of "annotated" proto files.
 
-**go/scripts**: it contains the **proto-gen.sh** file used to generate the outputs from the **proto** files related to the entities and services necessary when configurating the gRPC server.
+**go/scripts**: it contains the script file named **proto-gen.sh** used to generate the outputs from the **proto** files related to the entities and services necessary when configurating the gRPC server.
 
 **go/.env**: it contains the variables for the configuration of the **development** environment.
 
@@ -142,13 +142,11 @@ GRPC_SERVER_HOST_MS_1=0.0.0.0
 GRPC_SERVER_PORT_MS_1=50051
 ```
 
-In order to not compromise the integrity of the database used by the project in terms of data from the execution of the test cases, two Mongo databases will be used.
+In order to not compromise the integrity of the database used by the project in terms of data generated from the execution of the test cases, two Mongo databases will be used.
 
-In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" execution is the **development** database and the one used for the storage of data of the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **TEST_DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
+In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **TEST_DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
 
-Finally, it is necessary to pay special attention to the database environment variables defined in the four previous files.
-
-**Nevertheless, if the solution is intended to be run with Docker containers and the environment variables are used as they are already configured in all the .env files, I believe that it will not be necessary any other previous changes before executing the project**.
+**In case the environment variables of all the .env files are kept as they were delivered I strongly believe that it will not be necessary any change before executing the project**.
 
 ### 3.2 - Mongo
 
