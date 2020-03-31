@@ -29,7 +29,7 @@ func TestCreateProduct(t *testing.T) {
 		"description":"%s"
 	}`, product.PriceInCents, product.Title, product.Description)
 
-	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 	t.Logf("Product: %s", body)
 

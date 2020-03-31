@@ -107,7 +107,7 @@ func (p *PromotionServiceServer) UpdatePromotion(ctx context.Context,
 			body += `}`
 		}
 
-		body = utils.RemoveEscapeSequences(body, "\t", "\n")
+		body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 		nMatchedDocs, nModifiedDocs, err = p.ServiceServer.Datastore.UpdatePromotion(request.Id, promotion)
 

@@ -92,7 +92,7 @@ func (d *DiscountedDateServiceServer) CreateDiscountedDate(ctx context.Context,
 		}`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
 			discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
 
-		body = utils.RemoveEscapeSequences(body, "\t", "\n")
+		body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 		discountedDate, err = d.ServiceServer.Datastore.CreateDiscountedDate(discountedDate)
 

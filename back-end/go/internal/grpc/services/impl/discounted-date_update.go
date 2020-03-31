@@ -94,7 +94,7 @@ func (d *DiscountedDateServiceServer) UpdateDiscountedDate(ctx context.Context,
 		}`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
 			discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
 
-		body = utils.RemoveEscapeSequences(body, "\n", "\t")
+		body = utils.RemoveEscapeSequencesFromString(body, "\n", "\t")
 
 		nMatchedDocs, nModifiedDocs, err = d.ServiceServer.Datastore.UpdateDiscountedDate(request.Id, discountedDate)
 

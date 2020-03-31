@@ -6,7 +6,7 @@ import (
 	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
 	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services/impl"
 	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services/server"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/middleware"
+	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/middlewares"
 	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/mongodb"
 	"github.com/joho/godotenv"
 	"golang.org/x/net/context"
@@ -172,7 +172,7 @@ func main() {
 
 	defer cancel()
 
-	mux = runtime.NewServeMux(runtime.WithIncomingHeaderMatcher(middleware.CustomHeaderMatcher))
+	mux = runtime.NewServeMux(runtime.WithIncomingHeaderMatcher(middlewares.CustomHeaderMatcher))
 
 	// Check the http environment variables.
 	httpHost, isSet = os.LookupEnv("HTTP_SERVER_HOST")

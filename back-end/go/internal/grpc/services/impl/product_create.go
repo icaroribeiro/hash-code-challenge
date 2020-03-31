@@ -45,7 +45,7 @@ func (p *ProductServiceServer) CreateProduct(ctx context.Context,
 			"description":"%s"
 		}`, product.PriceInCents, product.Title, product.Description)
 
-		body = utils.RemoveEscapeSequences(body, "\t", "\n")
+		body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 		product, err = p.ServiceServer.Datastore.CreateProduct(product)
 

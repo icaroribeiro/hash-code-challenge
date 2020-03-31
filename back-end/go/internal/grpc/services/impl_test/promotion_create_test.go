@@ -36,7 +36,7 @@ func TestCreatePromotion(t *testing.T) {
 		"description":"%s"
 	}`, product.PriceInCents, product.Title, product.Description)
 
-	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 	t.Logf("Product: %s", body)
 
@@ -62,7 +62,7 @@ func TestCreatePromotion(t *testing.T) {
 		"products":["%s"]
 	}`, promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct, promotion.Products[0])
 
-	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 	t.Logf("Promotion: %s", body)
 

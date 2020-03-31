@@ -71,7 +71,7 @@ func (u *UserServiceServer) UpdateUser(ctx context.Context,
 			}
 		}`, user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
 
-		body = utils.RemoveEscapeSequences(body, "\t", "\n")
+		body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 		nMatchedDocs, nModifiedDocs, err = u.ServiceServer.Datastore.UpdateUser(request.Id, user)
 

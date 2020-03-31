@@ -105,7 +105,7 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
 			body += `}`
 		}
 
-		body = utils.RemoveEscapeSequences(body, "\t", "\n")
+		body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 		promotion, err = p.ServiceServer.Datastore.CreatePromotion(promotion)
 

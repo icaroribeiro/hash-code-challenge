@@ -53,7 +53,7 @@ func TestGetAllDiscountedDates(t *testing.T) {
 	}`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
 		discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
 
-	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 	discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
 
@@ -159,7 +159,7 @@ func TestGetDiscountedDate(t *testing.T) {
 	}`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
 		discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
 
-	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 	discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
 

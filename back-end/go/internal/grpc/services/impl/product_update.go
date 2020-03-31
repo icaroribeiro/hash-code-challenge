@@ -47,7 +47,7 @@ func (p *ProductServiceServer) UpdateProduct(ctx context.Context,
 			"description":"%s"
 		}`, product.PriceInCents, product.Title, product.Description)
 
-		body = utils.RemoveEscapeSequences(body, "\t", "\n")
+		body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 		nMatchedDocs, nModifiedDocs, err = p.ServiceServer.Datastore.UpdateProduct(request.Id, product)
 

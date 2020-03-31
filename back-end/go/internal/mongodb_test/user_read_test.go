@@ -42,7 +42,7 @@ func TestGetAllUsers(t *testing.T) {
 		}
 	}`, user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
 
-	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 	user, err = datastore.CreateUser(user)
 
@@ -113,7 +113,7 @@ func TestGetUser(t *testing.T) {
 		}
 	}`, user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
 
-	body = utils.RemoveEscapeSequences(body, "\t", "\n")
+	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
 	user, err = datastore.CreateUser(user)
 
