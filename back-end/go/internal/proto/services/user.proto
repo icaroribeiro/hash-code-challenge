@@ -4,9 +4,9 @@ package services;
 
 option go_package = "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services";
 
-import "google/protobuf/empty.proto";
-
 import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/user.proto";
+
+import "google/protobuf/empty.proto";
 
 message GetAllUsersResponse {
     repeated entities.User users = 1;

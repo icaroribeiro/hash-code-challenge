@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package services;
 
-import "google/protobuf/empty.proto";
-
 import "../entities/product.proto";
+
+import "google/protobuf/empty.proto";
 
 message GetAllProductsResponse {
     repeated entities.Product products = 1;

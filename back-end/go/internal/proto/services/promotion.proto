@@ -4,10 +4,10 @@ package services;
 
 option go_package = "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services";
 
-import "google/protobuf/empty.proto";
-
-import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/promotion.proto";
 import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/product.proto";
+import "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/proto/entities/promotion.proto";
+
+import "google/protobuf/empty.proto";
 
 message GetAllPromotionsResponse {
     repeated entities.Promotion promotions = 1;
@@ -29,18 +29,6 @@ message UpdatePromotionRequest {
 
 message DeletePromotionRequest {
     string id = 1;
-}
-
-message IncludeProductToPromotionRequest {
-    string id = 1;
-
-    entities.Product product = 2;
-}
-
-message ExcludeProductFromPromotionRequest {
-    string id = 1;
-
-    string productId = 2;
 }
 
 service PromotionService {
