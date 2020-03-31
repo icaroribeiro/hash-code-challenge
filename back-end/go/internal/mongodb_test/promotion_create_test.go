@@ -32,13 +32,19 @@ func TestCreatePromotion(t *testing.T) {
 
 	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
-	t.Logf("Product: %s", body)
-
 	product, err = datastore.CreateProduct(product)
 
 	if err != nil {
 		t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
 	}
+
+	bodyBytes, err = json.Marshal(product)
+
+	if err != nil {
+		t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
+	}
+
+	t.Logf("Product: %s", string(bodyBytes))
 
 	promotion = models.Promotion{
 		Code:           utils.GenerateRandomString(10),
