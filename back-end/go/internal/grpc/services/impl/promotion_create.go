@@ -37,9 +37,9 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
 				"The description field is required and must be set to a non-empty value")
 		}
 
-		if float64(request.Promotion.MaxDiscountPct) == 0 {
+		if request.Promotion.MaxDiscountPct <= 0 {
 			return nil, status.Error(codes.InvalidArgument,
-				"The max_discount_pct field is required and must be set to a non-zero value")
+				"The max_discount_pct field is required and must be set to a value greater than 0")
 		}
 
 		promotion = models.Promotion{
@@ -56,8 +56,8 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
 			"max_discount_pct":%f
 		`, promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct)
 
-		// If any product is included to promotion, check if its id is valid.
-		// Additionally, checks if there are no duplicate products.
+		// Verify if all the ids of the products associated with the promotion are valid.
+		// Additionally, checks if there are no duplicated ids of the products.
 		productsMap = make(map[string]bool)
 
 		if len(request.Promotion.Products) > 0 {
@@ -71,19 +71,19 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
 
 				if err != nil {
 					return nil, status.Error(codes.Unknown,
-						fmt.Sprintf("Failed to include the product with the id %s: %s", productId, err.Error()))
+						fmt.Sprintf("Failed to add the product with the id %s: %s", productId, err.Error()))
 				}
 
 				if product.ID.IsZero() {
 					return nil, status.Error(codes.NotFound,
-						fmt.Sprintf("Failed to include the product with the id %s: the id wasn't found", productId))
+						fmt.Sprintf("Failed to add the product with the id %s: the product wasn't found", productId))
 				}
 
 				if !(productsMap[product.ID.Hex()]) {
 					productsMap[product.ID.Hex()] = true
 				} else {
 					return nil, status.Error(codes.Internal,
-						fmt.Sprintf("Failed to include the product with the id %s: the id is duplicated", product.ID.Hex()))
+						fmt.Sprintf("Failed to add the product with the id %s: the id is duplicated", product.ID.Hex()))
 				}
 
 				promotion.Products = append(promotion.Products, product.ID.Hex())

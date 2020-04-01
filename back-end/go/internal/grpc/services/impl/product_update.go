@@ -20,9 +20,9 @@ func (p *ProductServiceServer) UpdateProduct(ctx context.Context,
 		var err error
 		var response *entities.Product
 
-		if int(request.Product.PriceInCents) == 0 {
+		if request.Product.PriceInCents <= 0 {
 			return nil, status.Error(codes.InvalidArgument, 
-				"The price_in_cents field is required and must be set to a non-zero value")
+				"The price_in_cents field is required and must be set to a value greater than 0")
 		}
 
 		if request.Product.Title == "" {
