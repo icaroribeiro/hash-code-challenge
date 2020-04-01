@@ -63,17 +63,17 @@ func (p *ProductServiceServer) UpdateProduct(ctx context.Context,
 
 		if nMatchedDocs == 0 {
 			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to update the product with the id %s with %s: the id wasn't found", request.Id, body))
+				fmt.Sprintf("Failed to update the product with the id %s with %s: the product wasn't found", request.Id, body))
 		}
 
 		if nModifiedDocs == 0 {
-			return nil, status.Error(codes.Internal,
-				fmt.Sprintf("Failed to update the product with the id %s with %s: the data sent is already registered",
+			return nil, status.Error(codes.AlreadyExists,
+				fmt.Sprintf("Failed to update the product with the id %s with %s: the data sent are already registered",
 					request.Id, body))
 		}
 
 		if nModifiedDocs != 1 {
-			return nil, status.Error(codes.NotFound,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to update the product with the id %s with %s: the expected number of "+
 					"products updated: %d, got: %d", request.Id, body, 1, nModifiedDocs))
 		}

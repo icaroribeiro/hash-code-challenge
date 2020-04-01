@@ -87,12 +87,12 @@ func (u *UserServiceServer) UpdateUser(ctx context.Context,
 
 		if nMatchedDocs == 0 {
 			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to update the user with the id %s with %s: the id wasn't found", request.Id, body))
+				fmt.Sprintf("Failed to update the user with the id %s with %s: the user wasn't found", request.Id, body))
 		}
 
 		if nModifiedDocs == 0 {
-			return nil, status.Error(codes.Internal,
-				fmt.Sprintf("Failed to update the user with the id %s with %s: the data sent is already createed",
+			return nil, status.Error(codes.AlreadyExists,
+				fmt.Sprintf("Failed to update the user with the id %s with %s: the data sent are already createed",
 					request.Id, body))
 		}
 

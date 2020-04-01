@@ -36,9 +36,9 @@ func (d *DiscountedDateServiceServer) UpdateDiscountedDate(ctx context.Context,
 				"The description field is required and must be set to a non-empty value")
 		}
 
-		if float32(request.DiscountedDate.DiscountPct) == 0 {
+		if request.DiscountedDate.DiscountPct > 0 {
 			return nil, status.Error(codes.InvalidArgument, 
-				"The discount_pct field is required and must be set to a non-zero value")
+				"The discount_pct field is required and must be set to a value greater than 0")
 		}
 
 		if request.DiscountedDate.Date == nil {
@@ -110,17 +110,18 @@ func (d *DiscountedDateServiceServer) UpdateDiscountedDate(ctx context.Context,
 
 		if nMatchedDocs == 0 {
 			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to update the discounted date with the id %s with %s: id wasn't found", request.Id, body))
+				fmt.Sprintf("Failed to update the discounted date with the id %s with %s: the discounted date wasn't found", 
+					request.Id, body))
 		}
 
 		if nModifiedDocs == 0 {
-			return nil, status.Error(codes.Internal,
-				fmt.Sprintf("Failed to update the discounted date with the id %s with %s: the data sent is already registered",
+			return nil, status.Error(codes.AlreadyExists,
+				fmt.Sprintf("Failed to update the discounted date with the id %s with %s: the data sent are already registered",
 					request.Id, body))
 		}
 
 		if nModifiedDocs != 1 {
-			return nil, status.Error(codes.NotFound,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to update the discounted date with the id %s with %s: the expected number of "+
 					"discounted dates updated: %d, got: %d", request.Id, body, 1, nModifiedDocs))
 		}
