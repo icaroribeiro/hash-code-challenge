@@ -286,6 +286,16 @@
 								}
 							}
 						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Got a not found error.",
@@ -433,7 +443,17 @@
 								}
 							}
 						}
-					},
+                    },
+                    "409": {
+                        "description": "Got a conflict error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Status"
+                                }
+                            }
+                        }
+                    },
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -504,6 +524,16 @@
 											}
 										}
 									}
+								}
+							}
+						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
 								}
 							}
 						}
@@ -774,6 +804,16 @@
 								}
 							}
 						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Got a not found error.",
@@ -868,6 +908,16 @@
 								}
 							}
 						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Got a not found error.",
@@ -878,7 +928,17 @@
 								}
 							}
 						}
-					},
+                    },
+                    "409": {
+                        "description": "Got a conflict error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Status"
+                                }
+                            }
+                        }
+                    },
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -933,6 +993,16 @@
 											"type": "string"
 										}
 									}
+								}
+							}
+						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
 								}
 							}
 						}
@@ -1210,6 +1280,16 @@
 								}
 							}
 						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Got a not found error.",
@@ -1349,7 +1429,17 @@
 								}
 							}
 						}
-					},
+                    },
+                    "409": {
+                        "description": "Got a conflict error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Status"
+                                }
+                            }
+                        }
+                    },
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -1416,6 +1506,16 @@
 											}
 										}
 									}
+								}
+							}
+						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
 								}
 							}
 						}
@@ -1719,6 +1819,16 @@
 								}
 							}
 						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
 					},
 					"404": {
 						"description": "Got a not found error.",
@@ -1875,7 +1985,17 @@
 								}
 							}
 						}
-					},
+                    },
+                    "409": {
+                        "description": "Got a conflict error.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Status"
+                                }
+                            }
+                        }
+                    },
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -1951,6 +2071,16 @@
 											}
 										}
 									}
+								}
+							}
+						}
+                    },
+					"400": {
+						"description": "Got a bad request error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
 								}
 							}
 						}
