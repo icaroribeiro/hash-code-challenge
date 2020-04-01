@@ -23,7 +23,7 @@ func (u *UserServiceServer) GetAllUsers(ctx context.Context,
 		users, err = u.ServiceServer.Datastore.GetAllUsers()
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to get the list of all users: %s", err.Error()))
 		}
 
@@ -53,16 +53,21 @@ func (u *UserServiceServer) GetUser(ctx context.Context,
 		var err error
 		var response *entities.User
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		user, err = u.ServiceServer.Datastore.GetUser(request.Id)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to get the user with the id %s: %s", request.Id, err.Error()))
 		}
 
 		if user.ID.IsZero() {
 			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to get the user with the id %s: the id wasn't found", request.Id))
+				fmt.Sprintf("Failed to get the user with the id %s: the user wasn't found", request.Id))
 		}
 
 		response = &entities.User{

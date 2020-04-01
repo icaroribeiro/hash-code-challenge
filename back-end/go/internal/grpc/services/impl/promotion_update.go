@@ -24,6 +24,11 @@ func (p *PromotionServiceServer) UpdatePromotion(ctx context.Context,
 		var nModifiedDocs int64
 		var response *entities.Promotion
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		if request.Promotion.Code == "" {
 			return nil, status.Error(codes.InvalidArgument,
 				"The code field is required and must be set to a non-empty value")
@@ -72,7 +77,7 @@ func (p *PromotionServiceServer) UpdatePromotion(ctx context.Context,
 				product, err = p.ServiceServer.Datastore.GetProduct(productId)
 
 				if err != nil {
-					return nil, status.Error(codes.Unknown,
+					return nil, status.Error(codes.Internal,
 						fmt.Sprintf("Failed to add the product with the id %s: %s", productId, err.Error()))
 				}
 
@@ -112,7 +117,7 @@ func (p *PromotionServiceServer) UpdatePromotion(ctx context.Context,
 		nMatchedDocs, nModifiedDocs, err = p.ServiceServer.Datastore.UpdatePromotion(request.Id, promotion)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to update the promotion with the id %s with %s: %s", request.Id, body, err.Error()))
 		}
 

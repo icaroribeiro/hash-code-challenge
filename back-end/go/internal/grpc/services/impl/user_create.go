@@ -74,7 +74,7 @@ func (u *UserServiceServer) CreateUser(ctx context.Context,
 		user, err = u.ServiceServer.Datastore.CreateUser(user)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to create a new user with %s: %s", body, err.Error()))
 		}
 

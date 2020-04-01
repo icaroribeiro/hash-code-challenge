@@ -97,7 +97,7 @@ func (d *DiscountedDateServiceServer) CreateDiscountedDate(ctx context.Context,
 		discountedDate, err = d.ServiceServer.Datastore.CreateDiscountedDate(discountedDate)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown, 
+			return nil, status.Error(codes.Internal, 
 				fmt.Sprintf("Failed to create a new discounted date with %s: %s", body, err.Error()))
 		}
 

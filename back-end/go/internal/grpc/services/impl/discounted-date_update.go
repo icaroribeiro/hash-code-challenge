@@ -21,6 +21,11 @@ func (d *DiscountedDateServiceServer) UpdateDiscountedDate(ctx context.Context,
 		var err error
 		var response *entities.DiscountedDate
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		if request.DiscountedDate.Title == "" {
 			return nil, status.Error(codes.InvalidArgument, 
 				"The title field is required and must be set to a non-empty value")
@@ -99,7 +104,7 @@ func (d *DiscountedDateServiceServer) UpdateDiscountedDate(ctx context.Context,
 		nMatchedDocs, nModifiedDocs, err = d.ServiceServer.Datastore.UpdateDiscountedDate(request.Id, discountedDate)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to update the discounted date with the id %s with %s: %s", request.Id, body, err.Error()))
 		}
 

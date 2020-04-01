@@ -23,7 +23,7 @@ func (d *DiscountedDateServiceServer) GetAllDiscountedDates(ctx context.Context,
 		discountedDates, err = d.ServiceServer.Datastore.GetAllDiscountedDates()
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to get the list of all discounted dates: %s", err.Error()))
 		}
 
@@ -60,16 +60,21 @@ func (d *DiscountedDateServiceServer) GetDiscountedDate(ctx context.Context,
 		var err error
 		var response *entities.DiscountedDate
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		discountedDate, err = d.ServiceServer.Datastore.GetDiscountedDate(request.Id)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to get the discounted date with the id %s: %s", request.Id, err.Error()))
 		}
 
 		if discountedDate.ID.IsZero() {
 			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to get the discounted date with the id %s: the id wasn't found", request.Id))
+				fmt.Sprintf("Failed to get the discounted date with the id %s: the discounted date wasn't found", request.Id))
 		}
 
 		response = &entities.DiscountedDate{

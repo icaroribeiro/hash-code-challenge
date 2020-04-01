@@ -70,7 +70,7 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
 				product, err = p.ServiceServer.Datastore.GetProduct(productId)
 
 				if err != nil {
-					return nil, status.Error(codes.Unknown,
+					return nil, status.Error(codes.Internal,
 						fmt.Sprintf("Failed to add the product with the id %s: %s", productId, err.Error()))
 				}
 
@@ -110,7 +110,7 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
 		promotion, err = p.ServiceServer.Datastore.CreatePromotion(promotion)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to create a new promotion with %s: %s", body, err.Error()))
 		}
 

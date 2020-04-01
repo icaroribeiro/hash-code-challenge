@@ -18,30 +18,34 @@ func (p *PromotionServiceServer) DeletePromotion(ctx context.Context,
 		var response *entities.Promotion
 		var productId string
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		promotion, err = p.ServiceServer.Datastore.GetPromotion(request.Id)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to get the promotion with the id %s: %s", request.Id, err.Error()))
 		}
 
 		nDeletedDocs, err = p.ServiceServer.Datastore.DeletePromotion(request.Id)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to delete the promotion with the id %s: %s", request.Id, err.Error()))
 		}
 
 		if nDeletedDocs == 0 {
 			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to delete the promotion with the id %s: the id wasn't found", request.Id))
+				fmt.Sprintf("Failed to delete the promotion with the id %s: the promotion wasn't found", request.Id))
 		}
 
 		if nDeletedDocs > 1 {
 			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to delete the promotion with the id %s: the expected number of "+
-					"promotions deleted: %d, got: %d",
-					request.Id, 1, nDeletedDocs))
+					"promotions deleted: %d, got: %d", request.Id, 1, nDeletedDocs))
 		}
 
 		response = &entities.Promotion{
@@ -52,7 +56,7 @@ func (p *PromotionServiceServer) DeletePromotion(ctx context.Context,
 			MaxDiscountPct: float32(promotion.MaxDiscountPct),
 		}
 
-		// In case there is no product associated with the promotion,
+		// In case of there is no product associated with the promotion,
 		// don't display the products field as an empty array.
 		if len(promotion.Products) > 0 {
 			for _, productId = range promotion.Products {

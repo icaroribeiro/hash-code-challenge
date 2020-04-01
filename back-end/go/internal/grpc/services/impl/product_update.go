@@ -20,6 +20,11 @@ func (p *ProductServiceServer) UpdateProduct(ctx context.Context,
 		var err error
 		var response *entities.Product
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		if request.Product.PriceInCents <= 0 {
 			return nil, status.Error(codes.InvalidArgument, 
 				"The price_in_cents field is required and must be set to a value greater than 0")
@@ -52,7 +57,7 @@ func (p *ProductServiceServer) UpdateProduct(ctx context.Context,
 		nMatchedDocs, nModifiedDocs, err = p.ServiceServer.Datastore.UpdateProduct(request.Id, product)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to update the product with the id %s with %s: %s", request.Id, body, err.Error()))
 		}
 

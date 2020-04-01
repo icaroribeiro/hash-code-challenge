@@ -50,7 +50,7 @@ func (p *ProductServiceServer) CreateProduct(ctx context.Context,
 		product, err = p.ServiceServer.Datastore.CreateProduct(product)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown, 
+			return nil, status.Error(codes.Internal, 
 				fmt.Sprintf("Failed to create a new product with %s: %s", body, err.Error()))
 		}
 

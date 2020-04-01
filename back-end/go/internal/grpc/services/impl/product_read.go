@@ -53,15 +53,14 @@ func (p *ProductServiceServer) GetAllProducts(ctx context.Context,
 			}
 		}
 
-		// Try to communicate with the microservice 1 that returns the list of all products after evaluating
-		// if any discount must be applied based on criteria related to user's birthday and/or
-		// other special discounted date.
+		// Try to communicate with the microservice 1 to obtain the list of all products after evaluating
+		// if any discount must be applied based on criteria related to discounted dates.
 		grpcAddress = fmt.Sprintf("%s:%s", p.GrpcHost, p.GrpcPort)
 
 		clientConn, err = grpc.Dial(grpcAddress, grpc.WithInsecure())
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to establish client connection to %s: %s", grpcAddress, err.Error()))
 		}
 
@@ -83,11 +82,11 @@ func (p *ProductServiceServer) GetAllProducts(ctx context.Context,
 			log.Printf("Failed to get the list of all products using the microservice 1: %s", err.Error())
 
 			// In case of the microservice 1 goes down, the microservice 2 must work normally
-			// and then to return the list of all products without applying any discount.
+			// and then return the list of all products without applying any discount.
 			products, err = p.ServiceServer.Datastore.GetAllProducts()
 
 			if err != nil {
-				return nil, status.Error(codes.Unknown,
+				return nil, status.Error(codes.Internal,
 					fmt.Sprintf("Failed to get the list of all products: %s", err.Error()))
 			}
 
@@ -125,6 +124,11 @@ func (p *ProductServiceServer) GetProduct(ctx context.Context,
 		var response *entities.Product
 		var product models.Product
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		xUserId = ""
 
 		incomingMetadata, hasMetada = metadata.FromIncomingContext(ctx)
@@ -146,15 +150,14 @@ func (p *ProductServiceServer) GetProduct(ctx context.Context,
 			}
 		}
 
-		// Try to communicate with the microservice 1 that returns the list of all products after evaluating
-		// if any discount must be applied based on criteria related to user's birthday and/or
-		// other special discounted date.
+		// Try to communicate with the microservice 1 to obtain the list of all products after evaluating
+		// if any discount must be applied based on criteria related to discounted dates.
 		grpcAddress = fmt.Sprintf("%s:%s", p.GrpcHost, p.GrpcPort)
 
 		clientConn, err = grpc.Dial(grpcAddress, grpc.WithInsecure())
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to establish client connection to %s: %s", grpcAddress, err.Error()))
 		}
 
@@ -174,17 +177,17 @@ func (p *ProductServiceServer) GetProduct(ctx context.Context,
 			log.Printf("Failed to get the product with the id %s using the microservice 1: %s", request.Id, err.Error())
 
 			// In case of the microservice 1 goes down, the microservice 2 must work normally
-			// and then to return a specific product without applying any discount.
+			// and then return a specific product without applying any discount.
 			product, err = p.ServiceServer.Datastore.GetProduct(request.Id)
 
 			if err != nil {
-				return nil, status.Error(codes.Unknown,
+				return nil, status.Error(codes.Internal,
 					fmt.Sprintf("Failed to get the product with the id %s: %s", request.Id, err.Error()))
 			}
 
 			if product.ID.IsZero() {
 				return nil, status.Error(codes.NotFound,
-					fmt.Sprintf("Failed to get the product with the id %s: the id wasn't found", request.Id))
+					fmt.Sprintf("Failed to get the product with the id %s: the product wasn't found", request.Id))
 			}
 
 			response = &entities.Product{

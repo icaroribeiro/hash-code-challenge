@@ -18,29 +18,34 @@ func (u *UserServiceServer) DeleteUser(ctx context.Context,
 		var err error
 		var response *entities.User
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		user, err = u.ServiceServer.Datastore.GetUser(request.Id)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to get the user with the id %s: %s", request.Id, err.Error()))
 		}
 
 		nDeletedDocs, err = u.ServiceServer.Datastore.DeleteUser(request.Id)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to delete the user with the id %s: %s", request.Id, err.Error()))
 		}
 
 		if nDeletedDocs == 0 {
 			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to delete the user with the id %s: the id wasn't found", request.Id))
+				fmt.Sprintf("Failed to delete the user with the id %s: the user wasn't found", request.Id))
 		}
 
 		if nDeletedDocs > 1 {
 			return nil, status.Error(codes.Internal,
-				fmt.Sprintf("Failed to delete the user with the id %s: the expected number of users deleted: %d, got: %d",
-					request.Id, 1, nDeletedDocs))
+				fmt.Sprintf("Failed to delete the user with the id %s: the expected number of " +
+					"users deleted: %d, got: %d", request.Id, 1, nDeletedDocs))
 		}
 
 		response = &entities.User{

@@ -21,6 +21,11 @@ func (u *UserServiceServer) UpdateUser(ctx context.Context,
 		var err error
 		var response *entities.User
 
+		if request.Id == "" {
+			return nil, status.Error(codes.InvalidArgument,
+				"The id is required and must be set to a non-empty value in the request URL")
+		}
+
 		if request.User.FirstName == "" {
 			return nil, status.Error(codes.InvalidArgument,
 				"The first_name field is required and must be set to a non-empty value")
@@ -76,7 +81,7 @@ func (u *UserServiceServer) UpdateUser(ctx context.Context,
 		nMatchedDocs, nModifiedDocs, err = u.ServiceServer.Datastore.UpdateUser(request.Id, user)
 
 		if err != nil {
-			return nil, status.Error(codes.Unknown,
+			return nil, status.Error(codes.Internal,
 				fmt.Sprintf("Failed to update the user with the id %s with %s: %s", request.Id, body, err.Error()))
 		}
 
