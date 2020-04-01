@@ -26,7 +26,7 @@ func TestDeleteUser(t *testing.T) {
 	var errStatus *status.Status
 	var bodyBytesAux []byte
 
-	rDate = utils.GenerateRandomDate(2019, 2020)
+	rDate = utils.GenerateRandomDate(2010, 2020)
 
 	user = models.User{
 		FirstName: utils.GenerateRandomString(10),

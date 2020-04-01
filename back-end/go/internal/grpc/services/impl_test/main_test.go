@@ -40,7 +40,7 @@ func init() {
 	}
 }
 
-// It serves as a wrapper around testMain function that allows to defer other functions.
+// It serves as a wrapper around the testMain function that allows to defer other functions.
 // At the end, it finally passes the returned exit code to os.Exit().
 func TestMain(m *testing.M) {
 	var exitVal int
@@ -57,8 +57,8 @@ func TestMain(m *testing.M) {
 	os.Exit(exitVal)
 }
 
-// It configures the settings before running the tests. It returns an integer denoting an exit code
-// to be used in TestMain. In case if the exit code is 0 it denotes success while all other codes denote failure.
+// It configures the settings before running the tests. It returns an integer denoting an exit code to be used 
+// in the TestMain function. In the case, if the exit code is 0 it denotes success while all other codes denote failure.
 func testMain(m *testing.M) int {
 	var dbUsername string
 	var dbPassword string
@@ -157,8 +157,8 @@ func testMain(m *testing.M) int {
 
 	ctx = context.Background()
 
-	// With this approach we can avoid starting up a service with a real port number, but still allowing testing of
-	// network behavior. Here we will have an in-memory connection without using OS-level resources like ports
+	// With the approach below we can avoid starting up a service with a real port number, but still allowing testing 
+	// of network behavior. Here, we will have an in-memory connection without using OS-level resources like ports
 	// that may or may not clean up quickly. The trick is setting the WithDialer option using the bufconn package
 	// to create a listener that exposes its own dialer.
 	bufDialer := func(listener *bufconn.Listener) func(context.Context, string) (net.Conn, error) {

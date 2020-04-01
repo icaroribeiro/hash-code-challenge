@@ -26,7 +26,7 @@ func TestCreateUser(t *testing.T) {
 	var bodyBytes []byte
 	var bodyBytesAux []byte
 
-	rDate = utils.GenerateRandomDate(2019, 2020)
+	rDate = utils.GenerateRandomDate(2010, 2020)
 
 	user = models.User{
 		FirstName: utils.GenerateRandomString(10),
