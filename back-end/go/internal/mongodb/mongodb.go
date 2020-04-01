@@ -40,11 +40,7 @@ func InitializeDatabase(dbConfig DBConfig) (Datastore, error) {
 	}
 
 	// Set up the database connecting string.
-	connString, err = SetUpConnString(dbConfig.DBHost, dbConfig.DBPort)
-
-	if err != nil {
-		return Datastore{}, err
-	}
+	connString = SetUpConnString(dbConfig.DBHost, dbConfig.DBPort)
 
 	ctx = context.Background()
 
@@ -78,7 +74,7 @@ func GenerateAuthCredential(dbUsername, dbPassword string) (options.Credential, 
 }
 
 // It builds the connection string of our database.
-func SetUpConnString(dbHost, dbPort string) (string, error) {
+func SetUpConnString(dbHost, dbPort string) string {
 	var connString string
 
 	connString = fmt.Sprintf("mongodb://%s:%s",
@@ -86,7 +82,7 @@ func SetUpConnString(dbHost, dbPort string) (string, error) {
 		dbPort,
 	)
 
-	return connString, nil
+	return connString
 }
 
 // It closes sockets to the topology referenced by this Client.
