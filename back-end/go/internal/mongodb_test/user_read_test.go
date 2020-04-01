@@ -20,7 +20,7 @@ func TestGetAllUsers(t *testing.T) {
 	var isFound bool
 	var userAux models.User
 
-	rDate = utils.GenerateRandomDate(2019, 2020)
+	rDate = utils.GenerateRandomDate(2010, 2020)
 
 	user = models.User{
 		FirstName: utils.GenerateRandomString(10),
@@ -92,7 +92,7 @@ func TestGetUser(t *testing.T) {
 	var userAux models.User
 	var bodyBytesAux []byte
 
-	rDate = utils.GenerateRandomDate(2019, 2020)
+	rDate = utils.GenerateRandomDate(2010, 2020)
 
 	user = models.User{
 		FirstName: utils.GenerateRandomString(10),

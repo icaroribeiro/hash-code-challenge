@@ -18,7 +18,7 @@ func TestUpdateUser(t *testing.T) {
 	var nMatchedDocs int64
 	var nModifiedDocs int64
 
-	rDate = utils.GenerateRandomDate(2019, 2020)
+	rDate = utils.GenerateRandomDate(2010, 2020)
 
 	user = models.User{
 		FirstName: utils.GenerateRandomString(10),
@@ -56,7 +56,7 @@ func TestUpdateUser(t *testing.T) {
 
 	t.Logf("User: %s", string(bodyBytes))
 
-	rDate = utils.GenerateRandomDate(2019, 2020)
+	rDate = utils.GenerateRandomDate(2010, 2020)
 
 	user = models.User{
 		ID:        user.ID,

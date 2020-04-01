@@ -95,7 +95,7 @@ func TestGetDiscountedDate(t *testing.T) {
 	var discountedDateAux models.DiscountedDate
 	var bodyBytesAux []byte
 
-	rDate = utils.GenerateRandomDate(2019, 2020)
+	rDate = utils.GenerateRandomDate(2010, 2020)
 
 	discountedDate = models.DiscountedDate{
 		Title:       utils.GenerateRandomString(10),
