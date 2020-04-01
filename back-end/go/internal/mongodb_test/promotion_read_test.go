@@ -13,8 +13,8 @@ func TestGetAllPromotions(t *testing.T) {
 	var product models.Product
 	var body string
 	var err error
-	var promotion models.Promotion
 	var bodyBytes []byte
+	var promotion models.Promotion
 	var promotions []models.Promotion
 	var isFound bool
 	var promotionAux models.Promotion
@@ -33,13 +33,19 @@ func TestGetAllPromotions(t *testing.T) {
 
 	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
-	t.Logf("Product: %s", body)
-
 	product, err = datastore.CreateProduct(product)
 
 	if err != nil {
 		t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
 	}
+
+	bodyBytes, err = json.Marshal(product)
+
+	if err != nil {
+		t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
+	}
+
+	t.Logf("Product: %s", string(bodyBytes))
 
 	promotion = models.Promotion{
 		Code:           utils.GenerateRandomString(10),
@@ -90,19 +96,20 @@ func TestGetAllPromotions(t *testing.T) {
 	}
 
 	if !isFound {
-		t.Errorf("Test failed, the promotion wasn't found: %s", string(bodyBytes))
+		t.Errorf("Test failed, the promotion with the id %s wasn't found in the list of all promotions: %s", 
+			promotion.ID.Hex(), string(bodyBytes))
 		return
 	}
 
-	t.Logf("Test successful, the promotion was found in the list of all promotions: %s", string(bodyBytes))
+	t.Logf("Test successful, the promotion found in the list of all promotions: %s", string(bodyBytes))
 }
 
 func TestGetPromotion(t *testing.T) {
 	var product models.Product
 	var body string
 	var err error
-	var promotion models.Promotion
 	var bodyBytes []byte
+	var promotion models.Promotion
 	var promotionAux models.Promotion
 	var bodyBytesAux []byte
 
@@ -120,13 +127,19 @@ func TestGetPromotion(t *testing.T) {
 
 	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
-	t.Logf("Product: %s", body)
-
 	product, err = datastore.CreateProduct(product)
 
 	if err != nil {
 		t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
 	}
+
+	bodyBytes, err = json.Marshal(product)
+
+	if err != nil {
+		t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
+	}
+
+	t.Logf("Product: %s", string(bodyBytes))
 
 	promotion = models.Promotion{
 		Code:           utils.GenerateRandomString(10),

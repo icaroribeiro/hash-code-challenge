@@ -96,12 +96,12 @@ func TestUpdateDiscountedDate(t *testing.T) {
 	}
 
 	if nMatchedDocs == 0 {
-		t.Errorf("Test failed, the id wasn't found")
+		t.Errorf("Test failed, the discounted date with the id %s wasn't found", discountedDate.ID.Hex())
 		return
 	}
 
 	if nModifiedDocs == 0 {
-		t.Errorf("Test failed, the data sent is already registered")
+		t.Errorf("Test failed, the data sent are already registered")
 	}
 
 	if nModifiedDocs != 1 {

@@ -90,12 +90,12 @@ func TestUpdateUser(t *testing.T) {
 	}
 
 	if nMatchedDocs == 0 {
-		t.Errorf("Test failed, the id wasn't found")
+		t.Errorf("Test failed, the user with the id %s wasn't found", user.ID.Hex())
 		return
 	}
 
 	if nModifiedDocs == 0 {
-		t.Errorf("Test failed, the data sent is already registered")
+		t.Errorf("Test failed, the data sent are already registered")
 	}
 
 	if nModifiedDocs != 1 {

@@ -64,16 +64,16 @@ func TestUpdateProduct(t *testing.T) {
 	nMatchedDocs, nModifiedDocs, err = datastore.UpdateProduct(product.ID.Hex(), product)
 
 	if err != nil {
-		t.Fatalf("Failed to update the product with id %s with %s: %s", product.ID.Hex(), body, err.Error())
+		t.Fatalf("Failed to update the product with the id %s with %s: %s", product.ID.Hex(), body, err.Error())
 	}
 
 	if nMatchedDocs == 0 {
-		t.Errorf("Test failed, the id wasn't found")
+		t.Errorf("Test failed, the product with the id %s wasn't found", product.ID.Hex())
 		return
 	}
 
 	if nModifiedDocs == 0 {
-		t.Errorf("Test failed, the data sent is already registered")
+		t.Errorf("Test failed, the data sent are already registered")
 	}
 
 	if nModifiedDocs != 1 {

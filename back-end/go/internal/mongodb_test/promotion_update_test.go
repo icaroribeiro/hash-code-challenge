@@ -12,8 +12,8 @@ func TestUpdatePromotion(t *testing.T) {
 	var product models.Product
 	var body string
 	var err error
-	var promotion models.Promotion
 	var bodyBytes []byte
+	var promotion models.Promotion
 	var nMatchedDocs int64
 	var nModifiedDocs int64
 
@@ -31,13 +31,19 @@ func TestUpdatePromotion(t *testing.T) {
 
 	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
-	t.Logf("Product: %s", body)
-
 	product, err = datastore.CreateProduct(product)
 
 	if err != nil {
 		t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
 	}
+
+	bodyBytes, err = json.Marshal(product)
+
+	if err != nil {
+		t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
+	}
+
+	t.Logf("Product: %s", string(bodyBytes))
 
 	promotion = models.Promotion{
 		Code:           utils.GenerateRandomString(10),
@@ -99,12 +105,12 @@ func TestUpdatePromotion(t *testing.T) {
 	}
 
 	if nMatchedDocs == 0 {
-		t.Errorf("Test failed, the id wasn't found")
+		t.Errorf("Test failed, the promotion with the id %s wasn't found", promotion.ID.Hex())
 		return
 	}
 
 	if nModifiedDocs == 0 {
-		t.Errorf("Test failed, the data sent is already registered")
+		t.Errorf("Test failed, the data sent are already registered")
 	}
 
 	if nModifiedDocs != 1 {
