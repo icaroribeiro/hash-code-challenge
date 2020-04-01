@@ -120,7 +120,7 @@ func testMain(m *testing.M) int {
 		DBName:     dbName,
 	}
 
-	datastore, err = mongodb.InitializeDatabase(dbConfig)
+	datastore, err = mongodb.InitializeDB(dbConfig)
 
 	if err != nil {
 		log.Printf("Failed to configure the database: %s", err.Error())
