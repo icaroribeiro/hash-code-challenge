@@ -39,7 +39,7 @@ func InitializeDB(dbConfig DBConfig) (Datastore, error) {
 		return Datastore{}, err
 	}
 
-	// Set up the database connecting string.
+	// Set up the connection string of the database.
 	connString = SetUpConnString(dbConfig.DBHost, dbConfig.DBPort)
 
 	ctx = context.Background()
@@ -73,7 +73,7 @@ func GenerateAuthCredential(dbUsername, dbPassword string) (options.Credential, 
 	return authCredential, nil
 }
 
-// It builds the connection string of our database.
+// It builds the connection string of the database.
 func SetUpConnString(dbHost, dbPort string) string {
 	var connString string
 
