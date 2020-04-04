@@ -8,6 +8,7 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
+    "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
     "testing"
 )
@@ -106,5 +107,5 @@ func TestDeletePromotion(t *testing.T) {
         return
     }
 
-    t.Logf("Test successful, response: code=%d and body=%s", 0, string(bodyBytes))
+    t.Logf("Test successful, response: code=%d and body=%s", codes.OK, string(bodyBytes))
 }
