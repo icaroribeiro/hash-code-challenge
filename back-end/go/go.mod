@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/golang/protobuf v1.3.5
+	github.com/google/go-cmp v0.2.0
 	github.com/grpc-ecosystem/grpc-gateway v1.14.3
 	github.com/joho/godotenv v1.3.0
 	go.mongodb.org/mongo-driver v1.3.1
