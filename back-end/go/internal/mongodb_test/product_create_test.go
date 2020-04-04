@@ -1,63 +1,63 @@
 package mongodb_test
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/google/go-cmp/cmp"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
-	"testing"
+    "encoding/json"
+    "fmt"
+    "github.com/google/go-cmp/cmp"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
+    "testing"
 )
 
 func TestCreateProduct(t *testing.T) {
-	var product models.Product
-	var body string
-	var err error
-	var productAux models.Product
-	var bodyBytes []byte
-	var bodyBytesAux []byte
+    var product models.Product
+    var body string
+    var err error
+    var productAux models.Product
+    var bodyBytes []byte
+    var bodyBytesAux []byte
 
-	product = models.Product{
-		PriceInCents: utils.GenerateRandomInteger(1, 1000),
-		Title:        utils.GenerateRandomString(10),
-		Description:  utils.GenerateRandomString(10),
-	}
+    product = models.Product{
+        PriceInCents: utils.GenerateRandomInteger(1, 1000),
+        Title:        utils.GenerateRandomString(10),
+        Description:  utils.GenerateRandomString(10),
+    }
 
-	body = fmt.Sprintf(`{
-		"price_in_cents":%d,
-		"title":"%s",
-		"description":"%s"
-	}`, product.PriceInCents, product.Title, product.Description)
+    body = fmt.Sprintf(`{
+        "price_in_cents":%d,
+        "title":"%s",
+        "description":"%s"
+    }`, product.PriceInCents, product.Title, product.Description)
 
-	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
-	t.Logf("Product: %s", body)
+    t.Logf("Product: %s", body)
 
-	productAux, err = datastore.CreateProduct(product)
+    productAux, err = datastore.CreateProduct(product)
 
-	if err != nil {
-		t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
+    }
 
-	product.ID = productAux.ID
+    product.ID = productAux.ID
 
-	bodyBytes, err = json.Marshal(product)
+    bodyBytes, err = json.Marshal(product)
 
-	if err != nil {
-		t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
+    }
 
-	// Evaluate the equality of the simulated data with those returned from the associated functionality.
-	if !cmp.Equal(product, productAux) {
-		bodyBytesAux, err = json.Marshal(productAux)
+    // Evaluate the equality of the simulated data with those returned from the associated functionality.
+    if !cmp.Equal(product, productAux) {
+        bodyBytesAux, err = json.Marshal(productAux)
 
-		if err != nil {
-			t.Fatalf("Failed to obtain the JSON encoding of the returned product %+v: %s", productAux, err.Error())
-		}
+        if err != nil {
+            t.Fatalf("Failed to obtain the JSON encoding of the returned product %+v: %s", productAux, err.Error())
+        }
 
-		t.Errorf("Test failed, the expected product returned: %s, got: %s", string(bodyBytes), string(bodyBytesAux))
-		return
-	}
+        t.Errorf("Test failed, the expected product returned: %s, got: %s", string(bodyBytes), string(bodyBytesAux))
+        return
+    }
 
-	t.Logf("Test successful, the created product: %s", string(bodyBytes))
+    t.Logf("Test successful, the created product: %s", string(bodyBytes))
 }
