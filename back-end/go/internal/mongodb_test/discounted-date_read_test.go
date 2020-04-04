@@ -68,8 +68,7 @@ func TestGetAllDiscountedDates(t *testing.T) {
     }
 
     if !isFound {
-        t.Errorf("Test failed, the discounted date with the id %s wasn't found in the list of all discounted dates: %s",
-            discountedDate.ID.Hex(), string(bodyBytes))
+        t.Errorf("Test failed, the discounted date not found in the list of all discounted dates: %s", string(bodyBytes))
         return
     }
 
@@ -101,6 +100,8 @@ func TestGetDiscountedDate(t *testing.T) {
     body = fmt.Sprintf(`{"title":"%s","description":"%s","discount_pct":%f,"date":{"year":%d,"month":%d,"day":%d}}`,
         discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
         discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
+
+    discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
 
     if err != nil {
         t.Fatalf("Failed to create a new discounted date with %s: %s", body, err.Error())

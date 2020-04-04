@@ -84,8 +84,7 @@ func TestGetAllPromotions(t *testing.T) {
     }
 
     if !isFound {
-        t.Errorf("Test failed, the promotion with the id %s wasn't found in the list of all promotions: %s",
-            promotion.ID.Hex(), string(bodyBytes))
+        t.Errorf("Test failed, the promotion not found in the list of all promotions: %s", string(bodyBytes))
         return
     }
 

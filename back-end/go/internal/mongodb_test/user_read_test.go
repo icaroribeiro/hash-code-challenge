@@ -66,8 +66,7 @@ func TestGetAllUsers(t *testing.T) {
     }
 
     if !isFound {
-        t.Errorf("Test failed, the user with the id %s wasn't found in the list of all users: %s",
-            user.ID.Hex(), string(bodyBytes))
+        t.Errorf("Test failed, the user not found in the list of all users: %s", string(bodyBytes))
         return
     }
 
