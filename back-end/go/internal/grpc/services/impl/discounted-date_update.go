@@ -35,7 +35,7 @@ func (d *DiscountedDateServiceServer) UpdateDiscountedDate(ctx context.Context,
             "The description field is required and must be set to a non-empty value")
     }
 
-    if request.DiscountedDate.DiscountPct > 0 {
+    if request.DiscountedDate.DiscountPct <= 0 {
         return nil, status.Error(codes.InvalidArgument,
             "The discount_pct field is required and must be set to a value greater than 0")
     }
