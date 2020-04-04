@@ -144,6 +144,7 @@ func main() {
 		log.Fatal("Failed to read the GRPC_SERVER_PORT_MS_1 environment variable: it isn't set")
 	}
 
+	// Register the gRPC services.
 	userServiceServer = impl.NewUserServiceServer(serviceServer)
 	services.RegisterUserServiceServer(grpcServer, userServiceServer)
 
