@@ -17,8 +17,8 @@ func TestDeletePromotion(t *testing.T) {
     var product models.Product
     var body string
     var err error
-    var promotion models.Promotion
     var bodyBytes []byte
+    var promotion models.Promotion
     var promotionEntity entities.Promotion
     var request services.DeletePromotionRequest
     var response *entities.Promotion
@@ -34,13 +34,19 @@ func TestDeletePromotion(t *testing.T) {
     body = fmt.Sprintf(`{"price_in_cents":%d,"title":"%s","description":"%s"}`,
         product.PriceInCents, product.Title, product.Description)
 
-    t.Logf("Product: %s", body)
-
     product, err = datastore.CreateProduct(product)
 
     if err != nil {
         t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
     }
+
+    bodyBytes, err = json.Marshal(product)
+
+    if err != nil {
+        t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
+    }
+
+    t.Logf("Product: %s", string(bodyBytes))
 
     promotion = models.Promotion{
         Code:           utils.GenerateRandomString(10),
