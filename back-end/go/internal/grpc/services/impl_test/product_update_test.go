@@ -57,7 +57,7 @@ func TestUpdateProduct(t *testing.T) {
     body = fmt.Sprintf(`{"price_in_cents":%d,"title":"%s","description":"%s"}`,
         product.PriceInCents, product.Title, product.Description)
 
-    t.Logf("Update product: %s", body)
+    t.Logf("New product data: %s", body)
 
     productEntity = entities.Product{
         Id:           product.ID.Hex(),

@@ -72,7 +72,7 @@ func TestUpdateUser(t *testing.T) {
     body = fmt.Sprintf(`{"first_name":"%s","last_name":"%s","date_of_birth":{"year":%d,"month":%d,"day":%d}}`,
         user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
 
-    t.Logf("Update user: %s", body)
+    t.Logf("New user data: %s", body)
 
     userEntity = entities.User{
         Id:        user.ID.Hex(),
