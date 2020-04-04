@@ -108,7 +108,7 @@ func TestUpdatePromotion(t *testing.T) {
     body = fmt.Sprintf(`{"code":"%s","title":"%s","description":"%s","max_discount_pct":%f,"products":["%s"]}`,
         promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct, promotion.Products[0])
 
-    t.Logf("Update Promotion: %s", body)
+    t.Logf("New promotion data: %s", body)
 
     promotionEntity = entities.Promotion{
         Id:             promotion.ID.Hex(),

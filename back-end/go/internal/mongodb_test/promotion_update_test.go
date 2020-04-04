@@ -86,7 +86,7 @@ func TestUpdatePromotion(t *testing.T) {
         t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
     }
 
-    t.Logf("New Product: %s", string(bodyBytes))
+    t.Logf("New product: %s", string(bodyBytes))
 
     promotion = models.Promotion{
         ID:             promotion.ID,
