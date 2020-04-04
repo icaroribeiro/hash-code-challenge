@@ -63,19 +63,9 @@ func TestUpdateDiscountedDate(t *testing.T) {
         },
     }
 
-    body = fmt.Sprintf(`{
-        "title":"%s",
-        "description":"%s",
-        "discount_pct":%f,
-        "date":{
-            "year":%d,
-            "month":%d,
-            "day":%d
-        }
-    }`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
+	body = fmt.Sprintf(`{"title":"%s","description":"%s","discount_pct":%f,"date":{"year":%d,"month":%d,"day":%d}}`,
+		discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
         discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
     t.Logf("Update discounted date: %s", body)
 
