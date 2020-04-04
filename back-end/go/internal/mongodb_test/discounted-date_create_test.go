@@ -63,6 +63,6 @@ func TestCreateDiscountedDate(t *testing.T) {
         t.Errorf("Test failed, the expected discounted date returned: %s, got: %s", string(bodyBytes), string(bodyBytesAux))
         return
     }
-	
+    
     t.Logf("Test successful, the created discounted date: %s", string(bodyBytes))
 }

@@ -31,17 +31,8 @@ func TestCreateUser(t *testing.T) {
         },
     }
 
-    body = fmt.Sprintf(`{
-        "first_name":"%s",
-        "last_name":"%s",
-        "date_of_birth":{
-            "year":%d,
-            "month":%d,
-            "day":%d,
-        }
-    }`, user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = fmt.Sprintf(`{"first_name":"%s","last_name":"%s","date_of_birth":{"year":%d,"month":%d,"day":%d}}`,
+        user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
 
     t.Logf("User: %s", body)
 

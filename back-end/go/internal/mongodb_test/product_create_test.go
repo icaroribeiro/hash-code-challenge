@@ -23,13 +23,8 @@ func TestCreateProduct(t *testing.T) {
         Description:  utils.GenerateRandomString(10),
     }
 
-    body = fmt.Sprintf(`{
-        "price_in_cents":%d,
-        "title":"%s",
-        "description":"%s"
-    }`, product.PriceInCents, product.Title, product.Description)
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = fmt.Sprintf(`{"price_in_cents":%d,"title":"%s","description":"%s"}`,
+        product.PriceInCents, product.Title, product.Description)
 
     t.Logf("Product: %s", body)
 

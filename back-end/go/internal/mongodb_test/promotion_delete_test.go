@@ -22,13 +22,8 @@ func TestDeletePromotion(t *testing.T) {
         Description:  utils.GenerateRandomString(10),
     }
 
-    body = fmt.Sprintf(`{
-        "price_in_cents":%d,
-        "title":"%s",
-        "description":"%s"
-    }`, product.PriceInCents, product.Title, product.Description)
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = fmt.Sprintf(`{"price_in_cents":%d,"title":"%s","description":"%s"}`,
+        product.PriceInCents, product.Title, product.Description)
 
     product, err = datastore.CreateProduct(product)
 
@@ -52,15 +47,8 @@ func TestDeletePromotion(t *testing.T) {
         Products:       []string{product.ID.Hex()},
     }
 
-    body = fmt.Sprintf(`{
-        "code":"%s",
-        "title":"%s",
-        "description":"%s",
-        "max_discount_pct":%f,
-        "products":["%s"]
-    }`, promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct, promotion.Products[0])
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = fmt.Sprintf(`{"code":"%s","title":"%s","description":"%s","max_discount_pct":%f,"products":["%s"]}`,
+        promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct, promotion.Products[0])
 
     promotion, err = datastore.CreatePromotion(promotion)
 
