@@ -35,11 +35,11 @@ func init() {
 
 func main() {
 	var dbUsername string
+	var isSet bool
 	var dbPassword string
 	var dbHost string
 	var dbPort string
 	var dbName string
-	var isSet bool
 	var dbConfig mongodb.DBConfig
 	var datastore mongodb.Datastore
 	var err error
