@@ -9,6 +9,7 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
     date "google.golang.org/genproto/googleapis/type/date"
+    "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
     "testing"
     "time"
@@ -93,9 +94,10 @@ func TestUpdateUser(t *testing.T) {
 
     errStatus = status.Convert(err)
 
-    if errStatus != nil {
-        t.Errorf("Test failed, response: code=%d and body={\"error\":\"%s\",\"code\":%d,\"message\":\"%s\"}",
+    if errStatus == nil {
+        t.Errorf(`Test failed, response: code=%d and body={"error":"%s","code":%d,"message":"%s"}`,
             errStatus.Code(), errStatus.Message(), errStatus.Code(), errStatus.Message())
+        return
     }
 
     bodyBytes, err = json.Marshal(userEntity)
@@ -116,5 +118,5 @@ func TestUpdateUser(t *testing.T) {
         return
     }
 
-    t.Logf("Test successful, response: code=%d and body=%s", 0, string(bodyBytes))
+    t.Logf("Test successful, response: code=%d and body=%s", codes.OK, string(bodyBytes))
 }

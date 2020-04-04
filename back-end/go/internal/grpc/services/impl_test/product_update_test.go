@@ -8,6 +8,7 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
+    "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
     "testing"
 )
@@ -74,9 +75,10 @@ func TestUpdateProduct(t *testing.T) {
 
     errStatus = status.Convert(err)
 
-    if errStatus != nil {
-        t.Errorf("Test failed, response: code=%d and body={\"error\":\"%s\",\"code\":%d,\"message\":\"%s\"}",
+    if errStatus == nil {
+        t.Errorf(`Test failed, response: code=%d and body={"error":"%s","code":%d,"message":"%s"}`,
             errStatus.Code(), errStatus.Message(), errStatus.Code(), errStatus.Message())
+        return
     }
 
     bodyBytes, err = json.Marshal(productEntity)
@@ -97,5 +99,5 @@ func TestUpdateProduct(t *testing.T) {
         return
     }
 
-    t.Logf("Test successful, response: code=%d and body=%s", 0, string(bodyBytes))
+    t.Logf("Test successful, response: code=%d and body=%s", codes.OK, string(bodyBytes))
 }
