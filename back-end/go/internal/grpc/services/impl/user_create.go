@@ -5,7 +5,6 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
-    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
     context "golang.org/x/net/context"
     date "google.golang.org/genproto/googleapis/type/date"
     "google.golang.org/grpc/codes"
@@ -59,17 +58,8 @@ func (u *UserServiceServer) CreateUser(ctx context.Context,
         },
     }
 
-    body = fmt.Sprintf(`{
-            "first_name":"%s",
-            "last_name":"%s",
-            "date_of_birth":{
-                "year":%d,
-                "month":%d,
-                "day":%d
-            }
-        }`, user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = fmt.Sprintf(`{"first_name":"%s","last_name":"%s","date_of_birth":{"year":%d,"month":%d,"day":%d}}`,
+        user.FirstName, user.LastName, user.DateOfBirth.Year, user.DateOfBirth.Month, user.DateOfBirth.Day)
 
     user, err = u.ServiceServer.Datastore.CreateUser(user)
 

@@ -5,7 +5,6 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
-    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
     context "golang.org/x/net/context"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
@@ -46,13 +45,8 @@ func (p *ProductServiceServer) UpdateProduct(ctx context.Context,
         Description:  request.Product.Description,
     }
 
-    body = fmt.Sprintf(`{
-            "price_in_cents":%d,
-            "title":"%s",
-            "description":"%s"
-        }`, product.PriceInCents, product.Title, product.Description)
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = fmt.Sprintf(`{"price_in_cents":%d,"title":"%s","description":"%s"}`,
+        product.PriceInCents, product.Title, product.Description)
 
     nMatchedDocs, nModifiedDocs, err = p.ServiceServer.Datastore.UpdateProduct(request.Id, product)
 

@@ -5,7 +5,6 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
-    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
     context "golang.org/x/net/context"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
@@ -49,12 +48,8 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
         MaxDiscountPct: float32(request.Promotion.MaxDiscountPct),
     }
 
-    body = fmt.Sprintf(`{
-            "code":"%s",
-            "title":"%s",
-            "description":"%s",
-            "max_discount_pct":%f
-        `, promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct)
+    body = fmt.Sprintf(`{"code":"%s","title":"%s","description":"%s","max_discount_pct":%f`,
+        promotion.Code, promotion.Title, promotion.Description, promotion.MaxDiscountPct)
 
     // Verify if all the ids of the products associated with the promotion are valid.
     // Additionally, checks if there are no duplicated ids of the products.
@@ -104,8 +99,6 @@ func (p *PromotionServiceServer) CreatePromotion(ctx context.Context,
     } else {
         body += `}`
     }
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
     promotion, err = p.ServiceServer.Datastore.CreatePromotion(promotion)
 

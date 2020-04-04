@@ -6,7 +6,6 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
-    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
     context "golang.org/x/net/context"
     "google.golang.org/grpc/codes"
     "google.golang.org/grpc/status"
@@ -87,19 +86,9 @@ func (d *DiscountedDateServiceServer) UpdateDiscountedDate(ctx context.Context,
         },
     }
 
-    body = fmt.Sprintf(`{
-            "title":"%s",
-            "description":"%s",
-            "discount_pct":%f,
-            "date":{
-                "year":%d,
-                "month":%d,
-                "day":%d
-            }
-        }`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
+    body = fmt.Sprintf(`{"title":"%s","description":"%s","discount_pct":%f,"date":{"year":%d,"month":%d,"day":%d}}`,
+        discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
         discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
-
-    body = utils.RemoveEscapeSequencesFromString(body, "\n", "\t")
 
     nMatchedDocs, nModifiedDocs, err = d.ServiceServer.Datastore.UpdateDiscountedDate(request.Id, discountedDate)
 
