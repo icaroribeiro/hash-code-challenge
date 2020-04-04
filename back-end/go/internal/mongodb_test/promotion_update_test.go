@@ -65,6 +65,29 @@ func TestUpdatePromotion(t *testing.T) {
 
     t.Logf("Promotion: %s", string(bodyBytes))
 
+    product = models.Product{
+        PriceInCents: utils.GenerateRandomInteger(1, 1000),
+        Title:        utils.GenerateRandomString(10),
+        Description:  utils.GenerateRandomString(10),
+    }
+
+    body = fmt.Sprintf(`{"price_in_cents":%d,"title":"%s","description":"%s"}`,
+        product.PriceInCents, product.Title, product.Description)
+
+    product, err = datastore.CreateProduct(product)
+
+    if err != nil {
+        t.Fatalf("Failed to create a new product with %s: %s", body, err.Error())
+    }
+
+    bodyBytes, err = json.Marshal(product)
+
+    if err != nil {
+        t.Fatalf("Failed to obtain the JSON encoding of the product %+v: %s", product, err.Error())
+    }
+
+    t.Logf("New Product: %s", string(bodyBytes))
+
     promotion = models.Promotion{
         ID:             promotion.ID,
         Code:           utils.GenerateRandomString(10),
