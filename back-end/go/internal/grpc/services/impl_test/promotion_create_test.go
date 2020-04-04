@@ -71,7 +71,7 @@ func TestCreatePromotion(t *testing.T) {
 		Title:          promotion.Title,
 		Description:    promotion.Description,
 		MaxDiscountPct: float32(promotion.MaxDiscountPct),
-		Products: []string{product.ID.Hex()},
+		Products:       []string{product.ID.Hex()},
 	}
 
 	request = services.CreatePromotionRequest{

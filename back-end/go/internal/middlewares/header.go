@@ -1,14 +1,14 @@
 package middlewares
 
 import (
-	"strings"
+    "strings"
 )
 
 func CustomHeaderMatcher(key string) (string, bool) {
-	switch strings.ToUpper(key) {
-	case "X-USER-ID":
-		return key, true
-	default:
-		return key, false
-	}
+    switch strings.ToUpper(key) {
+    case "X-USER-ID":
+        return key, true
+    default:
+        return key, false
+    }
 }

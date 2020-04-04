@@ -79,7 +79,7 @@ func TestUpdatePromotion(t *testing.T) {
 	t.Logf("Promotion: %s", string(bodyBytes))
 
 	promotion = models.Promotion{
-		ID:				promotion.ID,
+		ID:             promotion.ID,
 		Code:           utils.GenerateRandomString(10),
 		Title:          utils.GenerateRandomString(10),
 		Description:    utils.GenerateRandomString(10),
@@ -100,12 +100,12 @@ func TestUpdatePromotion(t *testing.T) {
 	t.Logf("Update promotion: %s", body)
 
 	promotionEntity = entities.Promotion{
-		Id:				promotion.ID.Hex(),
+		Id:             promotion.ID.Hex(),
 		Code:           promotion.Code,
 		Title:          promotion.Title,
 		Description:    promotion.Description,
 		MaxDiscountPct: float32(promotion.MaxDiscountPct),
-		Products: []string{product.ID.Hex()},
+		Products:       []string{product.ID.Hex()},
 	}
 
 	request = services.UpdatePromotionRequest{

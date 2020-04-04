@@ -13,7 +13,7 @@ import (
 	"testing"
 )
 
-func TestGetAllProducts(t *testing.T) {	
+func TestGetAllProducts(t *testing.T) {
 	var product models.Product
 	var body string
 	var err error

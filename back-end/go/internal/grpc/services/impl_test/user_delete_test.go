@@ -14,7 +14,7 @@ import (
 	"time"
 )
 
-func TestDeleteUser(t *testing.T) {	
+func TestDeleteUser(t *testing.T) {
 	var rDate time.Time
 	var user models.User
 	var body string
@@ -65,7 +65,7 @@ func TestDeleteUser(t *testing.T) {
 	t.Logf("User: %s", string(bodyBytes))
 
 	userEntity = entities.User{
-		Id:		   user.ID.Hex(),
+		Id:        user.ID.Hex(),
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		DateOfBirth: &date.Date{

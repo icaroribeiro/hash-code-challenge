@@ -52,7 +52,7 @@ func TestUpdateProduct(t *testing.T) {
 	t.Logf("Product: %s", string(bodyBytes))
 
 	product = models.Product{
-		ID:			  product.ID,
+		ID:           product.ID,
 		PriceInCents: utils.GenerateRandomInteger(1, 1000),
 		Title:        utils.GenerateRandomString(10),
 		Description:  utils.GenerateRandomString(10),

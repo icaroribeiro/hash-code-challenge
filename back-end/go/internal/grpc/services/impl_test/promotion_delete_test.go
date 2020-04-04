@@ -79,12 +79,12 @@ func TestDeletePromotion(t *testing.T) {
 	t.Logf("Promotion: %s", string(bodyBytes))
 
 	promotionEntity = entities.Promotion{
-		Id:				promotion.ID.Hex(),
+		Id:             promotion.ID.Hex(),
 		Code:           promotion.Code,
 		Title:          promotion.Title,
 		Description:    promotion.Description,
 		MaxDiscountPct: float32(promotion.MaxDiscountPct),
-		Products: []string{product.ID.Hex()},
+		Products:       []string{product.ID.Hex()},
 	}
 
 	request = services.DeletePromotionRequest{

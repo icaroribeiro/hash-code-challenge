@@ -1,230 +1,230 @@
 package impl_test
 
 import (
-	"encoding/json"
-	"fmt"
-	"github.com/golang/protobuf/proto"
-	"github.com/golang/protobuf/ptypes/empty"
-	"github.com/golang/protobuf/ptypes/wrappers"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
-	"google.golang.org/grpc/status"
-	"testing"
-	"time"
+    "encoding/json"
+    "fmt"
+    "github.com/golang/protobuf/proto"
+    "github.com/golang/protobuf/ptypes/empty"
+    "github.com/golang/protobuf/ptypes/wrappers"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
+    "google.golang.org/grpc/status"
+    "testing"
+    "time"
 )
 
 func TestGetAllDiscountedDates(t *testing.T) {
-	var rDate time.Time
-	var discountedDate models.DiscountedDate
-	var body string
-	var err error
-	var bodyBytes []byte
-	var discountedDateEntity entities.DiscountedDate
-	var request empty.Empty
-	var response *services.GetAllDiscountedDatesResponse
-	var errStatus *status.Status
-	var isFound bool
-	var discountedDateEntityAux *entities.DiscountedDate
+    var rDate time.Time
+    var discountedDate models.DiscountedDate
+    var body string
+    var err error
+    var bodyBytes []byte
+    var discountedDateEntity entities.DiscountedDate
+    var request empty.Empty
+    var response *services.GetAllDiscountedDatesResponse
+    var errStatus *status.Status
+    var isFound bool
+    var discountedDateEntityAux *entities.DiscountedDate
 
-	rDate = utils.GenerateRandomDate(2010, 2020)
+    rDate = utils.GenerateRandomDate(2010, 2020)
 
-	discountedDate = models.DiscountedDate{
-		Title:       utils.GenerateRandomString(10),
-		Description: utils.GenerateRandomString(10),
-		DiscountPct: float32(utils.GenerateRandomInteger(1, 1000)) / 2.0,
-		Date: models.Date{
-			Year:  rDate.Year(),
-			Month: int(rDate.Month()),
-			Day:   rDate.Day(),
-		},
-	}
+    discountedDate = models.DiscountedDate{
+        Title:       utils.GenerateRandomString(10),
+        Description: utils.GenerateRandomString(10),
+        DiscountPct: float32(utils.GenerateRandomInteger(1, 1000)) / 2.0,
+        Date: models.Date{
+            Year:  rDate.Year(),
+            Month: int(rDate.Month()),
+            Day:   rDate.Day(),
+        },
+    }
 
-	body = fmt.Sprintf(`{
-		"title":"%s",
-		"description":"%s",
-		"discount_pct":%f,
-		"date":{
-			"year":%d,
-			"month":%d,
-			"day":%d
-		}
-	}`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
-		discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
+    body = fmt.Sprintf(`{
+        "title":"%s",
+        "description":"%s",
+        "discount_pct":%f,
+        "date":{
+            "year":%d,
+            "month":%d,
+            "day":%d
+        }
+    }`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
+        discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
 
-	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
-	discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
+    discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
 
-	if err != nil {
-		t.Fatalf("Failed to create a new discounted date with %s: %s", body, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to create a new discounted date with %s: %s", body, err.Error())
+    }
 
-	bodyBytes, err = json.Marshal(discountedDate)
+    bodyBytes, err = json.Marshal(discountedDate)
 
-	if err != nil {
-		t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDate, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDate, err.Error())
+    }
 
-	t.Logf("Discounted date: %s", string(bodyBytes))
+    t.Logf("Discounted date: %s", string(bodyBytes))
 
-	discountedDateEntity = entities.DiscountedDate{
-		Id:          discountedDate.ID.Hex(),
-		Title:       discountedDate.Title,
-		Description: discountedDate.Description,
-		DiscountPct: float32(discountedDate.DiscountPct),
-		Date: &entities.Date{
-			Year: &wrappers.Int32Value{
-				Value: int32(discountedDate.Date.Year),
-			},
-			Month: &wrappers.Int32Value{
-				Value: int32(discountedDate.Date.Month),
-			},
-			Day: &wrappers.Int32Value{
-				Value: int32(discountedDate.Date.Day),
-			},
-		},
-	}
+    discountedDateEntity = entities.DiscountedDate{
+        Id:          discountedDate.ID.Hex(),
+        Title:       discountedDate.Title,
+        Description: discountedDate.Description,
+        DiscountPct: float32(discountedDate.DiscountPct),
+        Date: &entities.Date{
+            Year: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Year),
+            },
+            Month: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Month),
+            },
+            Day: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Day),
+            },
+        },
+    }
 
-	request = empty.Empty{}
+    request = empty.Empty{}
 
-	response, err = discountedDateServiceClient.GetAllDiscountedDates(ctx, &request)
+    response, err = discountedDateServiceClient.GetAllDiscountedDates(ctx, &request)
 
-	errStatus = status.Convert(err)
+    errStatus = status.Convert(err)
 
-	if errStatus != nil {
-		t.Errorf("Test failed, response: code=%d and body={\"error\":\"%s\",\"code\":%d,\"message\":\"%s\"}",
-			errStatus.Code(), errStatus.Message(), errStatus.Code(), errStatus.Message())
-	}
+    if errStatus != nil {
+        t.Errorf("Test failed, response: code=%d and body={\"error\":\"%s\",\"code\":%d,\"message\":\"%s\"}",
+            errStatus.Code(), errStatus.Message(), errStatus.Code(), errStatus.Message())
+    }
 
-	bodyBytes, err = json.Marshal(discountedDateEntity)
+    bodyBytes, err = json.Marshal(discountedDateEntity)
 
-	if err != nil {
-		t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDateEntity, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDateEntity, err.Error())
+    }
 
-	isFound = false
+    isFound = false
 
-	for _, discountedDateEntityAux = range response.DiscountedDates {
-		// Evaluate the equality of the simulated data with those returned from the associated functionality.
-		if proto.Equal(&discountedDateEntity, discountedDateEntityAux) {
-			isFound = true
-			break
-		}
-	}
+    for _, discountedDateEntityAux = range response.DiscountedDates {
+        // Evaluate the equality of the simulated data with those returned from the associated functionality.
+        if proto.Equal(&discountedDateEntity, discountedDateEntityAux) {
+            isFound = true
+            break
+        }
+    }
 
-	if !isFound {
-		t.Errorf("Test failed, the discounted date wasn't found: %s", string(bodyBytes))
-		return
-	}
+    if !isFound {
+        t.Errorf("Test failed, the discounted date wasn't found: %s", string(bodyBytes))
+        return
+    }
 
-	t.Logf("Test successful, the discounted date was found in the response body: code=%d and body=%s", 0, string(bodyBytes))
+    t.Logf("Test successful, the discounted date was found in the response body: code=%d and body=%s", 0, string(bodyBytes))
 }
 
 func TestGetDiscountedDate(t *testing.T) {
-	var rDate time.Time
-	var discountedDate models.DiscountedDate
-	var body string
-	var err error
-	var bodyBytes []byte
-	var discountedDateEntity entities.DiscountedDate	
-	var request services.GetDiscountedDateRequest
-	var response *entities.DiscountedDate	
-	var errStatus *status.Status
-	var bodyBytesAux []byte
+    var rDate time.Time
+    var discountedDate models.DiscountedDate
+    var body string
+    var err error
+    var bodyBytes []byte
+    var discountedDateEntity entities.DiscountedDate
+    var request services.GetDiscountedDateRequest
+    var response *entities.DiscountedDate
+    var errStatus *status.Status
+    var bodyBytesAux []byte
 
-	rDate = utils.GenerateRandomDate(2010, 2020)
+    rDate = utils.GenerateRandomDate(2010, 2020)
 
-	discountedDate = models.DiscountedDate{
-		Title:       utils.GenerateRandomString(10),
-		Description: utils.GenerateRandomString(10),
-		DiscountPct: float32(utils.GenerateRandomInteger(1, 1000)) / 2.0,
-		Date: models.Date{
-			Year:  rDate.Year(),
-			Month: int(rDate.Month()),
-			Day:   rDate.Day(),
-		},
-	}
+    discountedDate = models.DiscountedDate{
+        Title:       utils.GenerateRandomString(10),
+        Description: utils.GenerateRandomString(10),
+        DiscountPct: float32(utils.GenerateRandomInteger(1, 1000)) / 2.0,
+        Date: models.Date{
+            Year:  rDate.Year(),
+            Month: int(rDate.Month()),
+            Day:   rDate.Day(),
+        },
+    }
 
-	body = fmt.Sprintf(`{
-		"title":"%s",
-		"description":"%s",
-		"discount_pct":%f,
-		"date":{
-			"year":%d,
-			"month":%d,
-			"day":%d
-		}
-	}`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
-		discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
+    body = fmt.Sprintf(`{
+        "title":"%s",
+        "description":"%s",
+        "discount_pct":%f,
+        "date":{
+            "year":%d,
+            "month":%d,
+            "day":%d
+        }
+    }`, discountedDate.Title, discountedDate.Description, discountedDate.DiscountPct,
+        discountedDate.Date.Year, discountedDate.Date.Month, discountedDate.Date.Day)
 
-	body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
+    body = utils.RemoveEscapeSequencesFromString(body, "\t", "\n")
 
-	discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
+    discountedDate, err = datastore.CreateDiscountedDate(discountedDate)
 
-	if err != nil {
-		t.Fatalf("Failed to create a new discounted date with %s: %s", body, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to create a new discounted date with %s: %s", body, err.Error())
+    }
 
-	bodyBytes, err = json.Marshal(discountedDate)
+    bodyBytes, err = json.Marshal(discountedDate)
 
-	if err != nil {
-		t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDate, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDate, err.Error())
+    }
 
-	t.Logf("Discounted date: %s", string(bodyBytes))
+    t.Logf("Discounted date: %s", string(bodyBytes))
 
-	discountedDateEntity = entities.DiscountedDate{
-		Id:          discountedDate.ID.Hex(),
-		Title:       discountedDate.Title,
-		Description: discountedDate.Description,
-		DiscountPct: float32(discountedDate.DiscountPct),
-		Date: &entities.Date{
-			Year: &wrappers.Int32Value{
-				Value: int32(discountedDate.Date.Year),
-			},
-			Month: &wrappers.Int32Value{
-				Value: int32(discountedDate.Date.Month),
-			},
-			Day: &wrappers.Int32Value{
-				Value: int32(discountedDate.Date.Day),
-			},
-		},
-	}
+    discountedDateEntity = entities.DiscountedDate{
+        Id:          discountedDate.ID.Hex(),
+        Title:       discountedDate.Title,
+        Description: discountedDate.Description,
+        DiscountPct: float32(discountedDate.DiscountPct),
+        Date: &entities.Date{
+            Year: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Year),
+            },
+            Month: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Month),
+            },
+            Day: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Day),
+            },
+        },
+    }
 
-	request = services.GetDiscountedDateRequest{
-		Id: discountedDateEntity.Id,
-	}
+    request = services.GetDiscountedDateRequest{
+        Id: discountedDateEntity.Id,
+    }
 
-	response, err = discountedDateServiceClient.GetDiscountedDate(ctx, &request)
+    response, err = discountedDateServiceClient.GetDiscountedDate(ctx, &request)
 
-	errStatus = status.Convert(err)
+    errStatus = status.Convert(err)
 
-	if errStatus != nil {
-		t.Errorf("Test failed, response: status code=%d and body={\"error\":\"%s\",\"code\":%d,\"message\":\"%s\"}",
-			errStatus.Code(), errStatus.Message(), errStatus.Code(), errStatus.Message())
-	}
+    if errStatus != nil {
+        t.Errorf("Test failed, response: status code=%d and body={\"error\":\"%s\",\"code\":%d,\"message\":\"%s\"}",
+            errStatus.Code(), errStatus.Message(), errStatus.Code(), errStatus.Message())
+    }
 
-	bodyBytes, err = json.Marshal(discountedDateEntity)
+    bodyBytes, err = json.Marshal(discountedDateEntity)
 
-	if err != nil {
-		t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDateEntity, err.Error())
-	}
+    if err != nil {
+        t.Fatalf("Failed to obtain the JSON encoding of the discounted date %+v: %s", discountedDateEntity, err.Error())
+    }
 
-	// Evaluate the equality of the simulated data with those returned from the associated functionality.
-	if !proto.Equal(&discountedDateEntity, response) {
-		bodyBytesAux, err = json.Marshal(response)
+    // Evaluate the equality of the simulated data with those returned from the associated functionality.
+    if !proto.Equal(&discountedDateEntity, response) {
+        bodyBytesAux, err = json.Marshal(response)
 
-		if err != nil {
-			t.Fatalf("Failed to obtain the JSON encoding of the returned discounted date %+v: %s",
-				response, err.Error())
-		}
+        if err != nil {
+            t.Fatalf("Failed to obtain the JSON encoding of the returned discounted date %+v: %s",
+                response, err.Error())
+        }
 
-		t.Errorf("Test failed, the expected discounted date returned: %s, got: %s",
-			string(bodyBytes), string(bodyBytesAux))
-		return
-	}
+        t.Errorf("Test failed, the expected discounted date returned: %s, got: %s",
+            string(bodyBytes), string(bodyBytesAux))
+        return
+    }
 
-	t.Logf("Test successful, response: code=%d and body=%s", 0, string(bodyBytes))
+    t.Logf("Test successful, response: code=%d and body=%s", 0, string(bodyBytes))
 }

@@ -1,70 +1,70 @@
 package impl
 
 import (
-	"fmt"
-	"github.com/golang/protobuf/ptypes/wrappers"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
-	context "golang.org/x/net/context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+    "fmt"
+    "github.com/golang/protobuf/ptypes/wrappers"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
+    context "golang.org/x/net/context"
+    "google.golang.org/grpc/codes"
+    "google.golang.org/grpc/status"
 )
 
-func (d *DiscountedDateServiceServer) DeleteDiscountedDate(ctx context.Context, 
-	request *services.DeleteDiscountedDateRequest) (*entities.DiscountedDate, error) {
-		var discountedDate models.DiscountedDate
-		var nDeletedDocs int64
-		var err error
-		var response *entities.DiscountedDate
+func (d *DiscountedDateServiceServer) DeleteDiscountedDate(ctx context.Context,
+    request *services.DeleteDiscountedDateRequest) (*entities.DiscountedDate, error) {
+    var discountedDate models.DiscountedDate
+    var nDeletedDocs int64
+    var err error
+    var response *entities.DiscountedDate
 
-		if request.Id == "" {
-			return nil, status.Error(codes.InvalidArgument,
-				"The id is required and must be set to a non-empty value in the request URL")
-		}
+    if request.Id == "" {
+        return nil, status.Error(codes.InvalidArgument,
+            "The id is required and must be set to a non-empty value in the request URL")
+    }
 
-		discountedDate, err = d.ServiceServer.Datastore.GetDiscountedDate(request.Id)
+    discountedDate, err = d.ServiceServer.Datastore.GetDiscountedDate(request.Id)
 
-		if err != nil {
-			return nil, status.Error(codes.Internal,
-				fmt.Sprintf("Failed to get the discounted date with the id %s: %s", request.Id, err.Error()))
-		}
+    if err != nil {
+        return nil, status.Error(codes.Internal,
+            fmt.Sprintf("Failed to get the discounted date with the id %s: %s", request.Id, err.Error()))
+    }
 
-		nDeletedDocs, err = d.ServiceServer.Datastore.DeleteDiscountedDate(request.Id)
+    nDeletedDocs, err = d.ServiceServer.Datastore.DeleteDiscountedDate(request.Id)
 
-		if err != nil {
-			return nil, status.Error(codes.Internal,
-				fmt.Sprintf("Failed to delete the discounted date with the id %s: %s", request.Id, err.Error()))
-		}
+    if err != nil {
+        return nil, status.Error(codes.Internal,
+            fmt.Sprintf("Failed to delete the discounted date with the id %s: %s", request.Id, err.Error()))
+    }
 
-		if nDeletedDocs == 0 {
-			return nil, status.Error(codes.NotFound,
-				fmt.Sprintf("Failed to delete the discounted date with the id %s: the discounted date wasn't found", request.Id))
-		}
+    if nDeletedDocs == 0 {
+        return nil, status.Error(codes.NotFound,
+            fmt.Sprintf("Failed to delete the discounted date with the id %s: the discounted date wasn't found", request.Id))
+    }
 
-		if nDeletedDocs > 1 {
-			return nil, status.Error(codes.Internal,
-				fmt.Sprintf("Failed to delete the discounted date with the id %s: the expected number of "+
-					"discounted dates deleted: %d, got: %d", request.Id, 1, nDeletedDocs))
-		}
+    if nDeletedDocs > 1 {
+        return nil, status.Error(codes.Internal,
+            fmt.Sprintf("Failed to delete the discounted date with the id %s: the expected number of "+
+                "discounted dates deleted: %d, got: %d", request.Id, 1, nDeletedDocs))
+    }
 
-		response = &entities.DiscountedDate{
-			Id:          discountedDate.ID.Hex(),
-			Title:       discountedDate.Title,
-			Description: discountedDate.Description,
-			DiscountPct: float32(discountedDate.DiscountPct),
-			Date: &entities.Date{
-				Year: &wrappers.Int32Value{
-					Value: int32(discountedDate.Date.Year),
-				},
-				Month: &wrappers.Int32Value{
-					Value: int32(discountedDate.Date.Month),
-				},
-				Day: &wrappers.Int32Value{
-					Value: int32(discountedDate.Date.Day),
-				},
-			},
-		}
+    response = &entities.DiscountedDate{
+        Id:          discountedDate.ID.Hex(),
+        Title:       discountedDate.Title,
+        Description: discountedDate.Description,
+        DiscountPct: float32(discountedDate.DiscountPct),
+        Date: &entities.Date{
+            Year: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Year),
+            },
+            Month: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Month),
+            },
+            Day: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Day),
+            },
+        },
+    }
 
-		return response, nil
+    return response, nil
 }

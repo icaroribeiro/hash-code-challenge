@@ -63,7 +63,7 @@ func TestGetAllProducts(t *testing.T) {
 	}
 
 	if !isFound {
-		t.Errorf("Test failed, the product with the id %s wasn't found in the list of all products: %s", 
+		t.Errorf("Test failed, the product with the id %s wasn't found in the list of all products: %s",
 			product.ID.Hex(), string(bodyBytes))
 		return
 	}

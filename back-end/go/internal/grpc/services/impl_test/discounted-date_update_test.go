@@ -68,7 +68,7 @@ func TestUpdateDiscountedDate(t *testing.T) {
 	t.Logf("Discounted date: %s", string(bodyBytes))
 
 	discountedDate = models.DiscountedDate{
-		ID:			 discountedDate.ID,
+		ID:          discountedDate.ID,
 		Title:       utils.GenerateRandomString(10),
 		Description: utils.GenerateRandomString(10),
 		DiscountPct: float32(utils.GenerateRandomInteger(1, 1000)) / 2.0,

@@ -6,8 +6,8 @@ import (
 	"github.com/golang/protobuf/proto"
 	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/entities"
 	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services"
-	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
 	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/models"
+	"github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
 	"google.golang.org/grpc/status"
 	"testing"
 )
@@ -40,10 +40,10 @@ func TestCreateProduct(t *testing.T) {
 	t.Logf("Product: %s", body)
 
 	productEntity = entities.Product{
-			PriceInCents: int32(product.PriceInCents),
-			Title:        product.Title,
-			Description:  product.Description,
-		}
+		PriceInCents: int32(product.PriceInCents),
+		Title:        product.Title,
+		Description:  product.Description,
+	}
 
 	request = services.CreateProductRequest{
 		Product: &productEntity,

@@ -56,21 +56,21 @@ func TestCreateDiscountedDate(t *testing.T) {
     t.Logf("Discounted date: %s", body)
 
     discountedDateEntity = entities.DiscountedDate{
-            Title:       discountedDate.Title,
-            Description: discountedDate.Description,
-            DiscountPct: float32(discountedDate.DiscountPct),
-            Date: &entities.Date{
-                Year: &wrappers.Int32Value{
-                    Value: int32(discountedDate.Date.Year),
-                },
-                Month: &wrappers.Int32Value{
-                    Value: int32(discountedDate.Date.Month),
-                },
-                Day: &wrappers.Int32Value{
-                    Value: int32(discountedDate.Date.Day),
-                },
+        Title:       discountedDate.Title,
+        Description: discountedDate.Description,
+        DiscountPct: float32(discountedDate.DiscountPct),
+        Date: &entities.Date{
+            Year: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Year),
             },
-        }
+            Month: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Month),
+            },
+            Day: &wrappers.Int32Value{
+                Value: int32(discountedDate.Date.Day),
+            },
+        },
+    }
 
     request = services.CreateDiscountedDateRequest{
         DiscountedDate: &discountedDateEntity,

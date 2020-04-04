@@ -78,7 +78,7 @@ func TestGetAllDiscountedDates(t *testing.T) {
 	}
 
 	if !isFound {
-		t.Errorf("Test failed, the discounted date with the id %s wasn't found in the list of all discounted dates: %s", 
+		t.Errorf("Test failed, the discounted date with the id %s wasn't found in the list of all discounted dates: %s",
 			discountedDate.ID.Hex(), string(bodyBytes))
 		return
 	}
