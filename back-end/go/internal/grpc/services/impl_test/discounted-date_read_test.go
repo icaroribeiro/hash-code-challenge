@@ -107,11 +107,11 @@ func TestGetAllDiscountedDates(t *testing.T) {
     }
 
     if !isFound {
-        t.Errorf("Test failed, the discounted date wasn't found: %s", string(bodyBytes))
+        t.Errorf("Test failed, the discounted date not found in the response body: %s", string(bodyBytes))
         return
     }
 
-    t.Logf("Test successful, the discounted date was found in the response body: code=%d and body=%s", 
+    t.Logf("Test successful, the discounted date found in the response body: code=%d and body=%s", 
         codes.OK, string(bodyBytes))
 }
 

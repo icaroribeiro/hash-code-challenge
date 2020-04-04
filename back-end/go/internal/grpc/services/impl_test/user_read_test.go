@@ -98,11 +98,11 @@ func TestGetAllUsers(t *testing.T) {
     }
 
     if !isFound {
-        t.Errorf("Test failed, the user wasn't found: %s", string(bodyBytes))
+        t.Errorf("Test failed, the user not found in the response body: %s", string(bodyBytes))
         return
     }
 
-    t.Logf("Test successful, the user was found in the response body: code=%d and body=%s", codes.OK, string(bodyBytes))
+    t.Logf("Test successful, the user found in the response body: code=%d and body=%s", codes.OK, string(bodyBytes))
 }
 
 func TestGetUser(t *testing.T) {

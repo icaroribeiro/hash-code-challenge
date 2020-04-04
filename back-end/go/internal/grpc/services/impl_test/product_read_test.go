@@ -85,11 +85,11 @@ func TestGetAllProducts(t *testing.T) {
     }
 
     if !isFound {
-        t.Errorf("Test failed, the product wasn't found: %s", string(bodyBytes))
+        t.Errorf("Test failed, the product not found in the response body: %s", string(bodyBytes))
         return
     }
 
-    t.Logf("Test successful, the product was found in the response body: code=%d and body=%s", codes.OK, string(bodyBytes))
+    t.Logf("Test successful, the product found in the response body: code=%d and body=%s", codes.OK, string(bodyBytes))
 }
 
 func TestGetProduct(t *testing.T) {

@@ -113,12 +113,11 @@ func TestGetAllPromotions(t *testing.T) {
     }
 
     if !isFound {
-        t.Errorf("Test failed, the promotion wasn't found: %s", string(bodyBytes))
+        t.Errorf("Test failed, the promotion not found in the response body: %s", string(bodyBytes))
         return
     }
 
-    t.Logf("Test successful, the promotion was found in the response body: code=%d and body=%s", 
-        codes.OK, string(bodyBytes))
+    t.Logf("Test successful, the promotion found in the response body: code=%d and body=%s", codes.OK, string(bodyBytes))
 }
 
 func TestGetPromotion(t *testing.T) {
