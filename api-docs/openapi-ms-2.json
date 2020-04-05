@@ -1074,7 +1074,7 @@
 														"format": "float"
 													},
 													"products": {
-														"description": "A list that contains the Ids of all promotional products.",
+														"description": "The list of the ids of all promotional products.",
 														"type": "array",
 														"items": {
 															"type": "string"
@@ -1135,7 +1135,7 @@
                                         "format": "float"
                                     },
                                     "products": {
-                                        "description": "A list that contains the Ids of all promotional products.",
+                                        "description": "The list of the ids of all promotional products.",
                                         "type": "array",
                                         "items": {
                                             "type": "string"
@@ -1178,7 +1178,7 @@
 											"format": "float"
 										},
 										"products": {
-											"description": "A list that contains the Ids of all promotional products.",
+											"description": "The list of the ids of all promotional products.",
 											"type": "array",
 											"items": {
 												"type": "string"
@@ -1270,7 +1270,7 @@
 											"format": "float"
 										},
 										"products": {
-											"description": "A list that contains the Ids of all promotional products.",
+											"description": "The list of the ids of all promotional products.",
 											"type": "array",
 											"items": {
 												"type": "string"
@@ -1356,7 +1356,7 @@
                                         "format": "float"
                                     },
                                     "products": {
-                                        "description": "A list that contains the Ids of all promotional products.",
+                                        "description": "The list of the ids of all promotional products.",
                                         "type": "array",
                                         "items": {
                                             "type": "string"
@@ -1399,7 +1399,7 @@
 											"format": "float"
 										},
 										"products": {
-											"description": "A list that contains the Ids of all promotional products.",
+											"description": "The list of the ids of all promotional products.",
 											"type": "array",
 											"items": {
 												"type": "string"
@@ -1499,7 +1499,7 @@
 											"format": "float"
 										},
 										"products": {
-											"description": "A list that contains the Ids of all promotional products.",
+											"description": "The list of the ids of all promotional products.",
 											"type": "array",
 											"items": {
 												"type": "string"
