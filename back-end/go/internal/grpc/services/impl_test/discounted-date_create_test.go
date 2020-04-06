@@ -71,7 +71,7 @@ func TestCreateDiscountedDate(t *testing.T) {
 
     errStatus = status.Convert(err)
 
-    if errStatus == nil {
+    if errStatus != nil {
         t.Errorf(`Test failed, response: code=%d and body={"error":"%s","code":%d,"message":"%s"}`,
             errStatus.Code(), errStatus.Message(), errStatus.Code(), errStatus.Message())
         return
