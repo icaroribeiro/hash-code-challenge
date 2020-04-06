@@ -81,11 +81,11 @@ func testMain(m *testing.M) int {
     }
 
     dbConfig = mongodb.DBConfig{
-        DBUsername: dbUsername,
-        DBPassword: dbPassword,
-        DBHost:     dbHost,
-        DBPort:     dbPort,
-        DBName:     dbName,
+        Username: dbUsername,
+        Password: dbPassword,
+        Host:     dbHost,
+        Port:     dbPort,
+        Name:     dbName,
     }
 
     datastore, err = mongodb.InitializeDB(dbConfig)

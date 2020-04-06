@@ -92,11 +92,11 @@ func main() {
     }
 
     dbConfig = mongodb.DBConfig{
-        DBUsername: dbUsername,
-        DBPassword: dbPassword,
-        DBHost:     dbHost,
-        DBPort:     dbPort,
-        DBName:     dbName,
+        Username: dbUsername,
+        Password: dbPassword,
+        Host:     dbHost,
+        Port:     dbPort,
+        Name:     dbName,
     }
 
     // Initialize the database.

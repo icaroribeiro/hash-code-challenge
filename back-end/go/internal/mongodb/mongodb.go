@@ -9,11 +9,11 @@ import (
 
 // The DBConfig stores all the parameters to configure the database settings.
 type DBConfig struct {
-    DBUsername string
-    DBPassword string
-    DBHost     string
-    DBPort     string
-    DBName     string
+    Username string
+    Password string
+    Host     string
+    Port     string
+    Name     string
 }
 
 // The Datastore groups all the variables necessary to connect and work with data
@@ -33,14 +33,14 @@ func InitializeDB(dbConfig DBConfig) (Datastore, error) {
     var db *mongo.Database
 
     // Generate an authentication credential.
-    authCredential, err = GenerateAuthCredential(dbConfig.DBUsername, dbConfig.DBPassword)
+    authCredential, err = GenerateAuthCredential(dbConfig.Username, dbConfig.Password)
 
     if err != nil {
         return Datastore{}, err
     }
 
     // Set up the connection string of the database.
-    connString = SetUpConnString(dbConfig.DBHost, dbConfig.DBPort)
+    connString = SetUpConnString(dbConfig.Host, dbConfig.Port)
 
     ctx = context.Background()
 
@@ -56,7 +56,7 @@ func InitializeDB(dbConfig DBConfig) (Datastore, error) {
         return Datastore{}, err
     }
 
-    db = client.Database(dbConfig.DBName)
+    db = client.Database(dbConfig.Name)
 
     return Datastore{DB: db, Client: client, Context: ctx}, nil
 }
