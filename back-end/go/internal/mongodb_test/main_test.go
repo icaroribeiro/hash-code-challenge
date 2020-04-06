@@ -45,38 +45,38 @@ func testMain(m *testing.M) int {
     var dbConfig mongodb.DBConfig
     var err error
 
-    dbUsername, isSet = os.LookupEnv("TEST_DB_USERNAME")
+    dbUsername, isSet = os.LookupEnv("DB_USERNAME")
 
     if !isSet {
-        log.Print("Failed to read the TEST_DB_USERNAME environment variable: it isn't set")
+        log.Print("Failed to read the DB_USERNAME environment variable: it isn't set")
         return 1
     }
 
-    dbPassword, isSet = os.LookupEnv("TEST_DB_PASSWORD")
+    dbPassword, isSet = os.LookupEnv("DB_PASSWORD")
 
     if !isSet {
-        log.Print("Failed to read the TEST_DB_PASSWORD environment variable: it isn't set")
+        log.Print("Failed to read the DB_PASSWORD environment variable: it isn't set")
         return 1
     }
 
-    dbHost, isSet = os.LookupEnv("TEST_DB_HOST")
+    dbHost, isSet = os.LookupEnv("DB_HOST")
 
     if !isSet {
-        log.Print("Failed to read the TEST_DB_HOST environment variable: it isn't set")
+        log.Print("Failed to read the DB_HOST environment variable: it isn't set")
         return 1
     }
 
-    dbPort, isSet = os.LookupEnv("TEST_DB_PORT")
+    dbPort, isSet = os.LookupEnv("DB_PORT")
 
     if !isSet {
-        log.Print("Failed to read the TEST_DB_PORT environment variable: it isn't set")
+        log.Print("Failed to read the DB_PORT environment variable: it isn't set")
         return 1
     }
 
-    dbName, isSet = os.LookupEnv("TEST_DB_NAME")
+    dbName, isSet = os.LookupEnv("DB_NAME")
 
     if !isSet {
-        log.Print("Failed to read the TEST_DB_NAME environment variable: it isn't set")
+        log.Print("Failed to read the DB_NAME environment variable: it isn't set")
         return 1
     }
 
