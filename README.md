@@ -144,7 +144,7 @@ GRPC_SERVER_PORT_MS_1=50051
 
 In order to not compromise the integrity of the database used by the project in terms of data generated from the execution of the test cases, two Mongo databases will be used.
 
-In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **TEST_DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
+In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
 
 **In the case of the environment variables of all the .env files are kept as they were delivered I strongly believe that it will not be necessary any change before executing the project**.
 
@@ -268,7 +268,7 @@ To execute the solution through **Docker** containers, it is necessary to relate
 
 To do so, the environment variables of the **mongodb/.env** and **mongodb/.test.env** files must be associated with the environment variables of the **back-end/nodejs/.env** and **back-end/go/.env**; and **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files, respectively.
 
-Additionally, it is necessary to indicate that the environment variable **DB_HOST** of the **back-end/nodejs/.env** and **back-end/go/.env** files and **TEST_DB_HOST** of the **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
+Additionally, it is necessary to indicate that the environment variable **DB_HOST** of the **back-end/nodejs/.env** and **back-end/go/.env** files and **DB_HOST** of the **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
 
 The **docker-compose.yml** file contains the database services:
 
@@ -338,21 +338,21 @@ MONGO_INITDB_DATABASE=testdb
 The **back-end/nodejs/internal/tests/.env** file contains the database environment variables:
 
 ```
-TEST_DB_USERNAME=user
-TEST_DB_PASSWORD=password
-TEST_DB_HOST=testdb
-TEST_DB_PORT=27017
-TEST_DB_NAME=testdb
+DB_USERNAME=user
+DB_PASSWORD=password
+DB_HOST=testdb
+DB_PORT=27017
+DB_NAME=testdb
 ```
 
 The **back-end/go/.test.env** file contains the database environment variables:
 
 ```
-TEST_DB_USERNAME=user
-TEST_DB_PASSWORD=password
-TEST_DB_HOST=testdb
-TEST_DB_PORT=27017
-TEST_DB_NAME=testdb
+DB_USERNAME=user
+DB_PASSWORD=password
+DB_HOST=testdb
+DB_PORT=27017
+DB_NAME=testdb
 ```
 
 **Important note**
