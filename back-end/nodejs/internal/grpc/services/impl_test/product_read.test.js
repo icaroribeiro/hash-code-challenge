@@ -1,6 +1,6 @@
 var grpc = require('grpc');
 
-const { TEST_GRPC_SERVER_HOST, TEST_GRPC_SERVER_PORT } = require('../../../tests/env.js');
+const { GRPC_SERVER_HOST, GRPC_SERVER_PORT } = require('../../../tests/env.js');
 
 var ProductService = require('../../../grpc/services/product.js');
 
@@ -27,16 +27,16 @@ describe("TestGetAllProducts", () => {
 
     beforeAll(async () => {
         try {
-            var grpcHost = TEST_GRPC_SERVER_HOST;
+            var grpcHost = GRPC_SERVER_HOST;
         
             if (!grpcHost) {
-                throw "Failed to read the TEST_GRPC_SERVER_HOST environment variable: it isn't set";
+                throw "Failed to read the GRPC_SERVER_HOST environment variable: it isn't set";
             }
         
-            var grpcPort = TEST_GRPC_SERVER_PORT;
+            var grpcPort = GRPC_SERVER_PORT;
         
             if (!grpcPort) {
-                throw "Failed to read the TEST_GRPC_SERVER_PORT environment variable: it isn't set";
+                throw "Failed to read the GRPC_SERVER_PORT environment variable: it isn't set";
             }
         }
         catch (err) {
@@ -563,16 +563,16 @@ describe("TestGetProduct", () => {
 
     beforeAll(async () => {
         try {
-            var grpcHost = TEST_GRPC_SERVER_HOST;
+            var grpcHost = GRPC_SERVER_HOST;
         
             if (!grpcHost) {
-                throw "Failed to read the TEST_GRPC_SERVER_HOST environment variable: it isn't set";
+                throw "Failed to read the GRPC_SERVER_HOST environment variable: it isn't set";
             }
         
-            var grpcPort = TEST_GRPC_SERVER_PORT;
+            var grpcPort = GRPC_SERVER_PORT;
         
             if (!grpcPort) {
-                throw "Failed to read the TEST_GRPC_SERVER_PORT environment variable: it isn't set";
+                throw "Failed to read the GRPC_SERVER_PORT environment variable: it isn't set";
             }
         }
         catch (err) {
