@@ -6,21 +6,19 @@ The purpose of this file is to present information about the work developed to s
 
 *Website*: https://github.com/hashlab/hiring/blob/master/challenges/en-us/backend-challenge.md
 
-To briefly summarise, the project consists in the implementation of a solution for the management of users, products, promotions and discounted dates, in addition to the evaluation of discounts applied to products based on users and discounted dates settings.
-
-The solution comprehends the development of two back-end applications using the programming languages **NodeJS** for the development of the **microservice 1** and **Go** for the development of the **microservice 2** which communicate together through **RPC** (*Remote Procedure Call*), in addition to a shared **Mongo** database.
+In order to summarise, the project comprehends the development of two back-end applications for the management of users, products, promotions and discounted dates, in addition to the evaluation of discounts applied to products based on users and discounted dates settings. It is composed by a **microservice 1** and a **microservice 2** developed using **NodeJS** and **Go** programming languages, respectively, which communicate together through **RPC** (*Remote Procedure Call*), in addition to a **Mongo** database.
 
 The **microservice 1** is responsible for evaluating discounts applied to products, while the **microservice 2** is responsible for managing users, products, promotions and discounted dates.
 
 In addition to meeting the original requirements of the technical challenge, as indicated above the additional functionalities of the **microservice 2** were developed as an **extended approach** in order to **facilitate** the handling of the project and, thus, the evaluation of discounts when obtaining one or more products.
 
-Throughout this documentation, a few aspects of the project will be highlighted, such as, the configuration of environment variables of **Mongo** database and the procedures adopted to run the project with **Docker** containers.
+Throughout this documentation, a few aspects will be highlighted, such as, the configuration of environment variables of **Mongo** database and the procedures adopted to run the project with **Docker** containers.
 
 Finally, the last section named **Project Dynamics** illustrates a brief report of how the solution works in practice.
 
 ## 2 - API Documentation
 
-The documentation of the API implemented in **Go** programming language that refers to the **microservice 2** was developed following the specification of the **OpenAPI 3.0**.
+The documentation of the API implemented in **Go** programming language that refers to the **microservice 2** was developed following the **OpenAPI 3.0** specification.
 
 Inside the directory **api-docs** there is a script named **swagger-json-to-html.py**. When running it using the **openapi-ms-2.json** file, it is generated a HTML page named **index.html** within the current directory that illustrates details about the API *endpoints*.
 
@@ -144,9 +142,7 @@ GRPC_SERVER_PORT_MS_1=50051
 
 In order to not compromise the integrity of the database used by the project in terms of data generated from the execution of the test cases, two Mongo databases will be used.
 
-In this sense, to facilitate future explanations regarding the details of the databases, suppose that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files and **DB_NAME** environment variables defined in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
-
-**In the case of the environment variables of all the .env files are kept as they were delivered I strongly believe that it will not be necessary any change before executing the project**.
+In this sense, to facilitate future explanations regarding the details of the databases, consider that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files; and in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
 
 ### 3.2 - Mongo
 
@@ -268,7 +264,7 @@ To execute the solution through **Docker** containers, it is necessary to relate
 
 To do so, the environment variables of the **mongodb/.env** and **mongodb/.test.env** files must be associated with the environment variables of the **back-end/nodejs/.env** and **back-end/go/.env**; and **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files, respectively.
 
-Additionally, it is necessary to indicate that the environment variable **DB_HOST** of the **back-end/nodejs/.env** and **back-end/go/.env** files and **DB_HOST** of the **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
+Additionally, it is necessary to indicate that the environment variables **DB_HOST** of the **back-end/nodejs/.env** and **back-end/go/.env** files, and **DB_HOST** of the **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
 
 The **docker-compose.yml** file contains the database services:
 
@@ -399,7 +395,9 @@ $ use testdb;
 
 ## 4 - How to execute the project?
 
-**Before** executing the project, it is first necessary to configure the IP address (*host*) configured by Docker so that the **microservice 2** can communicate with the **microservice 1** using gRPC.
+**In the case of the environment variables of all the .env and .test.env files from all directories are kept as they were delivered I strongly believe that it will not be necessary any change before executing the project.**.
+
+**Prior** to run the project, it is first necessary to configure the IP address (*host*) configured by Docker so that the **microservice 2** can communicate with the **microservice 1** using gRPC.
 
 The *host* corresponds to the value informed when executing a command at a command prompt with access to instructions directed to Docker:
 
@@ -443,7 +441,7 @@ In addition, it is also worth emphasizing that the entire configuration related 
 
 The API requests related to the **microservice 2** are performed through the HTTP server port **8082** and the API responses can be viewed by means of a **front-end** client or test tool, for example **Postman**.
 
-In what follows, there is a guide that includes API requests for creating, getting, updating and deleting data from the database.
+In what follows, there is a guide that includes API requests for creating, obtaining, updating and deleting data from the database.
 
 (P.S., before checking the following examples, consider that no data is recorded prior to this explanation).
 
@@ -496,39 +494,6 @@ Body: {
 }
 ```
 
-#### Obtainment of a User by its id
-
-Request:
-
-```
-Method: HTTP GET
-```
-
-```
-URL: http://{host}:8082/users/5e54be952c06e1046199cbf8
-```
-
-Response:
-
-```
-Code: 200 OK - In the case of the user is successfully obtained.
-```
-
-```
-*application/json*
-
-Body: {
-    "id": "5e54be952c06e1046199cbf8",
-    "first_name": "User1",
-    "last_name": "User1",
-    "date_of_birth": {
-        "year": 1990,
-        "month": 1,
-        "day": 2
-    }
-}
-```
-
 #### Listing of Users
 
 Request:
@@ -563,6 +528,39 @@ Body: {
             }
         }
     ]
+}
+```
+
+#### Obtainment of a User by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/users/5e54be952c06e1046199cbf8
+```
+
+Response:
+
+```
+Code: 200 OK - In the case of the user is successfully obtained.
+```
+
+```
+*application/json*
+
+Body: {
+    "id": "5e54be952c06e1046199cbf8",
+    "first_name": "User1",
+    "last_name": "User1",
+    "date_of_birth": {
+        "year": 1990,
+        "month": 1,
+        "day": 2
+    }
 }
 ```
 
@@ -687,64 +685,6 @@ Body: {
 }
 ```
 
-#### Obtainment of a Product by its id
-
-Request:
-
-```
-Method: HTTP GET
-```
-
-```
-URL: http://{host}:8082/products/5e5584244007b9649b6837c7
-```
-
-```
-Header: X-USER-ID <The id of a user> (Optional)
-```
-
-Response:
-
-```
-Code: 200 OK - In the case of the product is successfully obtained.
-```
-
-```
-*application/json*
-
-Body: {
-    "id": "5e5584244007b9649b6837c7",
-    "price_in_cents": 100,
-    "title": "Blue Pen",
-    "description": "A pen with blue ink"
-}
-```
-
-or even, when there is a discount:
-
-```
-*application/json*
-
-Body: {
-    "id": "5e5584244007b9649b6837c7",
-    "price_in_cents": 95,
-    "title": "Blue Pen",
-    "description": "A pen with blue ink",
-    "discount": {
-        "pct": 5,
-        "value_in_cents": 5
-    }
-}
-```
-
-**Important note**
-
-As indicated above, whenever an API request to obtain one product is performed and there is a discount that **is greater than zero**, the API response body of the related product is modified.
-
-First of all, the *price_in_cents* field must be adjusted since a reduction of value is necessary. After that, a new field named **discount** is elaborated along with values for the **pct** and **value_in_cents** fields that will be also presented.
-
-In that example, since the original value of a product is 100 and the discount is 5, the new *price_in_cents* field is 95.
-
 #### Listing of Products
 
 Request:
@@ -804,6 +744,64 @@ Body: {
 ```
 
 (P.S., as indicated above, the scheme of changing API request bodies when there is a discount that **is greater than zero** is performed both when obtaining a single product and the list of all products).
+
+#### Obtainment of a Product by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/products/5e5584244007b9649b6837c7
+```
+
+```
+Header: X-USER-ID <The id of a user> (Optional)
+```
+
+Response:
+
+```
+Code: 200 OK - In the case of the product is successfully obtained.
+```
+
+```
+*application/json*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 100,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink"
+}
+```
+
+or even, when there is a discount:
+
+```
+*application/json*
+
+Body: {
+    "id": "5e5584244007b9649b6837c7",
+    "price_in_cents": 95,
+    "title": "Blue Pen",
+    "description": "A pen with blue ink",
+    "discount": {
+        "pct": 5,
+        "value_in_cents": 5
+    }
+}
+```
+
+**Important note**
+
+Whenever the API request to obtain one product is performed and there is a discount that **is greater than zero**, the API response body of the related product is modified.
+
+First of all, the *price_in_cents* field must be adjusted since a reduction of value is necessary. After that, a new field named **discount** is elaborated along with values for the **pct** and **value_in_cents** fields that will be also presented.
+
+In that example, since the original value of a product is 100 and the discount is 5, the new *price_in_cents* field is 95.
 
 #### Updating of a Product by its id
 
@@ -955,53 +953,6 @@ The inclusion of promotional products is a procedure that can be performed when 
 
 With this in mind, a promotion is only valid for products that are associated with it. That is, if there is a discount related to a particular promotion, it is **only** applicable to products that are associated with it. Because of that, all other products that are also registered, but are not related to any promotion, will not have any reduction of values.
 
-#### Obtainment of a Promotion by its id
-
-Request:
-
-```
-Method: HTTP GET
-```
-
-```
-URL: http://{host}:8082/promotions/5e6383a641261e8e7b49d62b
-```
-
-Response:
-
-```
-Code: 200 OK - In the case of the promotion is successfully obtained.
-```
-
-```
-*application/json*
-
-Body: {
-    "id": "5e6383a641261e8e7b49d62b",
-    "code": "DISCOUNTEDDATES",
-    "title": "Discounted Dates",
-    "description": "The promotion of discounted dates",
-    "max_discount_pct": 10
-}
-```
-
-or even, if there is one or more products associated with the promotion:
-
-```
-*application/json*
-
-Body: {
-    "id": "5e6383a641261e8e7b49d62b",
-    "code": "DISCOUNTEDDATES",
-    "title": "Discounted Dates",
-    "description": "The promotion of discounted dates",
-    "max_discount_pct": 10,
-    "products": [
-        "5e5584244007b9649b6837c7"
-    ]
-}
-```
-
 #### Listing of Promotions
 
 Request:
@@ -1049,6 +1000,53 @@ Body: {
                 "5e5584244007b9649b6837c7"
             ]
         }
+    ]
+}
+```
+
+#### Obtainment of a Promotion by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/promotions/5e6383a641261e8e7b49d62b
+```
+
+Response:
+
+```
+Code: 200 OK - In the case of the promotion is successfully obtained.
+```
+
+```
+*application/json*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10
+}
+```
+
+or even, if there is one or more products associated with the promotion:
+
+```
+*application/json*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d62b",
+    "code": "DISCOUNTEDDATES",
+    "title": "Discounted Dates",
+    "description": "The promotion of discounted dates",
+    "max_discount_pct": 10,
+    "products": [
+        "5e5584244007b9649b6837c7"
     ]
 }
 ```
@@ -1246,40 +1244,6 @@ Body: {
 }
 ```
 
-#### Obtainment of a Discounted Date by its id
-
-Request:
-
-```
-Method: HTTP GET
-```
-
-```
-URL: http://{host}:8082/discountedDates/5e6383a641261e8e7b49d61c
-```
-
-Response:
-
-```
-Code: 200 OK - In the case of the discounted date is successfully obtained.
-```
-
-```
-*application/json*
-
-Body: {
-    "id": "5e6383a641261e8e7b49d61c",
-    "title": "Black Friday 2020",
-    "description": "The discount of Black Friday 2020",
-    "discount_pct": 10,
-    "date": {
-        "year": 2020,
-        "month": 11,
-        "day": 27
-    }
-}
-```
-
 #### Listing of Discounted Dates
 
 Request:
@@ -1313,6 +1277,40 @@ Body: {
             }
         }
     ]
+}
+```
+
+#### Obtainment of a Discounted Date by its id
+
+Request:
+
+```
+Method: HTTP GET
+```
+
+```
+URL: http://{host}:8082/discountedDates/5e6383a641261e8e7b49d61c
+```
+
+Response:
+
+```
+Code: 200 OK - In the case of the discounted date is successfully obtained.
+```
+
+```
+*application/json*
+
+Body: {
+    "id": "5e6383a641261e8e7b49d61c",
+    "title": "Black Friday 2020",
+    "description": "The discount of Black Friday 2020",
+    "discount_pct": 10,
+    "date": {
+        "year": 2020,
+        "month": 11,
+        "day": 27
+    }
 }
 ```
 
@@ -1680,7 +1678,7 @@ As previou explained, the discount is **always** limited by the value of the **m
 
 ### Data Record
 
-First, it is necessary to illustrate the data to be registered before getting one or more products with the possibility of discounts.
+First, it is necessary to illustrate the data to be registered before obtaining one or more products with the possibility of discounts.
 
 (P.S., consider that no data is recorded prior to this explanation).
 
