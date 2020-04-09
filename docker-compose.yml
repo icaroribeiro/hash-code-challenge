@@ -15,7 +15,7 @@ services:
       - "50051"
     depends_on:
       - db
-      - testdb
+      - test-db
 
   back-end_2:
     container_name: back-end_2
@@ -35,7 +35,7 @@ services:
       - "50052"
     depends_on:
       - db
-      - testdb
+      - test-db
 
   db:
     container_name: db
@@ -52,8 +52,8 @@ services:
     volumes:
       - db-data:/data/db
 
-  testdb:
-    container_name: testdb
+  test-db:
+    container_name: test-db
     build:
       context: ./mongodb
       dockerfile: Dockerfile
@@ -65,8 +65,8 @@ services:
     expose:
       - "27019"
     volumes:
-      - testdb-data:/data/db
+      - test-db-data:/data/db
 
 volumes:
   db-data:
-  testdb-data:
+  test-db-data:

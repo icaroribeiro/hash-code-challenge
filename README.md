@@ -142,7 +142,7 @@ GRPC_SERVER_PORT_MS_1=50051
 
 In order to not compromise the integrity of the database used by the project in terms of data generated from the execution of the test cases, two Mongo databases will be used.
 
-In this sense, to facilitate future explanations regarding the details of the databases, consider that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **testdb** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files; and in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
+In this sense, to facilitate future explanations regarding the details of the databases, consider that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **test-db** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files; and in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
 
 ### 3.2 - Mongo
 
@@ -281,8 +281,8 @@ services:
       - ./mongodb/.env
     ...
 
-  testdb:
-    container_name: testdb
+  test-db:
+    container_name: test-db
     build:
       context: ./mongodb
       dockerfile: Dockerfile
@@ -328,7 +328,7 @@ The **mongodb/.test.env** file contains the database environment variables:
 ```
 MONGO_INITDB_ROOT_USERNAME=user
 MONGO_INITDB_ROOT_PASSWORD=password
-MONGO_INITDB_DATABASE=testdb
+MONGO_INITDB_DATABASE=test-db
 ```
 
 The **back-end/nodejs/internal/tests/.env** file contains the database environment variables:
@@ -336,9 +336,9 @@ The **back-end/nodejs/internal/tests/.env** file contains the database environme
 ```
 DB_USERNAME=user
 DB_PASSWORD=password
-DB_HOST=testdb
+DB_HOST=test-db
 DB_PORT=27017
-DB_NAME=testdb
+DB_NAME=test-db
 ```
 
 The **back-end/go/.test.env** file contains the database environment variables:
@@ -346,9 +346,9 @@ The **back-end/go/.test.env** file contains the database environment variables:
 ```
 DB_USERNAME=user
 DB_PASSWORD=password
-DB_HOST=testdb
+DB_HOST=test-db
 DB_PORT=27017
-DB_NAME=testdb
+DB_NAME=test-db
 ```
 
 **Important note**
@@ -387,10 +387,10 @@ In the case of the envinronment variables are kept as they were delivered, if th
 $ use db;
 ```
 
-On the other hand, if the **id** of the container corresponds to the service named **testdb**, the data are obtained from the test database:
+On the other hand, if the **id** of the container corresponds to the service named **test-db**, the data are obtained from the test database:
 
 ```
-$ use testdb;
+$ use test-db;
 ```
 
 ## 4 - How to execute the project?
