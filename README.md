@@ -1422,35 +1422,35 @@ However, it is also possible to run each test separately using the commands:
 **Tests of the implementation of services directed to Products**
 
 ```
-npm test -- -t "TestGetAllProducts.WithoutAnyDiscountOfDates"
+$ npm test -- -t "TestGetAllProducts.WithoutAnyDiscountOfDates"
 ```
 
 ```
-npm test -- -t "TestGetAllProducts.WithOnlyTheDiscountOfUser\'sBirthday"
+$ npm test -- -t "TestGetAllProducts.WithOnlyTheDiscountOfUser\'sBirthday"
 ```
 
 ```
-npm test -- -t "TestGetAllProducts.WithOnlyTheDiscountOfOtherDiscountedDate"
+$ npm test -- -t "TestGetAllProducts.WithOnlyTheDiscountOfOtherDiscountedDate"
 ```
 
 ```
-npm test -- -t "TestGetAllProducts.WithTheMaximumDiscountOfDates"
+$ npm test -- -t "TestGetAllProducts.WithTheMaximumDiscountOfDates"
 ```
 
 ```
-npm test -- -t "TestGetProduct.WithoutAnyDiscountOfDates"
+$ npm test -- -t "TestGetProduct.WithoutAnyDiscountOfDates"
 ```
 
 ```
-npm test -- -t "TestGetProduct.WithOnlyTheDiscountOfUser\'sBirthday"
+$ npm test -- -t "TestGetProduct.WithOnlyTheDiscountOfUser\'sBirthday"
 ```
 
 ```
-npm test -- -t "TestGetProduct.WithOnlyTheDiscountOfOtherDiscountedDate"
+$ npm test -- -t "TestGetProduct.WithOnlyTheDiscountOfOtherDiscountedDate"
 ```
 
 ```
-npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
+$ npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
 ```
 
 ### 6.2 Microservice 2
