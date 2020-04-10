@@ -33,11 +33,7 @@ func InitializeDB(dbConfig DBConfig) (Datastore, error) {
     var db *mongo.Database
 
     // Generate an authentication credential.
-    authCredential, err = GenerateAuthCredential(dbConfig.Username, dbConfig.Password)
-
-    if err != nil {
-        return Datastore{}, err
-    }
+    authCredential = GenerateAuthCredential(dbConfig.Username, dbConfig.Password)
 
     // Set up the connection string of the database.
     connString = SetUpConnString(dbConfig.Host, dbConfig.Port)
@@ -47,13 +43,13 @@ func InitializeDB(dbConfig DBConfig) (Datastore, error) {
     client, err = mongo.Connect(ctx, options.Client().SetAuth(authCredential).ApplyURI(connString))
 
     if err != nil {
-        return Datastore{}, err
+        return Datastore{}, fmt.Errorf("it wasn't possible to connect to the database: %s", err.Error())
     }
 
     err = client.Ping(ctx, nil)
 
     if err != nil {
-        return Datastore{}, err
+        return Datastore{}, fmt.Errorf("it wasn't possible to connect to the database: %s", err.Error())
     }
 
     db = client.Database(dbConfig.Name)
@@ -62,7 +58,7 @@ func InitializeDB(dbConfig DBConfig) (Datastore, error) {
 }
 
 // It defines a credential containing options for configuring authentication.
-func GenerateAuthCredential(dbUsername, dbPassword string) (options.Credential, error) {
+func GenerateAuthCredential(dbUsername, dbPassword string) options.Credential {
     var authCredential options.Credential
 
     authCredential = options.Credential{
@@ -70,7 +66,7 @@ func GenerateAuthCredential(dbUsername, dbPassword string) (options.Credential, 
         Password: dbPassword,
     }
 
-    return authCredential, nil
+    return authCredential
 }
 
 // It builds the connection string of the database.
