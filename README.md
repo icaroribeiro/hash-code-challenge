@@ -18,9 +18,7 @@ Finally, the last section named **Project Dynamics** illustrates a brief report 
 
 ## 2 - API Documentation
 
-The documentation of the API implemented in **Go** programming language that refers to the **microservice 2** was developed following the **OpenAPI 3.0** specification.
-
-Inside the directory **api-docs** there is a script named **swagger-json-to-html.py**. When running it using the **openapi-ms-2.json** file, it is generated a HTML page named **index.html** within the current directory that illustrates details about the API *endpoints*.
+The documentation of the API implemented in **Go** programming language that refers to the **microservice 2** was developed following the **OpenAPI 3.0** specification. Inside the directory **api-docs** there is a script named **swagger-json-to-html.py**. When running it using the **openapi-ms-2.json** file, it is generated a HTML page named **index.html** within the current directory that illustrates details about the API *endpoints*.
 
 ## 3 - Project Organization
 
@@ -142,7 +140,11 @@ GRPC_SERVER_PORT_MS_1=50051
 
 In order to not compromise the integrity of the database used by the project in terms of data generated from the execution of the test cases, two Mongo databases will be used.
 
-In this sense, to facilitate future explanations regarding the details of the databases, consider that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database named **db** and **test-db** by the **DB_NAME** environment variable defined in the **nodejs/.env** and **go/.env** files; and in the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively. This way, it is necessary to pay special attention to the database environment variables defined in these four previous files.
+In this sense, to facilitate future explanations regarding the details of the databases, consider that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database.
+
+These databases are named **db** and **test-db** by the environment variable **DB_NAME** of the **nodejs/.env** and **go/.env** files; and **TEST_DB_NAME** of the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
+
+(P.S. This way, it is necessary to pay special attention to the database environment variables defined in these two previous files in case they are changed).
 
 ### 3.2 - Mongo
 
@@ -264,7 +266,7 @@ To execute the solution through **Docker** containers, it is necessary to relate
 
 To do so, the environment variables of the **mongodb/.env** and **mongodb/.test.env** files must be associated with the environment variables of the **back-end/nodejs/.env** and **back-end/go/.env**; and **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files, respectively.
 
-Additionally, it is necessary to indicate that the environment variables **DB_HOST** of the **back-end/nodejs/.env** and **back-end/go/.env** files, and **DB_HOST** of the **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
+Additionally, it is necessary to indicate that the environment variables **DB_HOST** of the **back-end/nodejs/.env** and **back-end/go/.env** files, and **TEST_DB_HOST** of the **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
 
 The **docker-compose.yml** file contains the database services:
 
@@ -334,21 +336,21 @@ MONGO_INITDB_DATABASE=test-db
 The **back-end/nodejs/internal/tests/.env** file contains the database environment variables:
 
 ```
-DB_USERNAME=user
-DB_PASSWORD=password
-DB_HOST=test-db
-DB_PORT=27017
-DB_NAME=test-db
+TEST_DB_USERNAME=user
+TEST_DB_PASSWORD=password
+TEST_DB_HOST=test-db
+TEST_DB_PORT=27017
+TEST_DB_NAME=test-db
 ```
 
 The **back-end/go/.test.env** file contains the database environment variables:
 
 ```
-DB_USERNAME=user
-DB_PASSWORD=password
-DB_HOST=test-db
-DB_PORT=27017
-DB_NAME=test-db
+TEST_DB_USERNAME=user
+TEST_DB_PASSWORD=password
+TEST_DB_HOST=test-db
+TEST_DB_PORT=27017
+TEST_DB_NAME=test-db
 ```
 
 **Important note**
@@ -405,6 +407,8 @@ The *host* corresponds to the value informed when executing a command at a comma
 $ docker-machine ip
 ```
 
+(P.S. Because of the dependencies related to the back-end services, it may take some time to them attach to other services properly. Then, to confirm if everything is up and running ok execute the command *docker container ls -a*)
+
 After that, navigate to the project's root directory where the **docker-compose.yml** file is, and assign the *host* to the **GRPC_SERVER_HOST_MS_1** variable in the **back-end_2** service:
 
 ```
@@ -423,7 +427,7 @@ Still at a command prompt with access to instructions directed to Docker where t
 $ docker-compose up -d
 ```
 
-If there are no errors, the API *endpoints* will be accessed using the address composed by the *host* and the HTTP server port **8082** (P.S., the **microservice 2** will communicate with the **microservice 1** through the gRPC server *port* **50051**). For example:
+If there are no errors, the API *endpoints* will be accessed using the address composed by the *host* and the HTTP server port **8082** (P.S. The **microservice 2** will communicate with the **microservice 1** through the gRPC server *port* **50051**). For example:
 
 ```
 http://{host}:8082
@@ -443,7 +447,7 @@ The API requests related to the **microservice 2** are performed through the HTT
 
 In what follows, there is a guide that includes API requests for creating, obtaining, updating and deleting data from the database.
 
-(P.S., before checking the following examples, consider that no data is recorded prior to this explanation).
+(P.S. Before checking the following examples, consider that no data is recorded prior to this explanation).
 
 ### Management of Users
 
@@ -743,7 +747,7 @@ Body: {
 }
 ```
 
-(P.S., as indicated above, the scheme of changing API request bodies when there is a discount that **is greater than zero** is performed both when obtaining a single product and the list of all products).
+(P.S. As indicated above, the scheme of changing API request bodies when there is a discount that **is greater than zero** is performed both when obtaining a single product and the list of all products).
 
 #### Obtainment of a Product by its id
 
@@ -1403,7 +1407,7 @@ In order to test the solution a few **test sets** were developed.
 
 ### 6.1 Microservice 1
 
-(P.S., these tests involve removing the record related to the promotion of discounted dates from the test database if it already exists).
+(P.S. These tests involve removing the record related to the promotion of discounted dates from the test database if it already exists).
 
 ### 6.1.1 Services
 
@@ -1455,7 +1459,7 @@ $ npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
 
 ### 6.2 Microservice 2
 
-(P.S., these tests involve creating, editing and removing records from the test database).
+(P.S. These tests involve creating, editing and removing records from the test database).
 
 ### 6.2.1 Database
 
@@ -1680,7 +1684,7 @@ As previou explained, the discount is **always** limited by the value of the **m
 
 First, it is necessary to illustrate the data to be registered before obtaining one or more products with the possibility of discounts.
 
-(P.S., consider that no data is recorded prior to this explanation).
+(P.S. Consider that no data is recorded prior to this explanation).
 
 #### Creation of Users
 
