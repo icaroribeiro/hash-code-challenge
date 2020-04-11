@@ -5,11 +5,11 @@ var server = new grpc.Server();
 var ProductService = require('../../internal/grpc/services/product.js');
 var ProductServiceImpl = require('../../internal/grpc/services/impl/product_impl.js');
 
-const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = require('../tests/env.js');
+const { TEST_DB_USERNAME, TEST_DB_PASSWORD, TEST_DB_HOST, TEST_DB_PORT, TEST_DB_NAME } = require('../tests/env.js');
 const mongoose = require('mongoose');
 
 beforeAll(async () => {
-    var URL = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`;
+    var URL = `mongodb://${TEST_DB_USERNAME}:${TEST_DB_PASSWORD}@${TEST_DB_HOST}:${TEST_DB_PORT}/${TEST_DB_NAME}?authSource=admin`;
 
     mongoose.connect(URL, {
             useNewUrlParser: true, 
