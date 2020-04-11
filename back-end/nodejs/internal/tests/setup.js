@@ -1,5 +1,5 @@
 var grpc = require('grpc');
-const { GRPC_SERVER_HOST, GRPC_SERVER_PORT } = require('../tests/env.js');
+const { TEST_GRPC_SERVER_HOST, TEST_GRPC_SERVER_PORT } = require('../tests/env.js');
 var server = new grpc.Server();
 
 var ProductService = require('../../internal/grpc/services/product.js');
@@ -23,16 +23,16 @@ beforeAll(async () => {
     });
 
     try {
-        var grpcHost = GRPC_SERVER_HOST;
+        var grpcHost = TEST_GRPC_SERVER_HOST;
     
         if (!grpcHost) {
-            throw "Failed to read the GRPC_SERVER_HOST environment variable: it isn't set";
+            throw "Failed to read the TEST_GRPC_SERVER_HOST environment variable: it isn't set";
         }
     
-        var grpcPort = GRPC_SERVER_PORT;
+        var grpcPort = TEST_GRPC_SERVER_PORT;
     
         if (!grpcPort) {
-            throw "Failed to read the GRPC_SERVER_PORT environment variable: it isn't set";
+            throw "Failed to read the TEST_GRPC_SERVER_PORT environment variable: it isn't set";
         }
     }
     catch (err) {
