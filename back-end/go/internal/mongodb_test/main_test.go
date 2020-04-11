@@ -9,6 +9,8 @@ import (
     "testing"
 )
 
+var envVariablesMap map[string]string
+
 var datastore mongodb.Datastore
 
 func init() {
@@ -18,6 +20,20 @@ func init() {
 
     if err != nil {
         log.Fatalf("Failed to load the .test.env file: %s", err.Error())
+    }
+
+    envVariablesMap = make(map[string]string)
+
+    envVariablesMap["TEST_DB_USERNAME"] = ""
+    envVariablesMap["TEST_DB_PASSWORD"] = ""
+    envVariablesMap["TEST_DB_HOST"] = ""
+    envVariablesMap["TEST_DB_PORT"] = ""
+    envVariablesMap["TEST_DB_NAME"] = ""
+
+    err = utils.GetEnvVariables(envVariablesMap)
+
+    if err != nil {
+        log.Fatal(err.Error())
     }
 }
 
@@ -36,56 +52,15 @@ func TestMain(m *testing.M) {
 }
 
 func testMain(m *testing.M) int {
-    var dbUsername string
-    var dbPassword string
-    var dbHost string
-    var dbPort string
-    var dbName string
-    var isSet bool
     var dbConfig mongodb.DBConfig
     var err error
 
-    dbUsername, isSet = os.LookupEnv("TEST_DB_USERNAME")
-
-    if !isSet {
-        log.Print("Failed to read the TEST_DB_USERNAME environment variable: it isn't set")
-        return 1
-    }
-
-    dbPassword, isSet = os.LookupEnv("TEST_DB_PASSWORD")
-
-    if !isSet {
-        log.Print("Failed to read the TEST_DB_PASSWORD environment variable: it isn't set")
-        return 1
-    }
-
-    dbHost, isSet = os.LookupEnv("TEST_DB_HOST")
-
-    if !isSet {
-        log.Print("Failed to read the TEST_DB_HOST environment variable: it isn't set")
-        return 1
-    }
-
-    dbPort, isSet = os.LookupEnv("TEST_DB_PORT")
-
-    if !isSet {
-        log.Print("Failed to read the TEST_DB_PORT environment variable: it isn't set")
-        return 1
-    }
-
-    dbName, isSet = os.LookupEnv("TEST_DB_NAME")
-
-    if !isSet {
-        log.Print("Failed to read the TEST_DB_NAME environment variable: it isn't set")
-        return 1
-    }
-
     dbConfig = mongodb.DBConfig{
-        Username: dbUsername,
-        Password: dbPassword,
-        Host:     dbHost,
-        Port:     dbPort,
-        Name:     dbName,
+        Username: envVariablesMap["TEST_DB_USERNAME"],
+        Password: envVariablesMap["TEST_DB_PASSWORD"],
+        Host:     envVariablesMap["TEST_DB_HOST"],
+        Port:     envVariablesMap["TEST_DB_PORT"],
+        Name:     envVariablesMap["TEST_DB_NAME"],
     }
 
     datastore, err = mongodb.InitializeDB(dbConfig)

@@ -8,6 +8,7 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services/server"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/middlewares"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/mongodb"
+    "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
     "github.com/joho/godotenv"
     "golang.org/x/net/context"
     "google.golang.org/grpc"
@@ -17,6 +18,8 @@ import (
     "os"
     "os/signal"
 )
+
+var envVariablesMap map[string]string
 
 func init() {
     var err error
@@ -31,20 +34,39 @@ func init() {
             log.Fatalf("Failed to load the .env file: %s", err.Error())
         }
     }
+
+    envVariablesMap = make(map[string]string)
+
+    // The environment variables related to the database settings.
+    envVariablesMap["DB_USERNAME"] = ""
+    envVariablesMap["DB_PASSWORD"] = ""
+    envVariablesMap["DB_HOST"] = ""
+    envVariablesMap["DB_PORT"] = ""
+    envVariablesMap["DB_NAME"] = ""
+    
+    // The environment variables related to the gRPC server for the microservice 2.
+    envVariablesMap["GRPC_SERVER_HOST"] = ""
+    envVariablesMap["GRPC_SERVER_PORT"] = ""
+
+    // The environment variables related to the gRPC server for the microservice 1.
+    envVariablesMap["GRPC_SERVER_HOST_MS_1"] = ""
+    envVariablesMap["GRPC_SERVER_PORT_MS_1"] = ""
+
+    // The environment variables related to the HTTP server.
+    envVariablesMap["HTTP_SERVER_HOST"] = ""
+    envVariablesMap["HTTP_SERVER_PORT"] = ""
+
+    err = utils.GetEnvVariables(envVariablesMap)
+
+    if err != nil {
+        log.Fatal(err.Error())
+    }
 }
 
 func main() {
-    var dbUsername string
-    var isSet bool
-    var dbPassword string
-    var dbHost string
-    var dbPort string
-    var dbName string
     var dbConfig mongodb.DBConfig
     var datastore mongodb.Datastore
     var err error
-    var grpcHost string
-    var grpcPort string
     var grpcAddress string
     var listener net.Listener
     var grpcServer *grpc.Server
@@ -56,47 +78,15 @@ func main() {
     var ctx context.Context
     var cancel context.CancelFunc
     var mux *runtime.ServeMux
-    var httpHost string
-    var httpPort string
     var httpAddress string
     var grpcOpts []grpc.DialOption
 
-    dbUsername, isSet = os.LookupEnv("DB_USERNAME")
-
-    if !isSet {
-        log.Fatal("Failed to read the DB_USERNAME environment variable: it isn't set")
-    }
-
-    dbPassword, isSet = os.LookupEnv("DB_PASSWORD")
-
-    if !isSet {
-        log.Fatal("Failed to read the DB_PASSWORD environment variable: it isn't set")
-    }
-
-    dbHost, isSet = os.LookupEnv("DB_HOST")
-
-    if !isSet {
-        log.Fatal("Failed to read the DB_HOST environment variable: it isn't set")
-    }
-
-    dbPort, isSet = os.LookupEnv("DB_PORT")
-
-    if !isSet {
-        log.Fatal("Failed to read the DB_PORT environment variable: it isn't set")
-    }
-
-    dbName, isSet = os.LookupEnv("DB_NAME")
-
-    if !isSet {
-        log.Fatal("Failed to read the DB_NAME environment variable: it isn't set")
-    }
-
     dbConfig = mongodb.DBConfig{
-        Username: dbUsername,
-        Password: dbPassword,
-        Host:     dbHost,
-        Port:     dbPort,
-        Name:     dbName,
+        Username: envVariablesMap["DB_USERNAME"],
+        Password: envVariablesMap["DB_PASSWORD"],
+        Host:     envVariablesMap["DB_HOST"],
+        Port:     envVariablesMap["DB_PORT"],
+        Name:     envVariablesMap["DB_NAME"],
     }
 
     // Initialize the database.
@@ -106,20 +96,7 @@ func main() {
         log.Fatal("Failed to configure the database: ", err.Error())
     }
 
-    // Check the gRPC environment variables for the service 2.
-    grpcHost, isSet = os.LookupEnv("GRPC_SERVER_HOST")
-
-    if !isSet {
-        log.Fatal("Failed to read the GRPC_SERVER_HOST environment variable: it isn't set")
-    }
-
-    grpcPort, isSet = os.LookupEnv("GRPC_SERVER_PORT")
-
-    if !isSet {
-        log.Fatal("Failed to read the GRPC_SERVER_PORT environment variable: it isn't set")
-    }
-
-    grpcAddress = fmt.Sprintf("%s:%s", grpcHost, grpcPort)
+    grpcAddress = fmt.Sprintf("%s:%s", envVariablesMap["GRPC_SERVER_HOST"], envVariablesMap["GRPC_SERVER_PORT"])
 
     listener, err = net.Listen("tcp", grpcAddress)
 
@@ -131,24 +108,12 @@ func main() {
 
     serviceServer = server.CreateServiceServer(datastore)
 
-    // Check the gRPC environment variables for the microservice 1.
-    grpcHost, isSet = os.LookupEnv("GRPC_SERVER_HOST_MS_1")
-
-    if !isSet {
-        log.Fatal("Failed to read the GRPC_SERVER_HOST_MS_1 environment variable: it isn't set")
-    }
-
-    grpcPort, isSet = os.LookupEnv("GRPC_SERVER_PORT_MS_1")
-
-    if !isSet {
-        log.Fatal("Failed to read the GRPC_SERVER_PORT_MS_1 environment variable: it isn't set")
-    }
-
     // Register the gRPC services.
     userServiceServer = impl.NewUserServiceServer(serviceServer)
     services.RegisterUserServiceServer(grpcServer, userServiceServer)
 
-    productServiceServer = impl.NewProductServiceServer(serviceServer, grpcHost, grpcPort)
+    productServiceServer = impl.NewProductServiceServer(serviceServer, 
+        envVariablesMap["GRPC_SERVER_HOST_MS_1"], envVariablesMap["GRPC_SERVER_PORT_MS_1"])
     services.RegisterProductServiceServer(grpcServer, productServiceServer)
 
     promotionServiceServer = impl.NewPromotionServiceServer(serviceServer)
@@ -175,20 +140,7 @@ func main() {
 
     mux = runtime.NewServeMux(runtime.WithIncomingHeaderMatcher(middlewares.CustomHeaderMatcher))
 
-    // Check the http environment variables.
-    httpHost, isSet = os.LookupEnv("HTTP_SERVER_HOST")
-
-    if !isSet {
-        log.Fatal("Failed to read the HTTP_SERVER_HOST environment variable: it isn't set")
-    }
-
-    httpPort, isSet = os.LookupEnv("HTTP_SERVER_PORT")
-
-    if !isSet {
-        log.Fatal("Failed to read the HTTP_SERVER_PORT environment variable: it isn't set")
-    }
-
-    httpAddress = fmt.Sprintf("%s:%s", httpHost, httpPort)
+    httpAddress = fmt.Sprintf("%s:%s", envVariablesMap["HTTP_SERVER_HOST"], envVariablesMap["HTTP_SERVER_PORT"])
 
     grpcOpts = []grpc.DialOption{grpc.WithInsecure()}
 
