@@ -172,7 +172,7 @@ describe("TestGetAllProducts", () => {
 
     test('WithoutAnyDiscountOfDates', async done => {        
         await client.GetAllProducts({}, null, (err, response) => {
-            if (!err) {               
+            if (!err) {
                 var mockData = {
                     id: `${product._id}`,
                     price_in_cents: product.price_in_cents,
