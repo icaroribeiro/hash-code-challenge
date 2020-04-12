@@ -1405,6 +1405,14 @@ Body: {
 
 In order to test the solution a few **test sets** were developed.
 
+The tests will be executed on the running **back-end** containers. 
+
+To do so, first launch a bash terminal within the related **back-end** container:
+
+```
+$ docker exec -it <The id of the container of the corresponding back-end application> /bin/bash
+```
+
 ### 6.1 Microservice 1
 
 (P.S. These tests involve removing the record related to the promotion of discounted dates from the test database if it already exists).
@@ -1413,7 +1421,7 @@ In order to test the solution a few **test sets** were developed.
 
 These tests are related to the implementation of services in order to obtain one or more products with the possibility of discounts.
 
-To execute them, navigate to the **back-end/nodejs/internal/grpc/services/impl_test** directory.
+To execute them on the running **back-end_1** container, navigate to the **app/internal/grpc/services/impl_test** directory.
 
 So, if you prefer to evaluate all tests at once, run the command:
 
@@ -1465,7 +1473,7 @@ $ npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
 
 The tests that were developed are related to **CRUD** operations (*create*, *read*, *update* and *delete*) in the test database.
 
-To execute them, navigate to the **back-end/go/internal/mongodb_test** directory.
+To execute them on the running **back-end_2** container, navigate to the **app/internal/mongodb_test** directory).
 
 So, if you prefer to evaluate all tests at once, run the command:
 
@@ -1567,7 +1575,7 @@ $ go test -v -run=TestDeleteDiscountedDate
 
 These tests are related to the implementation of services to create, read, update and delete users, products, promotions and discounted dates.
 
-In this regard, navigate to the **back-end/go/internal/grpc/services/impl_test** directory.
+To execute them on the running **back-end_2** container, navigate to the **app/internal/grpc/services/impl_test** directory).
 
 So, if you prefer to evaluate all tests at once, run the command:
 
