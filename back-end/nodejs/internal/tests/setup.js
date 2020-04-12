@@ -14,7 +14,7 @@ beforeAll(async () => {
         URL += envVariablesMap.get('TEST_DB_HOST') + ":";
         URL += envVariablesMap.get('TEST_DB_PORT') + "/";
         URL += envVariablesMap.get('TEST_DB_NAME');
-        URL += ":?authSource=admin";
+        URL += "?authSource=admin";
 
     mongoose.connect(URL, {
             useNewUrlParser: true, 
