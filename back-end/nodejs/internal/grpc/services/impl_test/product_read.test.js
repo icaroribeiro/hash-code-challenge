@@ -1,7 +1,5 @@
+var envVariablesMap = require('../../../tests/env.js');
 var grpc = require('grpc');
-
-const { GRPC_SERVER_HOST, GRPC_SERVER_PORT } = require('../../../tests/env.js');
-
 var ProductService = require('../../../grpc/services/product.js');
 
 const mongoose = require('mongoose');
@@ -25,26 +23,8 @@ describe("TestGetAllProducts", () => {
     let discountedDate1 = null
     let discountedDate2 = null
 
-    beforeAll(async () => {
-        try {
-            var grpcHost = GRPC_SERVER_HOST;
-        
-            if (!grpcHost) {
-                throw "Failed to read the GRPC_SERVER_HOST environment variable: it isn't set";
-            }
-        
-            var grpcPort = GRPC_SERVER_PORT;
-        
-            if (!grpcPort) {
-                throw "Failed to read the GRPC_SERVER_PORT environment variable: it isn't set";
-            }
-        }
-        catch (err) {
-            console.log(err);
-            throw err;
-        }
-    
-        grpcAddress = grpcHost + ":" + grpcPort;
+    beforeAll(async () => {    
+        grpcAddress = envVariablesMap.get("GRPC_SERVER_HOST") + ":" + envVariablesMap.get("GRPC_SERVER_PORT");
 
         client = new ProductService.stubConstructor(grpcAddress, grpc.credentials.createInsecure());
         
