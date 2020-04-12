@@ -18,5 +18,5 @@ RUN npm install
 # This command runs the npm build command when we install a new version of node.
 RUN npm rebuild
 
-# Command to start the application.
+# Command to run the application.
 CMD ["node", "cmd/server/index.js"]
