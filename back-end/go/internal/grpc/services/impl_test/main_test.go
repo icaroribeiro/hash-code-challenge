@@ -6,7 +6,6 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/grpc/services/server"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/mongodb"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
-    "github.com/joho/godotenv"
     "golang.org/x/net/context"
     "google.golang.org/grpc"
     "google.golang.org/grpc/test/bufconn"
@@ -33,13 +32,8 @@ var promotionServiceClient services.PromotionServiceClient
 var discountedDateServiceClient services.DiscountedDateServiceClient
 
 func init() {
+    var filenames []string
     var err error
-
-    err = godotenv.Load("../../../../.test.env")
-
-    if err != nil {
-        log.Fatalf("Failed to load the .test.env file: %s", err.Error())
-    }
 
     envVariablesMap = make(map[string]string)
 
@@ -49,7 +43,9 @@ func init() {
     envVariablesMap["TEST_DB_PORT"] = ""
     envVariablesMap["TEST_DB_NAME"] = ""
 
-    err = utils.GetEnvVariables(envVariablesMap)
+    filenames = []string{"../../../../.test.env"}
+
+    err = utils.GetEnvVariables(filenames, envVariablesMap)
 
     if err != nil {
         log.Fatal(err.Error())

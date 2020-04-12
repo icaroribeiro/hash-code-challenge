@@ -19,7 +19,10 @@ RUN go mod download
 COPY . .
 
 # Build the Go app.
-RUN cd cmd/server && go build -o main
+RUN cd cmd/server && go build -o main .
+
+# Set the current working directory inside the container.
+WORKDIR /app/cmd/server
 
 # Command to run the application.
-CMD ["./cmd/server/main"]
+CMD ["/app/cmd/server/main"]

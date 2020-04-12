@@ -3,7 +3,6 @@ package mongodb_test
 import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/mongodb"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
-    "github.com/joho/godotenv"
     "log"
     "os"
     "testing"
@@ -14,13 +13,8 @@ var envVariablesMap map[string]string
 var datastore mongodb.Datastore
 
 func init() {
+    var filenames []string
     var err error
-
-    err = godotenv.Load("../../.test.env")
-
-    if err != nil {
-        log.Fatalf("Failed to load the .test.env file: %s", err.Error())
-    }
 
     envVariablesMap = make(map[string]string)
 
@@ -30,7 +24,9 @@ func init() {
     envVariablesMap["TEST_DB_PORT"] = ""
     envVariablesMap["TEST_DB_NAME"] = ""
 
-    err = utils.GetEnvVariables(envVariablesMap)
+    filenames = []string{"../../.test.env"}
+
+    err = utils.GetEnvVariables(filenames, envVariablesMap)
 
     if err != nil {
         log.Fatal(err.Error())

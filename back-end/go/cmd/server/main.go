@@ -9,7 +9,6 @@ import (
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/middlewares"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/mongodb"
     "github.com/icaroribeiro/hash-code-challenge/back-end/go/internal/utils"
-    "github.com/joho/godotenv"
     "golang.org/x/net/context"
     "google.golang.org/grpc"
     "log"
@@ -22,18 +21,8 @@ import (
 var envVariablesMap map[string]string
 
 func init() {
+    var filenames []string
     var err error
-
-    // Load the variables from .env file into the system.
-    err = godotenv.Load("./.env")
-
-    if err != nil {
-        err = godotenv.Load("../../.env")
-
-        if err != nil {
-            log.Fatalf("Failed to load the .env file: %s", err.Error())
-        }
-    }
 
     envVariablesMap = make(map[string]string)
 
@@ -56,7 +45,10 @@ func init() {
     envVariablesMap["HTTP_SERVER_HOST"] = ""
     envVariablesMap["HTTP_SERVER_PORT"] = ""
 
-    err = utils.GetEnvVariables(envVariablesMap)
+    // The environment files from where the variables will be loaded.
+    filenames = []string{"../../.env"}
+
+    err = utils.GetEnvVariables(filenames, envVariablesMap)
 
     if err != nil {
         log.Fatal(err.Error())
