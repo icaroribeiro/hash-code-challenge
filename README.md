@@ -264,7 +264,7 @@ The date field is configured as follows:
 
 To execute the solution through **Docker** containers, it is necessary to relate the environment variables of the **mongodb/.env** and **mongodb/.test.env** files with the corresponding environment variables directed to the development and test databases defined in both **back-end** applications settings.
 
-To do so, the environment variables of the **mongodb/.env** and **mongodb/.test.env** files must be associated with the environment variables of the **back-end/nodejs/.env** and **back-end/go/.env**; and **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files, respectively.
+To do this, the environment variables of the **mongodb/.env** and **mongodb/.test.env** files must be associated with the environment variables of the **back-end/nodejs/.env** and **back-end/go/.env**; and **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files, respectively.
 
 Additionally, it is necessary to indicate that the environment variables **DB_HOST** of the **back-end/nodejs/.env** and **back-end/go/.env** files, and **TEST_DB_HOST** of the **back-end/nodejs/internal/tests/.env** and **back-end/go/.test.env** files must be related to the database **services** defined in the **docker-compose.yml** file.
 
@@ -1407,7 +1407,7 @@ In order to test the solution a few **test sets** were developed.
 
 The tests will be executed on the running **back-end** containers. 
 
-To do so, first launch a bash terminal within the related **back-end** container:
+To do this, at a command prompt with access to instructions directed to Docker, launch a bash terminal within the related **back-end** container:
 
 ```
 $ docker exec -it <The id of the container of the corresponding back-end application> /bin/bash
