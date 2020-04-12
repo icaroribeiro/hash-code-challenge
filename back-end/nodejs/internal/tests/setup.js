@@ -1,15 +1,20 @@
+var envVariablesMap = require('../../env.js');
+const mongoose = require('mongoose');
+
 var grpc = require('grpc');
-const { TEST_GRPC_SERVER_HOST, TEST_GRPC_SERVER_PORT } = require('../tests/env.js');
 var server = new grpc.Server();
 
 var ProductService = require('../../internal/grpc/services/product.js');
 var ProductServiceImpl = require('../../internal/grpc/services/impl/product_impl.js');
 
-const { TEST_DB_USERNAME, TEST_DB_PASSWORD, TEST_DB_HOST, TEST_DB_PORT, TEST_DB_NAME } = require('../tests/env.js');
-const mongoose = require('mongoose');
-
 beforeAll(async () => {
-    var URL = `mongodb://${TEST_DB_USERNAME}:${TEST_DB_PASSWORD}@${TEST_DB_HOST}:${TEST_DB_PORT}/${TEST_DB_NAME}?authSource=admin`;
+    var URL = "mongodb://";
+        URL += envVariablesMap.get('TEST_DB_USERNAME') + ":";
+        URL += envVariablesMap.get('TEST_DB_PASSWORD') + "@";
+        URL += envVariablesMap.get('TEST_DB_HOST') + ":";
+        URL += envVariablesMap.get('TEST_DB_PORT') + "/";
+        URL += envVariablesMap.get('TEST_DB_NAME');
+        URL += ":?authSource=admin";
 
     mongoose.connect(URL, {
             useNewUrlParser: true, 
@@ -21,26 +26,8 @@ beforeAll(async () => {
     db.on('error', err => {
         console.log("Failed to connect to the database:", err);
     });
-
-    try {
-        var grpcHost = TEST_GRPC_SERVER_HOST;
     
-        if (!grpcHost) {
-            throw "Failed to read the TEST_GRPC_SERVER_HOST environment variable: it isn't set";
-        }
-    
-        var grpcPort = TEST_GRPC_SERVER_PORT;
-    
-        if (!grpcPort) {
-            throw "Failed to read the TEST_GRPC_SERVER_PORT environment variable: it isn't set";
-        }
-    }
-    catch (err) {
-        console.log(err);
-        throw err;
-    }
-    
-    var grpcAddress = grpcHost + ":" + grpcPort;
+    var grpcAddress = envVariablesMap.get("TEST_GRPC_SERVER_HOST") + ":" + envVariablesMap.get("TEST_GRPC_SERVER_PORT");
 
     server.addService(ProductService.serviceDescriptor, ProductServiceImpl.serviceMap);
 

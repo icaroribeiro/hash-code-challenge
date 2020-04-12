@@ -1,8 +1,13 @@
 var mongoose = require('mongoose');
+var envVariablesMap = require('../../env.js');
 
-const { DB_USERNAME, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = require('../../env');
-
-var URL = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`;
+var URL = "mongodb://";
+    URL += envVariablesMap.get('DB_USERNAME') + ":";
+    URL += envVariablesMap.get('DB_PASSWORD') + "@";
+    URL += envVariablesMap.get('DB_HOST') + ":";
+    URL += envVariablesMap.get('DB_PORT') + "/";
+    URL += envVariablesMap.get('DB_NAME');
+    URL += ":?authSource=admin";
 
 mongoose.connect(URL, {
         useNewUrlParser: true, 
