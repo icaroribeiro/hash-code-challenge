@@ -1,4 +1,4 @@
-var envVariablesMap = require('../../env.js');
+var envVariablesMap = require('./env.js');
 const mongoose = require('mongoose');
 
 var grpc = require('grpc');
@@ -28,6 +28,8 @@ beforeAll(async () => {
     });
     
     var grpcAddress = envVariablesMap.get("TEST_GRPC_SERVER_HOST") + ":" + envVariablesMap.get("TEST_GRPC_SERVER_PORT");
+
+    console.log(envVariablesMap);
 
     server.addService(ProductService.serviceDescriptor, ProductServiceImpl.serviceMap);
 
