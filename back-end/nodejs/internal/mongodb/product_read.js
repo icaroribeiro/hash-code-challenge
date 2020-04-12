@@ -1,6 +1,6 @@
 var Product = require('../models/product.js');
 
-exports.GetAllProducts = function (callback) {
+function GetAllProducts(callback) {
     Product.find()
         .exec()
         .then((docs) => {
@@ -26,7 +26,7 @@ exports.GetAllProducts = function (callback) {
         });
 }
 
-exports.GetProduct = function (id, callback) {
+function GetProduct(id, callback) {
     Product.findById(id)
         .exec()
         .then((doc) => {
@@ -47,3 +47,6 @@ exports.GetProduct = function (id, callback) {
             callback(err, null);
         });
 }
+
+exports.GetAllProducts = GetAllProducts;
+exports.GetProduct = GetProduct;

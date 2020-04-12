@@ -5,7 +5,6 @@ var envVariablesMap = require('../../env.js');
 var ProductService = require('../../internal/grpc/services/product.js');
 var ProductServiceImpl = require('../../internal/grpc/services/impl/product_impl.js');
 
-require('../../internal/models/product.js');
 require('../../internal/mongodb/index.js');
 
 var grpcAddress = envVariablesMap.get("GRPC_SERVER_HOST") + ":" + envVariablesMap.get("GRPC_SERVER_PORT");

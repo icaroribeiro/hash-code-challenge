@@ -1,74 +1,59 @@
-var ProductDBService = {};
-
 var mongoose = require('mongoose');
-
 var Promotion = require('../../../services/promotions/index.js');
 
-var fileMap = require('require-all')({
-    dirname : __dirname + "/../../../mongodb/",
-    filter  : function (filename) {
-        if (filename.includes('product')) {
-            return filename;
-        }
-    }
-});
+function GetAllProducts(s) {
+    return function (call, callback) {
+        s.Datastore.GetAllProducts(async function (err, data) {
+            if (err) {
+                callback(err, []);
+                return;
+            }
 
-for (const i in fileMap) {
-    for (const j in fileMap[i]) {
-        ProductDBService[j] = fileMap[i][j];
+            var xUserId = "";
+
+            var params = call.metadata.get("X-USER-ID");
+
+            if (params.length != 0) {
+                xUserId = params[0];
+
+                if (!mongoose.Types.ObjectId.isValid(xUserId)) {
+                    xUserId = "";
+                }
+            }
+
+            await Promotion.EvaluatePromotions(data, xUserId);
+
+            callback(null, data);
+        });
     }
 }
 
-function GetAllProducts(call, callback) {
-    ProductDBService.GetAllProducts(async function (err, data) {
-        if (err) {
-            callback(err, []);
-            return;
-        }
-
-        var xUserId = "";
-
-        var params = call.metadata.get("X-USER-ID");
-
-        if (params.length != 0) {
-            xUserId = params[0];
-
-            if (!mongoose.Types.ObjectId.isValid(xUserId)) {
-                xUserId = "";
+function GetProduct(s) {
+    return function (call, callback) {
+        s.Datastore.GetProduct(call.request.id, async function (err, data) {
+            if (err) {
+                callback(err, []);
+                return;
             }
-        }
 
-        await Promotion.EvaluatePromotions(data, xUserId);
+            var xUserId = "";
 
-        callback(null, data);
-    });
-}
+            var params = call.metadata.get("X-USER-ID");
 
-function GetProduct(call, callback) {
-    ProductDBService.GetProduct(call.request.id, async function (err, data) {
-        if (err) {
-            callback(err, []);
-            return;
-        }
+            if (params.length != 0) {
+                xUserId = params[0];
 
-        var xUserId = "";
-
-        var params = call.metadata.get("X-USER-ID");
-
-        if (params.length != 0) {
-            xUserId = params[0];
-
-            if (!mongoose.Types.ObjectId.isValid(xUserId)) {
-                xUserId = "";
+                if (!mongoose.Types.ObjectId.isValid(xUserId)) {
+                    xUserId = "";
+                }
             }
-        }
 
-        await Promotion.EvaluatePromotions(data, xUserId);
+            await Promotion.EvaluatePromotions(data, xUserId);
 
-        callback(null, data);
-    });
+            callback(null, data);
+        });
+    }
 }
 
 exports.GetAllProducts = GetAllProducts;
-
 exports.GetProduct = GetProduct;
