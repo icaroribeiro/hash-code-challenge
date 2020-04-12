@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
 var envVariablesMap = require('../../env.js');
+var mongoose = require('mongoose');
 
 var URL = "mongodb://";
     URL += envVariablesMap.get('DB_USERNAME') + ":";
