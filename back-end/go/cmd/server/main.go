@@ -175,12 +175,6 @@ func main() {
 
     grpcServer.Stop()
 
-    err = listener.Close()
-
-    if err != nil {
-        log.Fatalf("Failed to close the listener: %s", err.Error())
-    }
-
     err = datastore.Close()
 
     if err != nil {
