@@ -1,9 +1,7 @@
-var envVariablesMap = require('../../../tests/env.js');
+var setup = require('../../../tests/setup.js');
 var grpc = require('grpc');
 
 var ProductService = require('../../../grpc/services/product.js');
-
-var setup = require('../../../tests/setup.js');
 
 const mongoose = require('mongoose');
 
@@ -27,9 +25,7 @@ describe("TestGetAllProducts", () => {
     let discountedDate2 = null
 
     beforeAll(async () => {
-        var grpcAddress = envVariablesMap.get("TEST_GRPC_SERVER_HOST") + ":" + envVariablesMap.get("TEST_GRPC_SERVER_PORT");
-
-        client = new ProductService.stubConstructor(grpcAddress, grpc.credentials.createInsecure());
+        client = new ProductService.stubConstructor(setup.GrpcAddress, grpc.credentials.createInsecure());
         
         metadata = new grpc.Metadata();
 
@@ -117,7 +113,7 @@ describe("TestGetAllProducts", () => {
                     products.push(elem);
                 });
 
-                console.log("Update promotion:", JSON.stringify({
+                console.log("New promotion data:", JSON.stringify({
                     id: doc._id,
                     code: doc.code,
                     title: doc.title,

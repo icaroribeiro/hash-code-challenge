@@ -8,8 +8,6 @@ var grpcServer = new grpc.Server();
 var ProductServiceImpl = require('../../internal/grpc/services/impl/product_impl.js');
 var ProductService = require('../../internal/grpc/services/product.js');
 
-var serviceServer;
-
 var dbConfig = {
     Username: envVariablesMap.get('TEST_DB_USERNAME'),
     Password: envVariablesMap.get('TEST_DB_PASSWORD'),
@@ -20,7 +18,7 @@ var dbConfig = {
 
 var datastore = mongodb.InitializeDB(dbConfig);
 
-serviceServer = server.CreateServiceServer(datastore);
+var serviceServer = server.CreateServiceServer(datastore);
 
 var grpcAddress = envVariablesMap.get("TEST_GRPC_SERVER_HOST") + ":" + envVariablesMap.get("TEST_GRPC_SERVER_PORT");
 
@@ -37,5 +35,6 @@ afterAll(async () => {
 });
 
 module.exports = {
+    GrpcAddress: grpcAddress,
     Datastore: serviceServer.Datastore
 };
