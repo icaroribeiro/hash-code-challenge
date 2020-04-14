@@ -1,13 +1,3 @@
-var mongodb = require('../../../mongodb/index.js');
-
-// This variable is an abstraction of the server that allows to "attach" some resources in order to make them
-// available during the API requests. Here, it's used to store other variable that holds attributes to manage the data.
-var s = {
-    Datastore: mongodb.Datastore
-};
-
-var ProductService = {};
-
 var fileMap = require('require-all')({
     dirname : __dirname,
     filter  : function (filename) {
@@ -20,15 +10,25 @@ var fileMap = require('require-all')({
     }
 });
 
-for (const i in fileMap) {
-    for (const j in fileMap[i]) {
-        ProductService[j] = fileMap[i][j];
+function NewProductServiceServer(serviceServer) {
+    var server = {
+        Datastore: serviceServer.Datastore
     }
+
+    var ProductServices = {};
+
+    for (const i in fileMap) {
+        for (const j in fileMap[i]) {
+            ProductServices[j] = fileMap[i][j];
+        }
+    }
+    
+    var ProductServiceServer = {
+        GetAllProducts: ProductServices.GetAllProducts(server),
+        GetProduct: ProductServices.GetProduct(server)
+    }
+
+    return ProductServiceServer;
 }
 
-var serviceMap = {
-    GetAllProducts: ProductService.GetAllProducts(s),
-    GetProduct: ProductService.GetProduct(s)
-}
-
-exports.serviceMap = serviceMap;
+exports.NewProductServiceServer = NewProductServiceServer;
