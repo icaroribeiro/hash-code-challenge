@@ -1,44 +1,41 @@
 var envVariablesMap = require('./env.js');
-const mongoose = require('mongoose');
+var mongodb = require('../../internal/mongodb/index.js');
+var server = require('../../internal/grpc/services/server/index.js');
 
 var grpc = require('grpc');
-var server = new grpc.Server();
+var grpcServer = new grpc.Server();
 
-var ProductService = require('../../internal/grpc/services/product.js');
 var ProductServiceImpl = require('../../internal/grpc/services/impl/product_impl.js');
+var ProductService = require('../../internal/grpc/services/product.js');
 
-beforeAll(async () => {
-    var URL = "mongodb://";
-        URL += envVariablesMap.get('TEST_DB_USERNAME') + ":";
-        URL += envVariablesMap.get('TEST_DB_PASSWORD') + "@";
-        URL += envVariablesMap.get('TEST_DB_HOST') + ":";
-        URL += envVariablesMap.get('TEST_DB_PORT') + "/";
-        URL += envVariablesMap.get('TEST_DB_NAME');
-        URL += "?authSource=admin";
+var serviceServer;
 
-    mongoose.connect(URL, {
-            useNewUrlParser: true, 
-            useUnifiedTopology: true 
-        });
-    
-    var db = mongoose.connection;
-    
-    db.on('error', err => {
-        console.log("Failed to connect to the database:", err);
-    });
-    
-    var grpcAddress = envVariablesMap.get("TEST_GRPC_SERVER_HOST") + ":" + envVariablesMap.get("TEST_GRPC_SERVER_PORT");
+var dbConfig = {
+    Username: envVariablesMap.get('TEST_DB_USERNAME'),
+    Password: envVariablesMap.get('TEST_DB_PASSWORD'),
+    Host:     envVariablesMap.get('TEST_DB_HOST'),
+    Port:     envVariablesMap.get('TEST_DB_PORT'),
+    Name:     envVariablesMap.get('TEST_DB_NAME')
+};
 
-    console.log(envVariablesMap);
+var datastore = mongodb.InitializeDB(dbConfig);
 
-    server.addService(ProductService.serviceDescriptor, ProductServiceImpl.serviceMap);
+serviceServer = server.CreateServiceServer(datastore);
 
-    server.bind(grpcAddress, grpc.ServerCredentials.createInsecure());
+var grpcAddress = envVariablesMap.get("TEST_GRPC_SERVER_HOST") + ":" + envVariablesMap.get("TEST_GRPC_SERVER_PORT");
 
-    server.start();
-});
+var ProductServiceServer = ProductServiceImpl.NewProductServiceServer(serviceServer);
+grpcServer.addService(ProductService.serviceDescriptor, ProductServiceServer);
+
+grpcServer.bind(grpcAddress, grpc.ServerCredentials.createInsecure());
+
+grpcServer.start();
 
 afterAll(async () => {
-    await mongoose.connection.close();
-    server.forceShutdown();
+    mongodb.Close();
+    grpcServer.forceShutdown();
 });
+
+module.exports = {
+    Datastore: serviceServer.Datastore
+};

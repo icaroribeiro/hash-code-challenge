@@ -3,12 +3,14 @@ const dotenv = require('dotenv').config({path: __dirname + '/.env'});
 var envVariablesMap = new Map();
 
 try {
+    // The environment variables related to the database settings.
     envVariablesMap.set("TEST_DB_USERNAME", process.env.TEST_DB_USERNAME);
     envVariablesMap.set("TEST_DB_PASSWORD", process.env.TEST_DB_PASSWORD);
     envVariablesMap.set("TEST_DB_HOST", process.env.TEST_DB_HOST);
     envVariablesMap.set("TEST_DB_PORT", process.env.TEST_DB_PORT);
     envVariablesMap.set("TEST_DB_NAME", process.env.TEST_DB_NAME);
 
+    // The environment variables related to the gRPC server.
     envVariablesMap.set("TEST_GRPC_SERVER_HOST", process.env.TEST_GRPC_SERVER_HOST);
     envVariablesMap.set("TEST_GRPC_SERVER_PORT", process.env.TEST_GRPC_SERVER_PORT);
 

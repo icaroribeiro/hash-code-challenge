@@ -1,5 +1,193 @@
 var envVariablesMap = require('../../../tests/env.js');
 var grpc = require('grpc');
+
+var ProductService = require('../../../grpc/services/product.js');
+
+var setup = require('../../../tests/setup.js');
+
+const mongoose = require('mongoose');
+
+var Promotion = require('../../../models/promotion.js');
+var DiscountedDate = require('../../../models/discounted-date.js');
+var User = require('../../../models/user.js');
+var Product = require('../../../models/product.js');
+
+var Utils = require('../../../utils/index.js');
+
+describe("TestGetAllProducts", () => {
+    let grpcAddress;
+    let client;
+    let metadata;
+    let currDate;
+
+    let promotion;
+    let product;
+    let user = null
+    let discountedDate1 = null
+    let discountedDate2 = null
+
+    beforeAll(async () => {
+        var grpcAddress = envVariablesMap.get("TEST_GRPC_SERVER_HOST") + ":" + envVariablesMap.get("TEST_GRPC_SERVER_PORT");
+
+        client = new ProductService.stubConstructor(grpcAddress, grpc.credentials.createInsecure());
+        
+        metadata = new grpc.Metadata();
+
+        currDate = Utils.GetCurrentDate();
+
+        console.log("Configuring the data...");
+
+        // Delete the promotion of discounted dates if it already exists.
+        await Promotion.deleteOne({code: "DISCOUNTEDDATES"})
+            .exec()
+            .then(() => {
+            })
+            .catch(err => { 
+                console.log(err);
+                throw err;
+            });
+
+        promotion = new Promotion({
+            _id: new mongoose.Types.ObjectId(),
+            code: "DISCOUNTEDDATES",
+            title: "Discounted Dates",
+            description: "The promotion of discounted dates",
+            max_discount_pct: 12.0
+        });
+
+        await promotion.save()
+            .then((doc) => {
+                console.log("Promotion:", JSON.stringify({
+                    id: doc._id,
+                    code: doc.code,
+                    title: doc.title,
+                    description: doc.description,
+                    max_discount_pct: doc.max_discount_pct
+                }, null, 0));
+            })
+            .catch(err => { 
+                console.log(err);
+                throw err;
+            });
+
+        product = new Product({
+            _id: new mongoose.Types.ObjectId(),
+            price_in_cents: 100,
+            title: "Blue Pen",
+            description: "A pen with blue ink"
+        });
+
+        setup.Datastore.CreateProduct(product, async function (err, data) {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
+
+            console.log("Product:", JSON.stringify({
+                id: data.id,
+                price_in_cents: data.price_in_cents,
+                title: data.title,
+                description: data.description
+            }, null, 0));
+
+            product._id = data.id;
+        });
+        
+        /*await product.save()
+            .then((doc) => {
+                console.log("Product:", JSON.stringify({
+                    id: doc._id,
+                    price_in_cents: doc.price_in_cents,
+                    title: doc.title,
+                    description: doc.description
+                }, null, 0));
+            })
+            .catch(err => { 
+                console.log(err);
+                throw err;
+            });
+        */
+
+        promotion.products.push(product._id);
+
+        await promotion.save()
+            .then((doc) => {
+                var products = [];
+                doc.products.forEach((elem) => { 
+                    products.push(elem);
+                });
+
+                console.log("Update promotion:", JSON.stringify({
+                    id: doc._id,
+                    code: doc.code,
+                    title: doc.title,
+                    description: doc.description,
+                    max_discount_pct: doc.max_discount_pct,
+                    products: products,
+                }, null, 0));
+            })
+            .catch(err => { 
+                console.log(err);
+                throw err;
+            });
+    });
+
+    afterAll(async () => {
+    });
+
+    afterEach(async () => {
+    });
+
+    test('WithoutAnyDiscountOfDates', async done => {
+        await client.GetAllProducts({}, null, (err, response) => {
+            if (!err) {  
+                var mockData = {
+                    id: `${product._id}`,
+                    price_in_cents: product.price_in_cents,
+                    title: product.title, 
+                    description: product.description,
+                    discount: null
+                };
+
+                response.products.forEach((elem) => {   
+                    if (elem.id === mockData.id) {
+                        console.log("Returned product:", JSON.stringify({
+                            id: elem.id,
+                            price_in_cents: elem.price_in_cents,
+                            title: elem.title, 
+                            description: elem.description,
+                            discount: elem.discount
+                        }, null, 0));
+
+                        expect(elem).toEqual(mockData);
+                    }
+                });
+
+                done();
+            } else {
+                console.log(err);
+                done();
+            }
+        });
+    });
+
+    /*
+    test('WithOnlyTheDiscountOfUser\'sBirthday', async done => {
+    });
+
+    test('WithOnlyTheDiscountOfOtherDiscountedDate', async done => {
+    });
+
+    test('WithTheMaximumDiscountOfDates', async done => {
+    });
+    */
+});
+
+/*
+var grpc = require('grpc');
+
+const { TEST_GRPC_SERVER_HOST, TEST_GRPC_SERVER_PORT } = require('../../../tests/env.js');
+
 var ProductService = require('../../../grpc/services/product.js');
 
 const mongoose = require('mongoose');
@@ -23,8 +211,26 @@ describe("TestGetAllProducts", () => {
     let discountedDate1 = null
     let discountedDate2 = null
 
-    beforeAll(async () => {    
-        grpcAddress = envVariablesMap.get("GRPC_SERVER_HOST") + ":" + envVariablesMap.get("GRPC_SERVER_PORT");
+    beforeAll(async () => {
+        try {
+            var grpcHost = TEST_GRPC_SERVER_HOST;
+        
+            if (!grpcHost) {
+                throw "Failed to read the TEST_GRPC_SERVER_HOST environment variable: it isn't set";
+            }
+        
+            var grpcPort = TEST_GRPC_SERVER_PORT;
+        
+            if (!grpcPort) {
+                throw "Failed to read the TEST_GRPC_SERVER_PORT environment variable: it isn't set";
+            }
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    
+        grpcAddress = grpcHost + ":" + grpcPort;
 
         client = new ProductService.stubConstructor(grpcAddress, grpc.credentials.createInsecure());
         
@@ -97,7 +303,7 @@ describe("TestGetAllProducts", () => {
                     products.push(elem);
                 });
 
-                console.log("New promotion data:", JSON.stringify({
+                console.log("Update promotion:", JSON.stringify({
                     id: doc._id,
                     code: doc.code,
                     title: doc.title,
@@ -172,7 +378,7 @@ describe("TestGetAllProducts", () => {
 
     test('WithoutAnyDiscountOfDates', async done => {        
         await client.GetAllProducts({}, null, (err, response) => {
-            if (!err) {
+            if (!err) {               
                 var mockData = {
                     id: `${product._id}`,
                     price_in_cents: product.price_in_cents,
@@ -542,7 +748,25 @@ describe("TestGetProduct", () => {
     let discountedDate2 = null
 
     beforeAll(async () => {
-        grpcAddress = envVariablesMap.get("GRPC_SERVER_HOST") + ":" + envVariablesMap.get("GRPC_SERVER_PORT");
+        try {
+            var grpcHost = TEST_GRPC_SERVER_HOST;
+        
+            if (!grpcHost) {
+                throw "Failed to read the TEST_GRPC_SERVER_HOST environment variable: it isn't set";
+            }
+        
+            var grpcPort = TEST_GRPC_SERVER_PORT;
+        
+            if (!grpcPort) {
+                throw "Failed to read the TEST_GRPC_SERVER_PORT environment variable: it isn't set";
+            }
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+
+        grpcAddress = grpcHost + ":" + grpcPort;
 
         client = new ProductService.stubConstructor(grpcAddress, grpc.credentials.createInsecure());
 
@@ -615,7 +839,7 @@ describe("TestGetProduct", () => {
                     products.push(elem);
                 });
 
-                console.log("New promotion data:", JSON.stringify({
+                console.log("Update promotion:", JSON.stringify({
                     id: doc._id,
                     code: doc.code,
                     title: doc.title,
@@ -1038,3 +1262,4 @@ describe("TestGetProduct", () => {
         });
     });
 });
+*/
