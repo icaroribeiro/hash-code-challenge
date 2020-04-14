@@ -1,3 +1,5 @@
+var ProductServices = {};
+
 var fileMap = require('require-all')({
     dirname : __dirname,
     filter  : function (filename) {
@@ -10,25 +12,21 @@ var fileMap = require('require-all')({
     }
 });
 
+for (const i in fileMap) {
+    for (const j in fileMap[i]) {
+        ProductServices[j] = fileMap[i][j];
+    }
+}
+
 function NewProductServiceServer(serviceServer) {
     var server = {
-        Datastore: serviceServer.Datastore
+        ServiceServer: serviceServer.Datastore
     }
 
-    var ProductServices = {};
-
-    for (const i in fileMap) {
-        for (const j in fileMap[i]) {
-            ProductServices[j] = fileMap[i][j];
-        }
-    }
-    
-    var ProductServiceServer = {
+    return ProductServiceServer = {
         GetAllProducts: ProductServices.GetAllProducts(server),
         GetProduct: ProductServices.GetProduct(server)
     }
-
-    return ProductServiceServer;
 }
 
 exports.NewProductServiceServer = NewProductServiceServer;

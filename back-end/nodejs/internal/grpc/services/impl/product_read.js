@@ -3,7 +3,7 @@ var Promotion = require('../../../services/promotions/index.js');
 
 function GetAllProducts(s) {
     return function (call, callback) {
-        s.Datastore.GetAllProducts(async function (err, data) {
+        s.ServiceServer.Datastore.GetAllProducts(async function (err, data) {
             if (err) {
                 callback(err, []);
                 return;
@@ -30,7 +30,7 @@ function GetAllProducts(s) {
 
 function GetProduct(s) {
     return function (call, callback) {
-        s.Datastore.GetAllProduct(async function (err, data) {
+        s.ServiceServer.Datastore.GetAllProduct(async function (err, data) {
             if (err) {
                 callback(err, []);
                 return;
