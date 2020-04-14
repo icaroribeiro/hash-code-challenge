@@ -81,7 +81,7 @@ func SetUpConnString(dbHost, dbPort string) string {
     return connString
 }
 
-// It closes the sockets to the topology referenced by this Client.
+// It closes the sockets to the topology referenced by the client.
 func (d *Datastore) Close() error {
     return d.Client.Disconnect(d.Context)
 }
