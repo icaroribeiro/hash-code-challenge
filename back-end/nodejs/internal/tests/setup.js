@@ -30,7 +30,7 @@ grpcServer.bind(grpcAddress, grpc.ServerCredentials.createInsecure());
 grpcServer.start();
 
 afterAll(async () => {
-    mongodb.Close();
+    await mongodb.Close();
     grpcServer.forceShutdown();
 });
 
