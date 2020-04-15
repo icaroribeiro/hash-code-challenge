@@ -30,81 +30,6 @@
 		}
 	],
 	"paths": {
-		"/users": {
-			"get": {
-				"tags": [
-					"user"
-				],
-				"summary": "API Endpoint designed to get the list of all users.",
-				"operationId": "GetAllUsers",
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"users": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"required": [
-													"id",
-													"first_name",
-													"last_name",
-													"date_of_birth"
-												],
-												"properties": {
-													"id": {
-														"type": "string"
-													},
-													"first_name": {
-														"type": "string"
-													},
-													"last_name": {
-														"type": "string"
-													},
-													"date_of_birth": {
-														"type": "object",
-														"required": [
-															"year",
-															"month",
-															"day"
-														],
-														"properties": {
-															"year": {
-																"type": "integer"
-															},
-															"month": {
-																"type": "integer"
-															},
-															"day": {
-																"type": "integer"
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Got an internal application error.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Status"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
 		"/user": {
 			"post": {
 				"tags": [
@@ -207,6 +132,81 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Got an internal application error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/users": {
+			"get": {
+				"tags": [
+					"user"
+				],
+				"summary": "API Endpoint designed to get the list of all users.",
+				"operationId": "GetAllUsers",
+				"responses": {
+					"200": {
+						"description": "Successful operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"users": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"required": [
+													"id",
+													"first_name",
+													"last_name",
+													"date_of_birth"
+												],
+												"properties": {
+													"id": {
+														"type": "string"
+													},
+													"first_name": {
+														"type": "string"
+													},
+													"last_name": {
+														"type": "string"
+													},
+													"date_of_birth": {
+														"type": "object",
+														"required": [
+															"year",
+															"month",
+															"day"
+														],
+														"properties": {
+															"year": {
+																"type": "integer"
+															},
+															"month": {
+																"type": "integer"
+															},
+															"day": {
+																"type": "integer"
+															}
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -561,90 +561,6 @@
 				}
 			}
 		},
-		"/products": {
-			"get": {
-				"tags": [
-					"product"
-				],
-				"summary": "API Endpoint designed to get the list of all products.",
-				"operationId": "GetAllProducts",
-				"parameters": [{
-					"name": "X-USER-ID",
-					"in": "header",
-					"description": "The id of the user.",
-					"required": false,
-					"schema": {
-						"type": "string"
-					}
-				}],
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"products": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"required": [
-													"id",
-													"price_in_cents",
-													"title",
-													"description"
-												],
-												"properties": {
-													"id": {
-														"type": "string"
-													},
-													"price_in_cents": {
-														"type": "integer"
-													},
-													"title": {
-														"type": "string"
-													},
-													"description": {
-														"type": "string"
-													},
-													"discount": {
-														"type": "object",
-														"required": [
-															"pct",
-															"value_in_cents"
-														],
-														"properties": {
-															"pct": {
-																"type": "number",
-																"format": "float"
-															},
-															"value_in_cents": {
-																"type": "integer"
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Got an internal application error.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Status"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
 		"/product": {
 			"post": {
 				"tags": [
@@ -715,6 +631,90 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Got an internal application error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/products": {
+			"get": {
+				"tags": [
+					"product"
+				],
+				"summary": "API Endpoint designed to get the list of all products.",
+				"operationId": "GetAllProducts",
+				"parameters": [{
+					"name": "X-USER-ID",
+					"in": "header",
+					"description": "The id of the user.",
+					"required": false,
+					"schema": {
+						"type": "string"
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "Successful operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"products": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"required": [
+													"id",
+													"price_in_cents",
+													"title",
+													"description"
+												],
+												"properties": {
+													"id": {
+														"type": "string"
+													},
+													"price_in_cents": {
+														"type": "integer"
+													},
+													"title": {
+														"type": "string"
+													},
+													"description": {
+														"type": "string"
+													},
+													"discount": {
+														"type": "object",
+														"required": [
+															"pct",
+															"value_in_cents"
+														],
+														"properties": {
+															"pct": {
+																"type": "number",
+																"format": "float"
+															},
+															"value_in_cents": {
+																"type": "integer"
+															}
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -1030,77 +1030,6 @@
 				}
 			}
 		},
-		"/promotions": {
-			"get": {
-				"tags": [
-					"promotion"
-				],
-				"summary": "API Endpoint designed to get the list of all promotions.",
-				"operationId": "GetAllPromotions",
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"promotions": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"required": [
-													"id",
-													"code",
-													"title",
-													"description",
-													"max_discount_pct"
-												],
-												"properties": {
-													"id": {
-														"type": "string"
-													},
-													"code": {
-														"type": "string"
-													},
-													"title": {
-														"type": "string"
-													},
-													"description": {
-														"type": "string"
-													},
-													"max_discount_pct": {
-														"type": "number",
-														"format": "float"
-													},
-													"products": {
-														"description": "The list of the ids of all promotional products.",
-														"type": "array",
-														"items": {
-															"type": "string"
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Got an internal application error.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Status"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
 		"/promotion": {
 			"post": {
 				"tags": [
@@ -1205,6 +1134,77 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Got an internal application error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/promotions": {
+			"get": {
+				"tags": [
+					"promotion"
+				],
+				"summary": "API Endpoint designed to get the list of all promotions.",
+				"operationId": "GetAllPromotions",
+				"responses": {
+					"200": {
+						"description": "Successful operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"promotions": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"required": [
+													"id",
+													"code",
+													"title",
+													"description",
+													"max_discount_pct"
+												],
+												"properties": {
+													"id": {
+														"type": "string"
+													},
+													"code": {
+														"type": "string"
+													},
+													"title": {
+														"type": "string"
+													},
+													"description": {
+														"type": "string"
+													},
+													"max_discount_pct": {
+														"type": "number",
+														"format": "float"
+													},
+													"products": {
+														"description": "The list of the ids of all promotional products.",
+														"type": "array",
+														"items": {
+															"type": "string"
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -1543,86 +1543,6 @@
 				}
 			}
 		},
-		"/discountedDates": {
-			"get": {
-				"tags": [
-					"discounted date"
-				],
-				"summary": "API Endpoint designed to get the list of all discounted dates.",
-				"operationId": "GetAllDiscountedDates",
-				"responses": {
-					"200": {
-						"description": "Successful operation.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"discountedDates": {
-											"type": "array",
-											"items": {
-												"type": "object",
-												"required": [
-													"id",
-													"title",
-													"description",
-													"discount_pct",
-													"date"
-												],
-												"properties": {
-													"id": {
-														"type": "string"
-													},
-													"title": {
-														"type": "string"
-													},
-													"description": {
-														"type": "string"
-													},
-													"discount_pct": {
-														"type": "number",
-														"format": "float"
-													},
-													"date": {
-														"type": "object",
-														"required": [
-															"year",
-															"month",
-															"day"
-														],
-														"properties": {
-															"year": {
-																"type": "integer"
-															},
-															"month": {
-																"type": "integer"
-															},
-															"day": {
-																"type": "integer"
-															}
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Got an internal application error.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Status"
-								}
-							}
-						}
-					}
-				}
-			}
-		},
 		"/discountedDate": {
 			"post": {
 				"tags": [
@@ -1735,6 +1655,86 @@
 							"application/json": {
 								"schema": {
 									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Got an internal application error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/discountedDates": {
+			"get": {
+				"tags": [
+					"discounted date"
+				],
+				"summary": "API Endpoint designed to get the list of all discounted dates.",
+				"operationId": "GetAllDiscountedDates",
+				"responses": {
+					"200": {
+						"description": "Successful operation.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"discountedDates": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"required": [
+													"id",
+													"title",
+													"description",
+													"discount_pct",
+													"date"
+												],
+												"properties": {
+													"id": {
+														"type": "string"
+													},
+													"title": {
+														"type": "string"
+													},
+													"description": {
+														"type": "string"
+													},
+													"discount_pct": {
+														"type": "number",
+														"format": "float"
+													},
+													"date": {
+														"type": "object",
+														"required": [
+															"year",
+															"month",
+															"day"
+														],
+														"properties": {
+															"year": {
+																"type": "integer"
+															},
+															"month": {
+																"type": "integer"
+															},
+															"day": {
+																"type": "integer"
+															}
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}
 						}
