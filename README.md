@@ -38,9 +38,11 @@ The **microservice 1** is responsible for the evaluation of discounts applied to
 
 **nodejs/internal/grpc/services/impl_test**: it contains the tests of the implementation of the services using the **JavaScript** testing framework named **jest**.
 
+**nodejs/internal/grpc/services/server**: it contains an abstraction of the server that allows to "attach" some resources to make them available during the API requests. Here, it's used to store a structure that holds attributes to manage the data.
+
 **nodejs/internal/models**: it contains the definition of the data entities used by both the API and the database.
 
-**nodejs/internal/mongodb**: it contains the implementation directed to the database configuration along with the "*read*" operation from **CRUD** operations.
+**nodejs/internal/mongodb**: it contains the implementation directed to the database configuration along with **CRUD** operations.
 
 **nodejs/internal/proto/entities**: it contains the specification of the **protocol buffers** entities.
 
