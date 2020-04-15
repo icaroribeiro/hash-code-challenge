@@ -1,7 +1,7 @@
 var Promotion = require('../models/promotion.js');
 
-function DeletePromotion(id, callback) {
-    Promotion.deleteOne({_id: id})
+async function DeletePromotion(id, callback) {
+    await Promotion.deleteOne({_id: id})
         .exec()
         .then((doc) => {
             callback(null, doc)

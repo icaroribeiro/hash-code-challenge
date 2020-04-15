@@ -1,7 +1,7 @@
 var Product = require('../models/product.js');
 
-function CreateProduct(product, callback) {
-    Product.create(product)
+async function CreateProduct(product, callback) {
+    await Product.create(product)
         .then((doc) => {
             if (doc) {
                 callback(null, {

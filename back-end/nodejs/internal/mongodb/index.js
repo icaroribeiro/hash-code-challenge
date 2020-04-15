@@ -42,8 +42,8 @@ function InitializeDB(dbConfig) {
     return datastore;
 }
 
-async function Close() {
-    await mongoose.connection.close();
+function Close() {
+    mongoose.connection.close();
 }
 
 exports.InitializeDB = InitializeDB;

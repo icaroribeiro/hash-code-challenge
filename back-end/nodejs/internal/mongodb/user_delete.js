@@ -1,7 +1,7 @@
 var User = require('../models/user.js');
 
-function DeleteUser(id, callback) {
-    User.deleteOne({_id: id})
+async function DeleteUser(id, callback) {
+    await User.deleteOne({_id: id})
         .exec()
         .then((doc) => {
             callback(null, doc)
