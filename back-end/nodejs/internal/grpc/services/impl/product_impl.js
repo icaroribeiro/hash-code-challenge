@@ -20,7 +20,7 @@ for (const i in fileMap) {
 
 function NewProductServiceServer(serviceServer) {
     var server = {
-        ServiceServer: serviceServer.Datastore
+        ServiceServer: serviceServer
     }
 
     return ProductServiceServer = {

@@ -30,7 +30,7 @@ function GetAllProducts(s) {
 
 function GetProduct(s) {
     return function (call, callback) {
-        s.ServiceServer.Datastore.GetAllProduct(async function (err, data) {
+        s.ServiceServer.Datastore.GetProduct(call.request.id, async function (err, data) {
             if (err) {
                 callback(err, []);
                 return;
