@@ -1469,7 +1469,7 @@ $ npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
 
 ### 6.2 Microservice 2
 
-(P.S. These tests involve creating, editing and removing records from the test database.)
+(P.S. These tests involve creating, obtaining, editing and removing records from the test database.)
 
 ### 6.2.1 Database
 
