@@ -25,11 +25,7 @@ func (d *Datastore) UpdateUser(id string, user models.User) (int64, int64, error
         context.Background(),
         bson.M{"_id": objectID},
         bson.M{
-            "$set": bson.M{
-                "first_name":    user.FirstName,
-                "last_name":     user.LastName,
-                "date_of_birth": user.DateOfBirth,
-            },
+            "$set": user,
         },
     )
 

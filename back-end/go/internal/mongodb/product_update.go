@@ -25,11 +25,7 @@ func (d *Datastore) UpdateProduct(id string, product models.Product) (int64, int
         context.Background(),
         bson.M{"_id": objectID},
         bson.M{
-            "$set": bson.M{
-                "price_in_cents": product.PriceInCents,
-                "title":          product.Title,
-                "description":    product.Description,
-            },
+            "$set": product,
         },
     )
 

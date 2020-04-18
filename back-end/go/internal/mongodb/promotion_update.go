@@ -47,37 +47,13 @@ func (d *Datastore) UpdatePromotion(id string, promotion models.Promotion) (int6
         }
     }
 
-    if len(promotion.Products) == 0 {
-        updateResult, err = d.DB.Collection("promotions").UpdateOne(
-            context.Background(),
-            bson.M{"_id": objectID},
-            bson.M{
-                "$set": bson.M{
-                    "code":             promotion.Code,
-                    "title":            promotion.Title,
-                    "description":      promotion.Description,
-                    "max_discount_pct": promotion.MaxDiscountPct,
-                },
-                "$unset": bson.M{
-                    "products": "",
-                },
-            },
-        )
-    } else {
-        updateResult, err = d.DB.Collection("promotions").UpdateOne(
-            context.Background(),
-            bson.M{"_id": objectID},
-            bson.M{
-                "$set": bson.M{
-                    "code":             promotion.Code,
-                    "title":            promotion.Title,
-                    "description":      promotion.Description,
-                    "max_discount_pct": promotion.MaxDiscountPct,
-                    "products":         promotion.Products,
-                },
-            },
-        )
-    }
+    updateResult, err = d.DB.Collection("promotions").UpdateOne(
+        context.Background(),
+        bson.M{"_id": objectID},
+        bson.M{
+            "$set": promotion,
+        },
+    )
 
     if err != nil {
         return 0, 0, err
