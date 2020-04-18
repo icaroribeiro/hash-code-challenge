@@ -146,7 +146,7 @@ In this sense, to facilitate future explanations regarding the details of the da
 
 These databases are named **db** and **test-db** by the environment variable **DB_NAME** of the **nodejs/.env** and **go/.env** files; and **TEST_DB_NAME** of the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
 
-(P.S. This way, it is necessary to pay special attention to the database environment variables defined in these two previous files in case they are changed).
+(P.S. This way, it is necessary to pay special attention to the database environment variables defined in these two previous files in case they are changed.)
 
 ### 3.2 - Mongo
 
@@ -449,7 +449,7 @@ The API requests related to the **microservice 2** are performed through the HTT
 
 In what follows, there is a guide that includes API requests for creating, obtaining, updating and deleting data from the database.
 
-(P.S. Before checking the following examples, consider that no data is recorded prior to this explanation).
+(P.S. Before checking the following examples, consider that no data is recorded prior to this explanation.)
 
 ### Management of Users
 
@@ -749,7 +749,7 @@ Body: {
 }
 ```
 
-(P.S. As indicated above, the scheme of changing API request bodies when there is a discount that **is greater than zero** is performed both when obtaining a single product and the list of all products).
+(P.S. As indicated above, the scheme of changing API request bodies when there is a discount that **is greater than zero** is performed both when obtaining a single product and the list of all products.)
 
 #### Obtainment of a Product by its id
 
@@ -1417,7 +1417,7 @@ $ docker exec -it <The id of the container of the corresponding back-end applica
 
 ### 6.1 Microservice 1
 
-(P.S. These tests involve removing the record related to the promotion of discounted dates from the test database if it already exists).
+(P.S. These tests involve removing the record related to the promotion of discounted dates from the test database if it already exists.)
 
 ### 6.1.1 Services
 
@@ -1469,13 +1469,13 @@ $ npm test -- -t "TestGetProduct.WithTheMaximumDiscountOfDates"
 
 ### 6.2 Microservice 2
 
-(P.S. These tests involve creating, editing and removing records from the test database).
+(P.S. These tests involve creating, editing and removing records from the test database.)
 
 ### 6.2.1 Database
 
 The tests that were developed are related to **CRUD** operations (*create*, *read*, *update* and *delete*) in the test database.
 
-To execute them on the running **back-end_2** container, navigate to the **app/internal/mongodb_test** directory).
+To execute them on the running **back-end_2** container, navigate to the **app/internal/mongodb_test** directory.
 
 So, if you prefer to evaluate all tests at once, run the command:
 
@@ -1577,7 +1577,7 @@ $ go test -v -run=TestDeleteDiscountedDate
 
 These tests are related to the implementation of services to create, read, update and delete users, products, promotions and discounted dates.
 
-To execute them on the running **back-end_2** container, navigate to the **app/internal/grpc/services/impl_test** directory).
+To execute them on the running **back-end_2** container, navigate to the **app/internal/grpc/services/impl_test** directory.
 
 So, if you prefer to evaluate all tests at once, run the command:
 
@@ -1694,7 +1694,7 @@ As previou explained, the discount is **always** limited by the value of the **m
 
 First, it is necessary to illustrate the data to be registered before obtaining one or more products with the possibility of discounts.
 
-(P.S. Consider that no data is recorded prior to this explanation).
+(P.S. Consider that no data is recorded prior to this explanation.)
 
 #### Creation of Users
 
@@ -2068,13 +2068,13 @@ It may happen due to some circumstances, such as the three described below:
 
 2. The **microservice 1** is active, but the **X-USER-ID** is not informed. In this case, there will be no evaluation of the discount of user's birthday and, therefore, the discount is only evaluated considering other discounted dates.
 
-As an example, suppose that the current date is **1-1-2020** and it is not a discounted date (The previously discount dates are **0-0-0** and **27-11-2020**). This way, no discount is applicable.
+As an example, suppose that the current date is **1-1-2020** and it is not a discounted date. (The previously discount dates are **0-0-0** and **27-11-2020**.) This way, no discount is applicable.
 
 3. The **microservice 1** is active and the **X-USER-ID** is informed. Because of this, consider two situations:
 
      3.1. If the **X-USER-ID** does not contain an **id** of a user registered, then the second circumstance described above will be investigated.
 
-     3.2. On the other hand, if the **X-USER-ID** contains an **id** of a registered user, for example the **id** of the user named **User1**, the discount of user's birthday will be evaluated. As an example, suppose that the current date is **1-1-2020** and has no relation to the date of user's birth (The date of User1's birth is **2-1-1990**). As before, the second circumstance described above will be investigated.
+     3.2. On the other hand, if the **X-USER-ID** contains an **id** of a registered user, for example the **id** of the user named **User1**, the discount of user's birthday will be evaluated. As an example, suppose that the current date is **1-1-2020** and has no relation to the date of user's birth. (The date of User1's birth is **2-1-1990**.) As before, the second circumstance described above will be investigated.
 
 ### 7.2.2 Products with the Discount of User's Birthday
 
