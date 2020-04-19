@@ -35,7 +35,7 @@
 				"tags": [
 					"user"
 				],
-				"summary": "API Endpoint designed to create a new user.",
+				"summary": "API endpoint designed to create a new user.",
                 "operationId": "CreateUser",
                 "requestBody": {
 					"required": true,
@@ -154,7 +154,7 @@
 				"tags": [
 					"user"
 				],
-				"summary": "API Endpoint designed to get the list of all users.",
+				"summary": "API endpoint designed to get the list of all users.",
 				"operationId": "GetAllUsers",
 				"responses": {
 					"200": {
@@ -229,7 +229,7 @@
 				"tags": [
 					"user"
 				],
-				"summary": "API Endpoint designed to get a specific user by its id.",
+				"summary": "API endpoint designed to get a specific user by its id.",
 				"operationId": "GetUser",
 				"parameters": [{
 					"name": "userId",
@@ -323,7 +323,7 @@
 				"tags": [
 					"user"
 				],
-				"summary": "API Endpoint designed to update a specific user by its id.",
+				"summary": "API endpoint designed to update a specific user by its id.",
 				"operationId": "UpdateUser",
 				"parameters": [{
 						"name": "userId",
@@ -470,7 +470,7 @@
 				"tags": [
 					"user"
 				],
-				"summary": "API Endpoint designed to delete a specific user by its id.",
+				"summary": "API endpoint designed to delete a specific user by its id.",
 				"operationId": "DeleteUser",
 				"parameters": [{
 					"name": "userId",
@@ -566,7 +566,7 @@
 				"tags": [
 					"product"
 				],
-				"summary": "API Endpoint designed to create a new product.",
+				"summary": "API endpoint designed to create a new product.",
                 "operationId": "CreateProduct",
                 "requestBody": {
 					"required": true,
@@ -653,7 +653,7 @@
 				"tags": [
 					"product"
 				],
-				"summary": "API Endpoint designed to get the list of all products.",
+				"summary": "API endpoint designed to get the list of all products.",
 				"operationId": "GetAllProducts",
 				"parameters": [{
 					"name": "X-USER-ID",
@@ -737,7 +737,7 @@
 				"tags": [
 					"product"
 				],
-				"summary": "API Endpoint desgined to get a specific product by its id.",
+				"summary": "API endpoint desgined to get a specific product by its id.",
 				"operationId": "GetProduct",
 				"parameters": [{
 						"name": "X-USER-ID",
@@ -841,7 +841,7 @@
 				"tags": [
 					"product"
 				],
-				"summary": "API Endpoint designed to update a specific product by its id.",
+				"summary": "API endpoint designed to update a specific product by its id.",
 				"operationId": "UpdateProduct",
 				"parameters": [{
                     "name": "productId",
@@ -955,7 +955,7 @@
 				"tags": [
 					"product"
 				],
-				"summary": "API Endpoint designed to delete a specific product by its id.",
+				"summary": "API endpoint designed to delete a specific product by its id.",
 				"operationId": "DeleteProduct",
 				"parameters": [{
 					"name": "productId",
@@ -1035,7 +1035,7 @@
 				"tags": [
 					"promotion"
 				],
-				"summary": "API Endpoint designed to create a new promotion.",
+				"summary": "API endpoint designed to create a new promotion.",
                 "operationId": "CreatePromotion",
                 "requestBody": {
 					"required": true,
@@ -1156,7 +1156,7 @@
 				"tags": [
 					"promotion"
 				],
-				"summary": "API Endpoint designed to get the list of all promotions.",
+				"summary": "API endpoint designed to get the list of all promotions.",
 				"operationId": "GetAllPromotions",
 				"responses": {
 					"200": {
@@ -1227,7 +1227,7 @@
 				"tags": [
 					"promotion"
 				],
-				"summary": "API Endpoint designed to get a specific promotion by its id.",
+				"summary": "API endpoint designed to get a specific promotion by its id.",
 				"operationId": "GetPromotion",
 				"parameters": [{
 					"name": "promotionId",
@@ -1317,7 +1317,7 @@
 				"tags": [
 					"promotion"
 				],
-				"summary": "API Endpoint designed to update a specific promotion by its id.",
+				"summary": "API endpoint designed to update a specific promotion by its id.",
 				"operationId": "UpdatePromotion",
 				"parameters": [{
 						"name": "promotionId",
@@ -1456,7 +1456,7 @@
 				"tags": [
 					"promotion"
 				],
-				"summary": "API Endpoint designed to delete a specific promotion by its id.",
+				"summary": "API endpoint designed to delete a specific promotion by its id.",
 				"operationId": "DeleteProduct",
 				"parameters": [{
 					"name": "promotionId",
@@ -1548,7 +1548,7 @@
 				"tags": [
 					"discounted date"
 				],
-				"summary": "API Endpoint designed to create a new discounted date.",
+				"summary": "API endpoint designed to create a new discounted date.",
                 "operationId": "CreateDiscountedDate",
 				"requestBody": {
 					"required": true,
@@ -1677,7 +1677,7 @@
 				"tags": [
 					"discounted date"
 				],
-				"summary": "API Endpoint designed to get the list of all discounted dates.",
+				"summary": "API endpoint designed to get the list of all discounted dates.",
 				"operationId": "GetAllDiscountedDates",
 				"responses": {
 					"200": {
@@ -1757,7 +1757,7 @@
 				"tags": [
 					"discounted date"
 				],
-				"summary": "API Endpoint designed to get a specific discounted date by its id.",
+				"summary": "API endpoint designed to get a specific discounted date by its id.",
 				"operationId": "GetDiscountedDate",
 				"parameters": [{
 					"name": "discountedDateId",
@@ -1856,7 +1856,7 @@
 				"tags": [
 					"discounted date"
 				],
-				"summary": "API Endpoint designed to update a specific discounted date by its id.",
+				"summary": "API endpoint designed to update a specific discounted date by its id.",
 				"operationId": "UpdateDiscountedDate",
 				"parameters": [{
                     "name": "discountedDateId",
@@ -2012,7 +2012,7 @@
 				"tags": [
 					"discounted date"
 				],
-				"summary": "API Endpoint designed to delete a specific discounted date by its id.",
+				"summary": "API endpoint designed to delete a specific discounted date by its id.",
 				"operationId": "DeleteDiscountedDate",
 				"parameters": [{
 					"name": "discountedDateId",
