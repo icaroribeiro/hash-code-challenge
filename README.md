@@ -409,8 +409,6 @@ The *host* corresponds to the value informed when executing a command at a comma
 $ docker-machine ip
 ```
 
-(P.S. Because of the dependencies related to the back-end services, it may take some time to them attach to other services properly. Then, to confirm if everything is up and running ok execute the command *docker container ls -a*)
-
 After that, navigate to the project's root directory where the **docker-compose.yml** file is, and assign the *host* to the **GRPC_SERVER_HOST_MS_1** variable in the **back-end_2** service:
 
 ```
@@ -428,6 +426,8 @@ Still at a command prompt with access to instructions directed to Docker where t
 ```
 $ docker-compose up -d
 ```
+
+(P.S. Because of the dependencies related to the back-end services, it may take some time to them attach to other services properly. Then, to confirm if everything is up and running ok execute the command *docker container ls -a*)
 
 If there are no errors, the API *endpoints* will be accessed using the address composed by the *host* and the HTTP server port **8082** (P.S. The **microservice 2** will communicate with the **microservice 1** through the gRPC server *port* **50051**). For example:
 
