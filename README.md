@@ -1631,7 +1631,6 @@ $ go test -v -run=TestUpdateProduct
 $ go test -v -run=TestDeleteProduct
 ```
 
-
 **Tests of the implementation of services directed to Promotions**
 
 ```
