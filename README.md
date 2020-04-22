@@ -158,7 +158,7 @@ The **mongodb/scripts/1-create_collections.js** file contains instructions for c
 
 In the **users** collection each document contains the data of a user.
 
-This way, the **_id** field refers to the unique identifier of the user and the **first_name**, **last_name** and **date_of_birth** (**year**, **month** and **day**) fields refer to the first name, last name and date of user's birth (with year, month and day), respectively.
+As follows, the **_id** field refers to the unique identifier of the user and the **first_name**, **last_name** and **date_of_birth** (**year**, **month** and **day**) fields refer to the first name, last name and date of user's birth (with year, month and day), respectively.
 
 | Fields        | Data type |
 |:--------------|:----------|
@@ -189,7 +189,7 @@ The date_of_birth field is configured as follows:
 
 In the **products** collection each document contains data of a product.
 
-This way, the **_id** field refers to the unique identifier of the product and the **price_in_cents**, **title** and **description** fields refer to the price in cents, title and description, respectively.
+As follows, the **_id** field refers to the unique identifier of the product and the **price_in_cents**, **title** and **description** fields refer to the price in cents, title and description, respectively.
 
 | Fields         | Data type |
 |:---------------|:----------|
@@ -209,7 +209,7 @@ In addition to the previous fields, there is other field named **discount** that
 
 In the **promotions** collection each document contains the data of a promotion.
 
-This way, the **_id** field refers to the unique identifier of the promotion and the **code**, **title**, **description**, **max_discount_pct** and **products** fields refer to the code, title, description, maximum discount percentage and a list of ids of all its products, respectively.
+As follows, the **_id** field refers to the unique identifier of the promotion and the **code**, **title**, **description**, **max_discount_pct** and **products** fields refer to the code, title, description, maximum discount percentage and a list of ids of all its products, respectively.
 
 | Fields           | Data type |
 |:-----------------|:----------|
@@ -236,7 +236,7 @@ Additionally, each promotion must have a unique value for the **code** field and
 
 In the **discountedDates** collection each document contains the data of a discounted date.
 
-This way, the **_id** field refers to the unique identifier of the discounted date and **title**, **description**, **discount_pct** and **date** (**year**, **month** and **day**) fields refer to the title, description, percentage of discount, and date in which the discount will be applicable to one or more products, respectively.
+As follows, the **_id** field refers to the unique identifier of the discounted date and **title**, **description**, **discount_pct** and **date** (**year**, **month** and **day**) fields refer to the title, description, percentage of discount, and date in which the discount will be applicable to one or more products, respectively.
 
 | Fields       | Data type |
 |:-------------|:----------|
