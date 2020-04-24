@@ -36,48 +36,48 @@
 					"user"
 				],
 				"summary": "API endpoint designed to create a new user.",
-                "operationId": "CreateUser",
-                "requestBody": {
+				"operationId": "CreateUser",
+				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "first_name",
-                                    "last_name",
-                                    "date_of_birth"
-                                ],
-                                "properties": {
-                                    "first_name": {
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "type": "string"
-                                    },
-                                    "date_of_birth": {
-                                        "type": "object",
-                                        "required": [
-                                            "year",
-                                            "month",
-                                            "day"
-                                        ],
-                                        "properties": {
-                                            "year": {
-                                                "type": "integer"
-                                            },
-                                            "month": {
-                                                "type": "integer"
-                                            },
-                                            "day": {
-                                                "type": "integer"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+							"schema": {
+								"type": "object",
+								"required": [
+									"first_name",
+									"last_name",
+									"date_of_birth"
+								],
+								"properties": {
+									"first_name": {
+										"type": "string"
+									},
+									"last_name": {
+										"type": "string"
+									},
+									"date_of_birth": {
+										"type": "object",
+										"required": [
+											"year",
+											"month",
+											"day"
+										],
+										"properties": {
+											"year": {
+												"type": "integer"
+											},
+											"month": {
+												"type": "integer"
+											},
+											"day": {
+												"type": "integer"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				},
 				"responses": {
 					"200": {
@@ -286,7 +286,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -326,57 +326,56 @@
 				"summary": "API endpoint designed to update a specific user by its id.",
 				"operationId": "UpdateUser",
 				"parameters": [{
-						"name": "userId",
-						"in": "path",
-						"description": "The id of the user.",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
+					"name": "userId",
+					"in": "path",
+					"description": "The id of the user.",
+					"required": true,
+					"schema": {
+						"type": "string"
 					}
-                ],
+				}],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "first_name",
-                                    "last_name",
-                                    "date_of_birth"
-                                ],
-                                "properties": {
-                                    "first_name": {
-                                        "type": "string"
-                                    },
-                                    "last_name": {
-                                        "type": "string"
-                                    },
-                                    "date_of_birth": {
-                                        "type": "object",
-                                        "required": [
-                                            "year",
-                                            "month",
-                                            "day"
-                                        ],
-                                        "properties": {
-                                            "year": {
-                                                "type": "integer"
-                                            },
-                                            "month": {
-                                                "type": "integer"
-                                            },
-                                            "day": {
-                                                "type": "integer"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+							"schema": {
+								"type": "object",
+								"required": [
+									"first_name",
+									"last_name",
+									"date_of_birth"
+								],
+								"properties": {
+									"first_name": {
+										"type": "string"
+									},
+									"last_name": {
+										"type": "string"
+									},
+									"date_of_birth": {
+										"type": "object",
+										"required": [
+											"year",
+											"month",
+											"day"
+										],
+										"properties": {
+											"year": {
+												"type": "integer"
+											},
+											"month": {
+												"type": "integer"
+											},
+											"day": {
+												"type": "integer"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "Successful operation.",
@@ -443,17 +442,17 @@
 								}
 							}
 						}
-                    },
-                    "409": {
-                        "description": "Got a conflict error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Status"
-                                }
-                            }
-                        }
-                    },
+					},
+					"409": {
+						"description": "Got a conflict error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -527,7 +526,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -567,33 +566,33 @@
 					"product"
 				],
 				"summary": "API endpoint designed to create a new product.",
-                "operationId": "CreateProduct",
-                "requestBody": {
+				"operationId": "CreateProduct",
+				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "price_in_cents",
-                                    "title",
-                                    "description"
-                                ],
-                                "properties": {
-                                    "price_in_cents": {
-                                        "type": "integer"
-                                    },
-                                    "title": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+							"schema": {
+								"type": "object",
+								"required": [
+									"price_in_cents",
+									"title",
+									"description"
+								],
+								"properties": {
+									"price_in_cents": {
+										"type": "integer"
+									},
+									"title": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "Successful operation.",
@@ -804,7 +803,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -844,40 +843,40 @@
 				"summary": "API endpoint designed to update a specific product by its id.",
 				"operationId": "UpdateProduct",
 				"parameters": [{
-                    "name": "productId",
-                    "in": "path",
-                    "description": "The id of the product.",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    }
-                }],
+					"name": "productId",
+					"in": "path",
+					"description": "The id of the product.",
+					"required": true,
+					"schema": {
+						"type": "string"
+					}
+				}],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "price_in_cents",
-                                    "title",
-                                    "description"
-                                ],
-                                "properties": {
-                                    "price_in_cents": {
-                                        "type": "integer"
-                                    },
-                                    "title": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+							"schema": {
+								"type": "object",
+								"required": [
+									"price_in_cents",
+									"title",
+									"description"
+								],
+								"properties": {
+									"price_in_cents": {
+										"type": "integer"
+									},
+									"title": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "Successful operation.",
@@ -908,7 +907,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -928,17 +927,17 @@
 								}
 							}
 						}
-                    },
-                    "409": {
-                        "description": "Got a conflict error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Status"
-                                }
-                            }
-                        }
-                    },
+					},
+					"409": {
+						"description": "Got a conflict error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -996,7 +995,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -1036,45 +1035,45 @@
 					"promotion"
 				],
 				"summary": "API endpoint designed to create a new promotion.",
-                "operationId": "CreatePromotion",
-                "requestBody": {
+				"operationId": "CreatePromotion",
+				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "code",
-                                    "title",
-                                    "description",
-                                    "max_discount_pct"
-                                ],
-                                "properties": {
-                                    "code": {
-                                        "type": "string"
-                                    },
-                                    "title": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "max_discount_pct": {
-                                        "type": "number",
-                                        "format": "float"
-                                    },
-                                    "products": {
-                                        "description": "The list of the ids of all promotional products.",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+							"schema": {
+								"type": "object",
+								"required": [
+									"code",
+									"title",
+									"description",
+									"max_discount_pct"
+								],
+								"properties": {
+									"code": {
+										"type": "string"
+									},
+									"title": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"max_discount_pct": {
+										"type": "number",
+										"format": "float"
+									},
+									"products": {
+										"description": "The list of the ids of all promotional products.",
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "Successful operation.",
@@ -1280,7 +1279,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -1320,53 +1319,52 @@
 				"summary": "API endpoint designed to update a specific promotion by its id.",
 				"operationId": "UpdatePromotion",
 				"parameters": [{
-						"name": "promotionId",
-						"in": "path",
-						"description": "The id of the promotion.",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
+					"name": "promotionId",
+					"in": "path",
+					"description": "The id of the promotion.",
+					"required": true,
+					"schema": {
+						"type": "string"
 					}
-                ],
+				}],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "code",
-                                    "title",
-                                    "description",
-                                    "max_discount_pct"
-                                ],
-                                "properties": {
-                                    "code": {
-                                        "type": "string"
-                                    },
-                                    "title": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "max_discount_pct": {
-                                        "type": "number",
-                                        "format": "float"
-                                    },
-                                    "products": {
-                                        "description": "The list of the ids of all promotional products.",
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+							"schema": {
+								"type": "object",
+								"required": [
+									"code",
+									"title",
+									"description",
+									"max_discount_pct"
+								],
+								"properties": {
+									"code": {
+										"type": "string"
+									},
+									"title": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"max_discount_pct": {
+										"type": "number",
+										"format": "float"
+									},
+									"products": {
+										"description": "The list of the ids of all promotional products.",
+										"type": "array",
+										"items": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "Successful operation.",
@@ -1429,17 +1427,17 @@
 								}
 							}
 						}
-                    },
-                    "409": {
-                        "description": "Got a conflict error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Status"
-                                }
-                            }
-                        }
-                    },
+					},
+					"409": {
+						"description": "Got a conflict error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -1509,7 +1507,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -1549,54 +1547,54 @@
 					"discounted date"
 				],
 				"summary": "API endpoint designed to create a new discounted date.",
-                "operationId": "CreateDiscountedDate",
+				"operationId": "CreateDiscountedDate",
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "title",
-                                    "description",
-                                    "discount_pct",
-                                    "date"
-                                ],
-                                "properties": {
-                                    "title": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "discount_pct": {
-                                        "type": "number",
-                                        "format": "float"
-                                    },
-                                    "date": {
-                                        "type": "object",
-                                        "required": [
-                                            "year",
-                                            "month",
-                                            "day"
-                                        ],
-                                        "properties": {
-                                            "year": {
-                                                "type": "integer"
-                                            },
-                                            "month": {
-                                                "type": "integer"
-                                            },
-                                            "day": {
-                                                "type": "integer"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+							"schema": {
+								"type": "object",
+								"required": [
+									"title",
+									"description",
+									"discount_pct",
+									"date"
+								],
+								"properties": {
+									"title": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"discount_pct": {
+										"type": "number",
+										"format": "float"
+									},
+									"date": {
+										"type": "object",
+										"required": [
+											"year",
+											"month",
+											"day"
+										],
+										"properties": {
+											"year": {
+												"type": "integer"
+											},
+											"month": {
+												"type": "integer"
+											},
+											"day": {
+												"type": "integer"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "Successful operation.",
@@ -1819,7 +1817,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
@@ -1859,61 +1857,61 @@
 				"summary": "API endpoint designed to update a specific discounted date by its id.",
 				"operationId": "UpdateDiscountedDate",
 				"parameters": [{
-                    "name": "discountedDateId",
-                    "in": "path",
-                    "description": "The id of the discounted date.",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    }
-                }],
+					"name": "discountedDateId",
+					"in": "path",
+					"description": "The id of the discounted date.",
+					"required": true,
+					"schema": {
+						"type": "string"
+					}
+				}],
 				"requestBody": {
 					"required": true,
 					"content": {
 						"application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "title",
-                                    "description",
-                                    "discount_pct",
-                                    "date"
-                                ],
-                                "properties": {
-                                    "title": {
-                                        "type": "string"
-                                    },
-                                    "description": {
-                                        "type": "string"
-                                    },
-                                    "discount_pct": {
-                                        "type": "number",
-                                        "format": "float"
-                                    },
-                                    "date": {
-                                        "type": "object",
-                                        "required": [
-                                            "year",
-                                            "month",
-                                            "day"
-                                        ],
-                                        "properties": {
-                                            "year": {
-                                                "type": "integer"
-                                            },
-                                            "month": {
-                                                "type": "integer"
-                                            },
-                                            "day": {
-                                                "type": "integer"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
+							"schema": {
+								"type": "object",
+								"required": [
+									"title",
+									"description",
+									"discount_pct",
+									"date"
+								],
+								"properties": {
+									"title": {
+										"type": "string"
+									},
+									"description": {
+										"type": "string"
+									},
+									"discount_pct": {
+										"type": "number",
+										"format": "float"
+									},
+									"date": {
+										"type": "object",
+										"required": [
+											"year",
+											"month",
+											"day"
+										],
+										"properties": {
+											"year": {
+												"type": "integer"
+											},
+											"month": {
+												"type": "integer"
+											},
+											"day": {
+												"type": "integer"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
 				"responses": {
 					"200": {
 						"description": "Successful operation.",
@@ -1985,17 +1983,17 @@
 								}
 							}
 						}
-                    },
-                    "409": {
-                        "description": "Got a conflict error.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Status"
-                                }
-                            }
-                        }
-                    },
+					},
+					"409": {
+						"description": "Got a conflict error.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Status"
+								}
+							}
+						}
+					},
 					"500": {
 						"description": "Got an internal application error.",
 						"content": {
@@ -2074,7 +2072,7 @@
 								}
 							}
 						}
-                    },
+					},
 					"400": {
 						"description": "Got a bad request error.",
 						"content": {
