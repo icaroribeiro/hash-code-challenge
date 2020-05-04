@@ -142,7 +142,7 @@ GRPC_SERVER_PORT_MS_1=50051
 
 In order to not compromise the integrity of the database used by the project in terms of data generated from the execution of the test cases, two Mongo databases will be used.
 
-In this sense, to facilitate future explanations regarding the details of the databases, consider that the database used for the storage of data in a "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database.
+In this sense, to facilitate future explanations regarding the details of the databases, consider that the database used for the storage of data in "normal" actions is the **development** database and the one used for the storage of data resulting from the test cases is the **test** database.
 
 These databases are named **db** and **test-db** by the environment variable **DB_NAME** of the **nodejs/.env** and **go/.env** files; and **TEST_DB_NAME** of the **nodejs/internal/tests/.env** and **go/.test.env** files, respectively.
 
